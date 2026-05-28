@@ -1,11 +1,10 @@
-/* Restored Floating Pill Design (Collapsed) */
+/* Floating Pill Design (Collapsed) */
 .mini-sidebar {
     position: fixed;
-    left: 30px;      /* Keeps the gap from the edge */
+    left: 30px;      
     top: 160px;
-    width: 65px;     /* Collapsed width */
-    
-    border-radius: 40px; /* Pill shape is back! */
+    width: 65px;     
+    border-radius: 40px; 
     padding: 25px 0;
     
     display: flex;
@@ -14,14 +13,15 @@
     backdrop-filter: blur(20px);
     z-index: 90; 
     
-    /* Smooth width animation */
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-x: hidden; 
+    
+    /* CRITICAL FIX: Allows tooltip to pop out beyond the 65px width */
+    overflow: visible; 
 }
 
 /* Expanded State */
 .mini-sidebar.expanded {
-    width: 220px; /* Grows wide enough to show the text */
+    width: 220px; 
 }
 
 /* Themes */
@@ -39,49 +39,65 @@
 .mini-sidebar-icons {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Restores the space between buttons */
+    gap: 15px; 
 }
 
 /* Icon Buttons */
 .icon-btn {
-    position: relative; /* REQUIRED for the tooltip to position correctly */
+    position: relative; /* REQUIRED for tooltip positioning */
     display: flex;
     align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: 10px 0; /* Only vertical padding */
+    padding: 10px 0; 
     transition: 0.3s;
     white-space: nowrap;
 }
 
-/* Locks the icon perfectly in the center of the 65px pill */
+/* Locks the icon and creates the circular hover shape */
 .icon-wrapper {
-    min-width: 65px; 
+    min-width: 45px; 
+    height: 45px;
+    margin-left: 10px; /* Perfectly centers the 45px circle inside the 65px pill */
+    border-radius: 50%;
     font-size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.3s;
 }
 
-/* Text Formatting & Fade-in */
+/* Text Formatting (Hidden securely when collapsed) */
 .menu-text {
     font-size: 16px;
     font-weight: 500;
+    margin-left: 10px;
     opacity: 0;
+    visibility: hidden; /* Hides text so it doesn't spill out */
     transition: opacity 0.2s ease;
 }
 
 .mini-sidebar.expanded .menu-text {
     opacity: 1;
+    visibility: visible;
     transition-delay: 0.15s; 
 }
 
-/* Colors and Minimal Hover (Removed Background Box) */
+/* Colors and Hover State */
 .dark-mini .icon-btn { color: #a1a1aa; }
 .light-mini .icon-btn { color: #555; }
 
+/* Turns the icon pink on hover */
 .icon-btn:hover, .icon-btn.active {
     color: hotpink;
+}
+
+/* Adds the circular background on hover */
+.dark-mini .icon-btn:hover .icon-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+}
+.light-mini .icon-btn:hover .icon-wrapper {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 /* ===================================
@@ -89,40 +105,42 @@
 =================================== */
 .tooltip {
     position: absolute;
-    left: 60px; /* Starts slightly inward for animation */
-    background: rgba(0, 0, 0, 0.85); /* Sleek dark background */
-    color: white;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    left: 60px; /* Starts slightly tucked in */
     
-    pointer-events: none; /* Prevents the tooltip from blocking clicks */
+    background: #e3e3e3; 
+    color: #1a1a1a;      
+    padding: 8px 16px;   
+    border-radius: 20px; 
+    
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap; 
+    
+    pointer-events: none; 
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15); 
     z-index: 100;
 }
 
-/* Little triangle pointer on the left side of the tooltip */
+/* Little triangle pointer on the left */
 .tooltip::before {
     content: "";
     position: absolute;
     top: 50%;
-    left: -5px;
+    left: -6px; 
     transform: translateY(-50%);
-    border-width: 5px 5px 5px 0;
+    border-width: 6px 6px 6px 0;
     border-style: solid;
-    border-color: transparent rgba(0, 0, 0, 0.85) transparent transparent;
+    border-color: transparent #e3e3e3 transparent transparent; 
 }
 
-/* Animate the tooltip in on hover (Only when sidebar is collapsed) */
+/* Animate the tooltip out on hover */
 .mini-sidebar:not(.expanded) .icon-btn:hover .tooltip {
     opacity: 1;
     visibility: visible;
-    left: 75px; /* Slides out smoothly to the right */
+    left: 80px; /* Slides out past the sidebar */
 }
 
 /* ===================================

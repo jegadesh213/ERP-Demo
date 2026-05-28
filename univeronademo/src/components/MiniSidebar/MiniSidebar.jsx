@@ -24,12 +24,11 @@ function MiniSidebar({ darkMode, isExpanded }) {
             to={item.path} 
             key={item.id} 
             className={`icon-btn ${location.pathname === item.path ? 'active' : ''}`}
-            // Removed the native 'title' attribute from here!
           >
             <span className="icon-wrapper">{item.icon}</span>
             <span className="menu-text">{item.name}</span>
             
-            {/* Custom Tooltip: Only exists when the sidebar is collapsed */}
+            {/* Custom Tooltip that pops out on hover */}
             {!isExpanded && <span className="tooltip">{item.name}</span>}
           </Link>
         ))}

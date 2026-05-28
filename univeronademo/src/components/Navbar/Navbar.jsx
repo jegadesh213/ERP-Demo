@@ -43,7 +43,7 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, darkMode, setDarkMode }) {
         {/* Left Side: Hamburger & Grid */}
         <div className="mobile-left">
           {location.pathname !== "/" && (
-            <FaBars className="hamburger-icon" />
+            <FaBars className="hamburger-icon" onClick={toggleMiniSidebar}  />
           )}
           <div className="mobile-icon-box" onClick={toggleSidebar}>
             <HiOutlineViewGrid className="mobile-icon" />
