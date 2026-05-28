@@ -1,0 +1,211 @@
+Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main App */
+.app {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+/* Themes */
+.dark {
+  background: #050816;
+  color: white;
+}
+
+.light {
+  background: #f5f5f5;
+  color: black;
+}
+
+/* Background Glow */
+.bg-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.3;
+}
+
+.purple {
+  background: purple;
+  top: 50px;
+  left: 50px;
+}
+
+.blue {
+  background: blue;
+  bottom: 50px;
+  right: 50px;
+}
+
+/* Logo Section */
+.logo-section{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+/* Hamburger Icon */
+.menu-icon{
+    font-size:28px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.menu-icon:hover{
+    color:hotpink;
+}
+
+
+/* Navbar */
+.main-logo{
+    width: 150px;
+}
+
+.navbar {
+  width: 90%;
+  max-width: 1200px;
+
+  margin: auto;
+  margin-top: 40px;
+
+  padding: 18px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-radius: 50px;
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  position: relative;
+  z-index: 10;
+
+  transition: 0.5s;
+}
+
+/* Dark Navbar */
+.dark .navbar {
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+
+/* Light Navbar */
+.light .navbar {
+  background: rgba(255,255,255,0.6);
+  color: black;
+
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+}
+
+/* Logo */
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Menu */
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links li {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-links li:hover {
+  color: hotpink;
+}
+
+/* Right Section */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* User Icon */
+.user-icon {
+  font-size: 35px;
+  cursor: pointer;
+}
+
+/* Toggle */
+.toggle {
+  width: 70px;
+  height: 35px;
+
+  border-radius: 50px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 4px;
+
+  cursor: pointer;
+
+  transition: 0.5s;
+}
+
+.dark-toggle {
+  background: black;
+  justify-content: flex-end;
+}
+
+.light-toggle {
+  background: lightgray;
+  justify-content: flex-start;
+}
+
+/* Toggle Circle */
+.toggle-circle {
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.5s;
+}
+
+.dark-circle {
+  background: white;
+  color: black;
+}
+
+.light-circle {
+  background: white;
+  color: orange;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+  }
+
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+}
