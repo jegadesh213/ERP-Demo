@@ -6,15 +6,26 @@
 }
 
 .main-content {
-    /* Increased from 120px to 160px to account for the floating navbar */
     padding-top: 160px; 
-    padding-left: 30px;
+    
+    /* Increased from 30px to 120px to make room for the new Mini Sidebar */
+    padding-left: 120px; 
     padding-right: 30px;
     
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    
     position: relative;
     z-index: 1; 
+}
+
+/* ===================================
+   MOBILE LAYOUT ADJUSTMENTS
+=================================== */
+@media (max-width: 768px) {
+    .main-content {
+        /* Reclaims the space left by the hidden Mini Sidebar */
+        padding-left: 30px; 
+        padding-right: 30px;
+    }
 }

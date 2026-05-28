@@ -2,34 +2,44 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import Sales from "./Pages/Sales/Sales.jsx";
+import MiniSidebar from "./components/MiniSidebar/MiniSidebar.jsx"; // 1. Import it
+import Sales from "./Pages/Sales/Sales.jsx"; 
 import './App.css';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  
+  // 1. Add the new state for the Mini Sidebar
+  const [isMiniExpanded, setIsMiniExpanded] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  
+  // 2. Create the toggle function
+  const toggleMiniSidebar = () => setIsMiniExpanded(!isMiniExpanded);
 
   return (
     <Router>
       <div className={`App ${darkMode ? 'dark' : 'light'}`}>
         
-        {/* Glow Backgrounds */}
         <div className="bg-glow purple"></div>
         <div className="bg-glow blue"></div>
 
-        {/* Global Components */}
-        <Navbar toggleSidebar={toggleSidebar} darkMode={darkMode} setDarkMode={setDarkMode} />
+        {/* 3. Pass toggleMiniSidebar to the Navbar */}
+        <Navbar 
+          toggleSidebar={toggleSidebar} 
+          toggleMiniSidebar={toggleMiniSidebar} 
+          darkMode={darkMode} 
+          setDarkMode={setDarkMode} 
+        />
+        
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} darkMode={darkMode} />
+        
+        {/* 4. Pass isExpanded down to the Mini Sidebar */}
+        <MiniSidebar darkMode={darkMode} isExpanded={isMiniExpanded} />
 
-        {/* Page Content */}
         <div className="main-content">
-          <Routes>
-            <Route path="/" element={<h2 style={{ textAlign: 'center' }}>Home Dashboard</h2>} />
-            <Route path="/sales" element={<Sales />} />
-            <Route path="/settings" element={<h2 style={{ textAlign: 'center' }}>Settings Page</h2>} />
-          </Routes>
+          {/* ... your routes stay the same */}
         </div>
 
       </div>
