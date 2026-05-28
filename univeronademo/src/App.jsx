@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // 1. Import Router
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import Sales from ""; // 2. Import your new page
+import Sales from "./Pages/Sales/Sales.jsx"; // 2. Import your new page
 import './App.css';
 
 function App() {
