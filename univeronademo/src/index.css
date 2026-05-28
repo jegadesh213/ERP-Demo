@@ -1,7 +1,39 @@
-@import "tailwindcss";
-
-body{
-  margin:0;
-  padding:0;
-  font-family:sans-serif;
+/* --- BROWSER RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- GLOBAL THEMES --- */
+.dark {
+    background: #050816;
+    color: white;
+}
+
+.light {
+    background: #f5f5f5;
+    color: black;
+}
+
+/* --- BACKGROUND GLOWS --- */
+.bg-glow {
+    position: fixed; 
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none; 
+}
+
+.purple { background: purple; top: 50px; left: 50px; }
+.blue { background: blue; bottom: 50px; right: 50px; }

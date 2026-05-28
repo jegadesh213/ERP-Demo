@@ -1,58 +1,75 @@
-Reset * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Main App */
-.app {
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
+/* Floating Pill Navbar */
+.navbar {
+    position: fixed;
+    top: 40px; /* Pushes it down from the top */
+    left: 50%;
+    transform: translateX(-50%); /* Centers it perfectly */
+    
+    width: 90%;
+    max-width: 1200px;
+    height: 80px; 
+    
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    border-radius: 50px; /* Restores the pill shape */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Restores the full border */
+    
+    z-index: 100;
     transition: 0.5s;
 }
 
-/* Themes */
-.dark {
-    background: #050816;
+/* Gradient Border Mask (Needs the border-radius restored too) */
+.navbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50px; /* Matches the navbar radius */
+    padding: 1.5px;
+    background: linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff);
+    opacity: 0;
+    transition: 0.4s ease;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.navbar:hover::before {
+    opacity: 1;
+}
+
+.navbar>* {
+    position: relative;
+    z-index: 2;
+}
+
+/* Dark/Light Context */
+.dark .navbar {
+    background: rgba(255, 255, 255, 0.05);
     color: white;
 }
 
-.light {
-    background: #f5f5f5;
+.light .navbar {
+    background: rgba(255, 255, 255, 0.6);
     color: black;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Background Glow */
-.bg-glow {
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.3;
-}
-
-.purple {
-    background: purple;
-    top: 50px;
-    left: 50px;
-}
-
-.blue {
-    background: blue;
-    bottom: 50px;
-    right: 50px;
-}
-
-/* Logo Section */
+/* Logo & Icons */
 .logo-section {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-/* Hamburger Icon */
+.main-logo {
+    width: 150px;
+}
+
 .menu-icon {
     font-size: 28px;
     cursor: pointer;
@@ -63,178 +80,26 @@ Reset * {
     color: hotpink;
 }
 
-
-/* Navbar */
-.main-logo {
-    width: 150px;
-}
-
-.navbar {
-
-    width: 90%;
-    max-width: 1200px;
-
-    margin: auto;
-    margin-top: 40px;
-
-    padding: 18px 30px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    border-radius: 50px;
-
-    backdrop-filter: blur(20px);
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
-
-    position: relative;
-
-    overflow: hidden;
-
-    z-index: 10;
-
-    transition: 0.5s;
-}
-
-/* =========================
-   GEMINI GLOW EFFECT
-========================= */
-
-/* =========================
-   STATIC GRADIENT BORDER
-========================= */
-
-.navbar::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    border-radius:50px;
-
-    padding:1.5px;
-
-    background:
-    linear-gradient(
-        90deg,
-        #ff00ff,
-        #7b61ff,
-        #00ccff,
-        #ff00ff
-    );
-
-    opacity:0;
-
-    transition:0.4s ease;
-
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-
-    -webkit-mask-composite: xor;
-
-    mask-composite: exclude;
-
-    pointer-events:none;
-}
-
-/* Hover Effect */
-.navbar:hover::before{
-
-    opacity:1;
-}
-
-/* @keyframes rotateGlow{
-
-    0%{
-        transform:rotate(0deg);
-    }
-
-    100%{
-        transform:rotate(360deg);
-    }
-} */
-
-.navbar > *{
-    position:relative;
-    z-index:2;
-}
-
-.dark .navbar::after{
-    background:#050816;
-}
-
-.light .navbar::after{
-    background:rgba(255,255,255,0.75);
-}
-
-/* Dark Navbar */
-.dark .navbar {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-}
-
-/* Light Navbar */
-.light .navbar {
-    background: rgba(255, 255, 255, 0.6);
-    color: black;
-
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Logo */
-.logo {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-/* Menu */
-.nav-links {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-}
-
-.nav-links li {
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.nav-links li:hover {
-    color: hotpink;
-}
-
-/* Right Section */
 .right-section {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-/* User Icon */
 .user-icon {
     font-size: 35px;
     cursor: pointer;
 }
 
-/* Toggle */
+/* Toggle Button */
 .toggle {
     width: 70px;
     height: 35px;
-
     border-radius: 50px;
-
     display: flex;
     align-items: center;
-
     padding: 4px;
-
     cursor: pointer;
-
     transition: 0.5s;
 }
 
@@ -248,17 +113,13 @@ Reset * {
     justify-content: flex-start;
 }
 
-/* Toggle Circle */
 .toggle-circle {
     width: 28px;
     height: 28px;
-
     border-radius: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     transition: 0.5s;
 }
 
@@ -272,187 +133,29 @@ Reset * {
     color: orange;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-    .nav-links {
-        display: none;
-    }
-
-    .navbar {
-        padding: 15px 20px;
-    }
-
-    .logo {
-        font-size: 24px;
-    }
-}
-
-/* Dashboard Grid Button */
-
-.dashboard-button {
-    width: 45px;
-    height: 45px;
-
-    border-radius: 12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-
-    transition: 0.3s;
-}
-
-/* Dark Theme */
-.dark .dashboard-button {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Light Theme */
-.light .dashboard-button {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-/* Hover Effect */
-.dashboard-button:hover {
-    transform: scale(1.05);
-}
-
-/* Icon */
-.menu-icon {
-    font-size: 22px;
-}
-
-/* ===================================
-   MOBILE FLOATING NAVBAR
-=================================== */
-
-.mobile-navbar {
-
-    position: fixed;
-
-    bottom: 20px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: 90%;
-    max-width: 500px;
-
-    padding: 14px 20px;
-
-    border-radius: 30px;
-
-    backdrop-filter: blur(20px);
-
-    display: none;
-
-    align-items: center;
-    justify-content: space-between;
-
-    z-index: 999;
-
-    animation: mobileNavAnimation 1s ease;
-}
-
-/* Dark Theme */
-.dark .mobile-navbar {
-    background: rgba(255, 255, 255, 0.08);
-
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Light Theme */
-.light .mobile-navbar {
-    background: rgba(255, 255, 255, 0.6);
-
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-/* Mobile Left Icon */
-.mobile-icon-box {
-    width: 40px;
-    height: 40px;
-
-    border-radius: 12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.mobile-icon {
-    font-size: 22px;
-}
-
-/* Mobile Logo */
-.mobile-logo {
-    width: 140px;
-    object-fit: contain;
-}
-
-/* Right Side */
-.mobile-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* User */
-.mobile-user {
-    font-size: 34px;
-}
-
-
-/* =========================
-   NAVBAR ENTRY ANIMATION
-========================= */
-
+/* Animations */
 .navbar-animation {
     animation: navbarSlide 1s ease-in-out;
 }
-
-/* Navbar From Top */
-@keyframes navbarSlide {
-
-    0% {
-        transform: translateY(-100px);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes mobileNavAnimation {
-
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(100px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-
-/* =========================
-   LOGO ANIMATION
-========================= */
 
 .logo-animation {
     animation: logoFade 1.5s ease-in-out;
 }
 
-@keyframes logoFade {
+/* Navbar From Top (Fixed for Center Floating) */
+@keyframes navbarSlide {
+    0% { 
+        /* Notice we include BOTH the -50% centering and the -100px drop */
+        transform: translate(-50%, -100px); 
+        opacity: 0; 
+    }
+    100% { 
+        transform: translate(-50%, 0); 
+        opacity: 1; 
+    }
+}
 
+@keyframes logoFade {
     0% {
         opacity: 0;
         transform: translateX(-40px);
@@ -464,45 +167,67 @@ Reset * {
     }
 }
 
-
-/* =========================
-   ICON ANIMATION
-========================= */
-/* =========================
-   NAVBAR ENTRY ANIMATION
-========================= */
-
-.navbar-animation {
-    animation: navbarSlide 1s ease-in-out;
+/* Mobile Navbar */
+.mobile-navbar {
+    display: none;
 }
-
-/* Navbar From Top */
-@keyframes navbarSlide {
-
-    0% {
-        transform: translateY(-100px);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* ===================================
-   RESPONSIVE
-=================================== */
 
 @media(max-width:768px) {
-
-    /* Hide Desktop Navbar */
     .navbar {
         display: none;
     }
 
-    /* Show Mobile Navbar */
     .mobile-navbar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        padding: 14px 20px;
+        border-radius: 30px;
+        backdrop-filter: blur(20px);
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 999;
+    }
+
+    .dark .mobile-navbar {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light .mobile-navbar {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .mobile-icon-box {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-icon {
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .mobile-logo {
+        width: 140px;
+        object-fit: contain;
+    }
+
+    .mobile-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .mobile-user {
+        font-size: 34px;
     }
 }
