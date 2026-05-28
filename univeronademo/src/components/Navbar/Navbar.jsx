@@ -9,9 +9,12 @@ import {
   FaBars
 } from "react-icons/fa";
 
+import { HiOutlineViewGrid } from "react-icons/hi";
+
 function Navbar() {
   const [darkMode, setDarkMode] =
     useState(true);
+    
 
   return (
     <div
@@ -26,11 +29,12 @@ function Navbar() {
       <div className="bg-glow blue"></div>
 
       {/* Navbar */}
-      <nav className="navbar">
+      <nav className="navbar navbar-animation">
         {/* Logo */}
-        <div className="logo-section">
+        <div className="logo-section logo-animation">
 
-            <FaBars className="menu-icon" />
+            <HiOutlineViewGrid className="menu-icon" />
+
 
             <img
                 src={Mainlogo}
@@ -49,7 +53,7 @@ function Navbar() {
         </ul> */}
 
         {/* Right Side */}
-        <div className="right-section">
+        <div className="right-section icon-animation">
           <FaUserCircle className="user-icon" />
 
           {/* Toggle */}
@@ -79,6 +83,57 @@ function Navbar() {
           </div>
         </div>
       </nav>
+
+      {/* Mobile Bottom Navbar */}
+
+        <div className="mobile-navbar">
+
+        {/* Grid Icon */}
+        <div className="mobile-icon-box">
+            <HiOutlineViewGrid className="mobile-icon" />
+        </div>
+
+        {/* Logo */}
+        <img
+            src={Mainlogo}
+            alt="Logo"
+            className="mobile-logo"
+        />
+
+        {/* Right Side */}
+        <div className="mobile-right">
+
+            <FaUserCircle className="mobile-user" />
+
+            {/* Toggle */}
+            <div
+            className={
+                darkMode
+                ? "toggle dark-toggle"
+                : "toggle light-toggle"
+            }
+            onClick={() =>
+                setDarkMode(!darkMode)
+            }
+            >
+            <div
+                className={
+                darkMode
+                    ? "toggle-circle dark-circle"
+                    : "toggle-circle light-circle"
+                }
+            >
+                {darkMode ? (
+                <FaMoon />
+                ) : (
+                <FaSun />
+                )}
+            </div>
+            </div>
+
+        </div>
+
+        </div>
     </div>
   );
 }
