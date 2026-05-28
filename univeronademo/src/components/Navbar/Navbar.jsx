@@ -11,9 +11,8 @@ import {
 
 import { HiOutlineViewGrid } from "react-icons/hi";
 
-function Navbar() {
-  const [darkMode, setDarkMode] =
-    useState(true);
+function Navbar({ toggleSidebar, darkMode, setDarkMode }) {
+  // const [darkMode, setDarkMode] = useState(true);
     
 
   return (
@@ -32,16 +31,10 @@ function Navbar() {
       <nav className="navbar navbar-animation">
         {/* Logo */}
         <div className="logo-section logo-animation">
+            {/* ADD THE ONCLICK HERE */}
+            <HiOutlineViewGrid className="menu-icon" onClick={toggleSidebar} />
 
-            <HiOutlineViewGrid className="menu-icon" />
-
-
-            <img
-                src={Mainlogo}
-                alt="Logo"
-                className="main-logo"
-            />
-
+            <img src={Mainlogo} alt="Logo" className="main-logo" />
         </div>
 
         {/* Menu */}
@@ -89,7 +82,7 @@ function Navbar() {
         <div className="mobile-navbar">
 
         {/* Grid Icon */}
-        <div className="mobile-icon-box">
+        <div className="mobile-icon-box" onClick={toggleSidebar}>
             <HiOutlineViewGrid className="mobile-icon" />
         </div>
 

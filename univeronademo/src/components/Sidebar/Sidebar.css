@@ -1,0 +1,147 @@
+/* =========================
+   BASE SIDEBAR
+========================= */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -340px; /* Slightly wider to fit the tiles */
+    width: 320px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    overflow-y: auto; /* Allows scrolling if you add many tiles */
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+/* =========================
+   THEMES
+========================= */
+.sidebar.dark-sidebar {
+    background: rgba(5, 8, 22, 0.85); /* Slightly darker for contrast against tiles */
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.light-sidebar {
+    background: rgba(245, 245, 245, 0.85);
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================
+   HEADER
+========================= */
+.sidebar-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark-sidebar .close-btn { color: white; }
+.light-sidebar .close-btn { color: black; }
+
+.close-btn:hover {
+    color: hotpink;
+    transform: scale(1.1);
+}
+
+/* =========================
+   TILE GRID LAYOUT
+========================= */
+.tile-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates 2 equal columns */
+    gap: 15px; /* Space between tiles */
+    padding-bottom: 20px;
+}
+
+/* Base Tile Button */
+.tile-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 25px 10px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    border: 1px solid transparent;
+}
+
+/* Dark Mode Tiles */
+.dark-sidebar .tile-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-sidebar .tile-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 105, 180, 0.5); /* Hotpink border on hover */
+    transform: translateY(-4px); /* Lifts the tile up */
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15); /* Pink glow */
+    color: white;
+}
+
+/* Light Mode Tiles */
+.light-sidebar .tile-btn {
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.light-sidebar .tile-btn:hover {
+    background: white;
+    border: 1px solid hotpink;
+    transform: translateY(-4px); /* Lifts the tile up */
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+    color: hotpink;
+}
+
+/* Tile Icon & Text Formatting */
+.tile-icon {
+    font-size: 32px;
+    transition: color 0.3s ease;
+}
+
+.tile-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.tile-btn:hover .tile-icon {
+    color: hotpink;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(2px); /* Slightly blurs the main app when sidebar is open */
+}
