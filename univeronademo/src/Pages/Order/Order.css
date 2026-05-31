@@ -1,0 +1,759 @@
+/* Container Layout */
+.order-page {
+    width: 100%;
+    color: #333;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Header Section */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: inherit;
+}
+
+/* ===================================
+   HEADER SECTION 
+=================================== */
+.page-header {
+    display: flex !important;
+    flex-direction: row !important; /* Strictly forces them onto one horizontal line */
+    justify-content: space-between !important; /* Pushes the left and right sides to opposite edges */
+    align-items: center !important; /* Centers everything vertically */
+    width: 100% !important; /* Ensures the container stretches across the whole page */
+    margin-bottom: 25px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between the Title and the Button */
+}
+
+/* Optional: Ensures the right side doesn't shrink awkwardly */
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: inherit;
+    margin: 0;
+}
+
+/* Create Button */
+.btn-create {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #3b82f6;
+    /* Blue color from your original design */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-create:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    /* Slight lift effect */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Search Bar Container */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 260px;
+    transition: 0.2s ease;
+}
+
+/* Dark Mode support for Search Bar */
+.dark .search-bar {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Glowing border when typing */
+.search-bar:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.search-icon {
+    color: #888;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+/* The actual text input */
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: inherit;
+    /* Automatically adapts to dark/light mode */
+}
+
+/* ===================================
+   1. DESKTOP VIEW (HBOX - Default)
+=================================== */
+.page-header {
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    justify-content: space-between; /* Pushes left and right sides apart */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-create {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    width: auto; /* Ensures it doesn't stretch on desktop */
+}
+
+.btn-create:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 260px; /* Fixed width for desktop */
+    transition: 0.2s ease;
+}
+
+.dark .search-bar {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-bar:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.search-icon {
+    color: #888;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: inherit;
+}
+
+
+/* ===================================
+   2. MOBILE VIEW (VBOX - Overrides)
+=================================== */
+@media (max-width: 768px) {
+    
+    /* Stacks the main containers */
+    .page-header {
+        flex-direction: column !important; /* Vertical layout */
+        align-items: flex-start !important;
+    }
+
+    /* Stacks the Title and Button */
+    .header-left {
+        flex-direction: column !important; /* Vertical layout */
+        align-items: flex-start !important;
+        width: 100% !important;
+    }
+
+    /* Stretches the Button */
+    .btn-create {
+        width: 100% !important;
+    }
+
+    /* Stretches the Search Bar */
+    .header-right {
+        width: 100% !important;
+    }
+    
+    .search-bar {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+}
+
+/* Dark Mode Overrides for text */
+.dark .order-page {
+    color: #f8fafc;
+}
+
+.dark .page-title {
+    color: white;
+}
+
+/* Table Wrapper */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    /* Allows horizontal scrolling if needed */
+}
+
+/* Dark mode table wrapper */
+.dark .table-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+}
+
+/* Table Styling */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th {
+    padding: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    border-bottom: 1px solid #eee;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table td {
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+/* Dark mode table borders */
+.dark .data-table th,
+.dark .data-table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.data-table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.dark .data-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Actions Menu */
+.action-icons {
+    display: flex;
+    gap: 15px;
+    color: #888;
+    font-size: 16px;
+}
+
+.action-icons span:hover {
+    color: hotpink;
+}
+
+/* Update these existing blocks */
+.data-table th {
+    padding: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    border-bottom: 1px solid #eee;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    /* NEW: Prevents text from breaking into two lines */
+    white-space: nowrap;
+    /* NEW: Keeps checkboxes perfectly aligned with the text */
+    vertical-align: middle;
+}
+
+.data-table td {
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    /* NEW */
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* ===================================
+   MOBILE RESPONSIVENESS
+=================================== */
+@media (max-width: 768px) {
+
+    /* Targets the table cells directly so this rule cannot be ignored */
+    th.hide-on-mobile,
+    td.hide-on-mobile {
+        display: none !important;
+    }
+
+    /* Pulls the 'Customers' header up slightly more */
+    .page-header {
+        margin-top: 10px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .table-container {
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 12px 10px;
+    }
+}
+
+/* ===================================
+   MOBILE LAYOUT ADJUSTMENTS
+=================================== */
+@media (max-width: 768px) {
+    .main-content {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+
+        /* Forces the gap at the top to disappear */
+        margin-top: 0 !important;
+        padding-top: 20px !important;
+
+        /* Keeps space at the bottom for the navbar */
+        padding-bottom: 120px !important;
+    }
+}
+
+/* ===================================
+   MOBILE DETAIL MODAL
+=================================== */
+/* ===================================
+   ADVANCED DETAIL MODAL 
+=================================== */
+.modal-overlay {
+    position: fixed !important;
+
+    /* Forces the overlay to start physically below a 90px navbar */
+    top: 90px !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 90px) !important;
+
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(5px) !important;
+
+    display: flex !important;
+    /* Anchors the card to the top of this new lower section */
+    align-items: flex-start !important;
+    justify-content: center !important;
+
+    /* Forces this to sit at the absolute front of your app */
+    z-index: 9999 !important;
+
+    /* Adds breathing room around the card */
+    padding: 30px 20px !important;
+}
+
+.modal-card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+
+    /* Ensures the card doesn't stretch off the bottom of the screen */
+    max-height: calc(100vh - 150px) !important;
+    overflow-y: auto !important;
+
+    border-radius: 16px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.3);
+
+    /* Erases any weird margins trying to center it */
+    margin: 0 !important;
+
+    animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dark .modal-card {
+    background: #1a1b26;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+}
+
+.modal-detail-row {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-label {
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.modal-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popUp {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===================================
+   CUSTOM SCROLLBAR FOR MODAL
+=================================== */
+/* For Chrome, Edge, and Safari */
+.modal-card::-webkit-scrollbar {
+    width: 6px;
+    /* Makes the scrollbar very thin */
+}
+
+.modal-card::-webkit-scrollbar-track {
+    background: transparent;
+    /* Hides the bulky white track */
+    border-radius: 10px;
+}
+
+.modal-card::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.3);
+    /* Subtle grey color */
+    border-radius: 10px;
+    /* Rounds the edges */
+}
+
+.modal-card::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.6);
+    /* Darkens slightly when hovered */
+}
+
+/* For Firefox */
+.modal-card {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(128, 128, 128, 0.3) transparent;
+}
+
+/* ===================================
+   ADVANCED DETAIL MODAL (Desktop & Mobile)
+=================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+
+    /* FIX: Reduced the max-height to 70% of the screen height */
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+
+    border-radius: 16px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.3);
+    margin: 40px auto 0 auto !important;
+
+    animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dark .modal-card {
+    background: #1a1b26;
+    /* Matches your dark theme */
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Modal Header & Actions */
+.modal-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Modal Header & Actions */
+.modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Slightly tighter gap for icons */
+}
+
+/* Minimalist Icon Buttons */
+.btn-icon {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+.btn-edit-icon {
+    color: #3b82f6;
+}
+
+.btn-edit-icon:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.btn-delete-icon {
+    color: #ef4444;
+}
+
+.btn-delete-icon:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.btn-close-modal {
+    background: transparent;
+    color: #888;
+    font-size: 20px;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+.btn-close-modal:hover {
+    color: hotpink;
+    background: rgba(255, 105, 180, 0.1);
+}
+
+/* Modal Tabs */
+.modal-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 10px 5px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #888;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab-btn.active {
+    color: #3b82f6;
+    /* Active blue text */
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #3b82f6;
+    border-radius: 3px 3px 0 0;
+}
+
+/* Grid Layout for Fields (Desktop 2-column) */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+    margin-bottom: 30px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: #888;
+}
+
+.detail-value {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Empty Bank Accounts Section */
+.bank-accounts-section {
+    margin-top: 30px;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.empty-state-icon {
+    font-size: 30px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+/* ===================================
+   MOBILE ADJUSTMENTS
+=================================== */
+@media (max-width: 768px) {
+    .modal-overlay {
+        top: 0 !important;
+        height: 100vh !important;
+        /* Padding: Top, Right, Bottom (large to clear mobile navbar), Left */
+        padding: 20px 20px 120px 20px !important;
+        align-items: center !important;
+        /* Centers it vertically */
+    }
+
+    .modal-card {
+        padding: 25px !important;
+        margin: 0 auto !important;
+        /* Removes the 40px top gap */
+        max-height: calc(100vh - 150px) !important;
+    }
+
+    /* ... keep your existing .detail-grid and .modal-tabs mobile rules ... */
+}
+
+/* Mobile Adjustments for Modal */
+@media (max-width: 768px) {
+    .modal-card {
+        padding: 20px;
+    }
+
+    /* Switches to a single column on mobile */
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .modal-tabs {
+        overflow-x: auto;
+        /* Allows swiping tabs on small screens */
+        white-space: nowrap;
+    }
+}
