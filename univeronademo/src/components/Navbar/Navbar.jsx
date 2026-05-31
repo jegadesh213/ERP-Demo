@@ -1,11 +1,10 @@
 import "./Navbar.css";
 import Mainlogo from "../../assets/Mainlogo.png";
-import { FaUserCircle, FaMoon, FaSun, FaBars } from "react-icons/fa"; // 1. Added FaBars
+import { FaUserCircle, FaMoon, FaSun, FaBars } from "react-icons/fa";
 import { HiOutlineViewGrid } from "react-icons/hi";
-import { Link, useLocation } from "react-router-dom"; // 2. Added useLocation
+import { Link, useLocation } from "react-router-dom";
 
-function Navbar({ toggleSidebar, toggleMiniSidebar, darkMode, setDarkMode }) {
-  // 3. Get the current route/path
+function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, setDarkMode }) {
   const location = useLocation();
 
   return (
@@ -14,7 +13,7 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, darkMode, setDarkMode }) {
       <nav className="navbar navbar-animation">
         <div className="logo-section logo-animation">
           
-          {/* 4. Conditionally render the Hamburger only if NOT on the Home page */}
+          {/* Desktop Hamburger -> Opens the floating Mini Sidebar */}
           {location.pathname !== "/" && (
             <FaBars className="hamburger-icon" onClick={toggleMiniSidebar} />
           )}
@@ -42,9 +41,12 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, darkMode, setDarkMode }) {
         
         {/* Left Side: Hamburger & Grid */}
         <div className="mobile-left">
+          
+          {/* Mobile Hamburger -> Opens the full-screen Mobile Menu */}
           {location.pathname !== "/" && (
-            <FaBars className="hamburger-icon" onClick={toggleMiniSidebar}  />
+            <FaBars className="hamburger-icon" onClick={toggleMobileMenu} />
           )}
+          
           <div className="mobile-icon-box" onClick={toggleSidebar}>
             <HiOutlineViewGrid className="mobile-icon" />
           </div>
@@ -59,7 +61,7 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, darkMode, setDarkMode }) {
         <div className="mobile-right">
           <FaUserCircle className="mobile-user" />
           
-          {/* New Single Icon Toggle */}
+          {/* Single Icon Toggle */}
           <div className="mobile-theme-icon" onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? <FaSun /> : <FaMoon />}
           </div>

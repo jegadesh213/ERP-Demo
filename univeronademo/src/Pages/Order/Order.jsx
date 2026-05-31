@@ -1,12 +1,12 @@
 import React from 'react';
 
-function Sales() {
+function Order() {
   return (
     <div>
       <h1 style={{ color: 'hotpink', marginBottom: '10px' }}>Sales Dashboard</h1>
-      <p>Welcome to the sales module. Your data is ready to be loaded here.</p>
+      <p>Welcome to the sales module. Your order data is ready to be loaded here.</p>
     </div>
   );
 }
 
-export default Sales;
+export default Order;

@@ -1,0 +1,108 @@
+/* Sidebar Drawer */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Starts off-screen */
+    width: 280px; /* Width of the mobile drawer */
+    height: 100vh;
+    z-index: 1000; /* Stays above everything */
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(20px);
+}
+
+/* Slide in when open */
+.mobile-menu.open {
+    left: 0;
+}
+
+/* Themes */
+.dark-mobile-menu {
+    background: rgba(5, 8, 22, 0.95);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.light-mobile-menu {
+    background: rgba(255, 255, 255, 0.95);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+/* Header */
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.mobile-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-avatar {
+    font-size: 35px;
+    color: hotpink;
+}
+
+.mobile-username {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.mobile-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Links Container */
+.mobile-menu-links {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-link-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.mobile-link-icon {
+    font-size: 22px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Hover and Active States */
+.mobile-link-item:hover, .mobile-link-item.active {
+    background: rgba(255, 105, 180, 0.1);
+    color: hotpink;
+    border-left: 4px solid hotpink;
+}
+
+/* Background Overlay */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Sits just below the menu */
+    backdrop-filter: blur(2px);
+}
