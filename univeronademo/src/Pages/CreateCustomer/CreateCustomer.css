@@ -237,7 +237,7 @@
         padding: 20px; 
         
         /* FIX: Subtracts less space, making the card taller on mobile ONLY */
-        height: calc(100vh - 170px) !important; 
+        height: calc(100vh - 195px) !important; 
     }
     
     .form-grid { grid-template-columns: 1fr; gap: 20px; }
