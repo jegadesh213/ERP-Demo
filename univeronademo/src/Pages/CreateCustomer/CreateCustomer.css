@@ -1,0 +1,246 @@
+.create-page {
+    width: 100%;
+    animation: fadeIn 0.4s ease;
+    /* FIX: Removed the large 50px bottom padding that was forcing the page to scroll */
+    padding-bottom: 10px; 
+}
+
+.form-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    
+    /* FIX: Reduced the bottom margin */
+    margin-bottom: 10px; 
+    
+    /* FIX: Increased the subtracted value so the card perfectly fits below your headers */
+    height: calc(100vh - 260px); 
+    overflow-y: auto;
+}
+
+.dark .form-card {
+    background: #1a1b26;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    color: white;
+}
+
+/* ===================================
+   CUSTOM SCROLLBAR FOR THE FORM CARD
+=================================== */
+.form-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-card::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    margin: 10px 0; /* Keeps the scrollbar from hitting the very top/bottom edges */
+}
+
+.form-card::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.3);
+    border-radius: 10px;
+}
+
+.form-card::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.6);
+}
+
+/* For Firefox */
+.form-card {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(128, 128, 128, 0.3) transparent;
+}
+
+/* ===================================
+   PROFILE PICTURE UPLOAD
+=================================== */
+.profile-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 10px;
+}
+
+.profile-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px dashed #3b82f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: rgba(59, 130, 246, 0.05);
+    transition: 0.3s ease;
+}
+
+.profile-circle:hover {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-placeholder {
+    color: #3b82f6;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* ===================================
+   FORM SECTIONS & GRID
+=================================== */
+.form-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #3b82f6; 
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    padding-bottom: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px 40px; 
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #888;
+}
+
+/* Shows the max length hint on the right side of the label */
+.label-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.char-limit {
+    font-size: 11px;
+    color: #aaa;
+}
+
+.form-group input, 
+.form-group select,
+.form-group textarea {
+    padding: 12px 15px;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-radius: 8px;
+    font-size: 14px;
+    background: transparent;
+    color: inherit;
+    transition: 0.2s ease;
+    outline: none;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group input:focus, 
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* File Input Styling */
+.form-group input[type="file"] {
+    padding: 9px;
+    border: 1px dashed rgba(128, 128, 128, 0.5);
+    background: rgba(128, 128, 128, 0.05);
+    cursor: pointer;
+}
+
+.dark .form-group input, 
+.dark .form-group select,
+.dark .form-group textarea {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .form-group select option {
+    background: #1a1b26; 
+}
+
+/* ===================================
+   BUTTONS
+=================================== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.btn-cancel, .btn-save {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    border: none;
+}
+
+.btn-cancel {
+    background: transparent;
+    color: #888;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.btn-cancel:hover {
+    background: rgba(128, 128, 128, 0.1);
+    color: inherit;
+}
+
+.btn-save {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-save:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ===================================
+   MOBILE RESPONSIVENESS
+=================================== */
+@media (max-width: 768px) {
+    .form-card { 
+        padding: 20px; 
+        
+        /* FIX: Subtracts less space, making the card taller on mobile ONLY */
+        height: calc(100vh - 170px) !important; 
+    }
+    
+    .form-grid { grid-template-columns: 1fr; gap: 20px; }
+    .form-actions { flex-direction: column-reverse; }
+    .btn-cancel, .btn-save { width: 100%; }
+}

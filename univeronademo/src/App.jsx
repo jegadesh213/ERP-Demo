@@ -5,7 +5,9 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import MiniSidebar from "./components/MiniSidebar/MiniSidebar.jsx";
 import MobileMenu from "./components/MobileMenu/MobileMenu.jsx";
-import Order from "./Pages/Order/Order.jsx"; // 2. Import the new Order page
+import Order from "./Pages/Order/Order.jsx"; 
+import CreateCustomer from "./Pages/CreateCustomer/CreateCustomer.jsx";
+
 import './App.css';
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
             {/* The actual Order page where the Sales Dashboard text lives */}
             <Route path="/order" element={<Order />} />
             
+            <Route path="/create-customer" element={<CreateCustomer />} />
             <Route path="/settings" element={<h2 style={{ textAlign: 'center' }}>Settings Page</h2>} />
           </Routes>
         </div>

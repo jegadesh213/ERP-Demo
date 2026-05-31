@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaRegTimesCircle, FaPlus, FaSearch } from 'react-icons/fa';
 import './Order.css';
 
@@ -12,6 +13,8 @@ function Order() {
     { id: 'CUST000006', name: 'Maruthi', email: 'maruthi@gmail.com', city: 'Chennai', phone: '044 22606070' },
     { id: 'CUST000007', name: 'JAIBHIM Solutions Ltd', email: 'jaibhim@gmail.com', city: 'Ambattur', phone: '9876423678' },
   ];
+
+  const navigate = useNavigate();
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   
@@ -33,7 +36,7 @@ function Order() {
         {/* Left Side: Title and Create Button */}
         <div className="header-left">
           <h1 className="page-title">Customers</h1>
-          <button className="btn-create">
+          <button className="btn-create" onClick={() => navigate('/create-customer')}>
             <FaPlus /> Create Customer
           </button>
         </div>
