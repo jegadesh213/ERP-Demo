@@ -370,32 +370,6 @@ function CreateCustomer() {
             </div>
           </div>
 
-
-          {/* ==========================================
-              7. SYSTEM AUDIT (Read Only)
-          ========================================== */}
-          <div className="form-section" style={{ opacity: 0.7 }}>
-            <h3 className="section-title">System Audit (Auto-Generated)</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Created On</label>
-                <input type="date" disabled value={new Date().toISOString().split('T')[0]} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Created By</label><span className="char-limit">Max 50</span></div>
-                <input type="text" disabled value="Admin User" />
-              </div>
-              <div className="form-group">
-                <label>Changed On</label>
-                <input type="date" disabled />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Changed By</label><span className="char-limit">Max 50</span></div>
-                <input type="text" disabled />
-              </div>
-            </div>
-          </div>
-
           {/* ==========================================
               SUBMIT ACTIONS
           ========================================== */}
