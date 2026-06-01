@@ -1,19 +1,31 @@
+import React from "react";
 import "./Navbar.css";
 import Mainlogo from "../../assets/Mainlogo.png";
-import { FaUserCircle, FaMoon, FaSun, FaBars } from "react-icons/fa";
+import { FaUserCircle, FaMoon, FaSun, FaBars, FaArrowLeft } from "react-icons/fa";
 import { HiOutlineViewGrid } from "react-icons/hi";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, setDarkMode }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
-      {/* Desktop Navbar */}
+      {/* ===================================
+          DESKTOP NAVBAR
+      =================================== */}
       <nav className="navbar navbar-animation">
         <div className="logo-section logo-animation">
           
-          {/* Desktop Hamburger -> Opens the floating Mini Sidebar */}
+          {/* Back Button (Far Left) */}
+          <button 
+            className="nav-back-btn" 
+            onClick={() => navigate(-1)} 
+            title="Go Back"
+          >
+            <FaArrowLeft />
+          </button>
+
           {location.pathname !== "/" && (
             <FaBars className="hamburger-icon" onClick={toggleMiniSidebar} />
           )}
@@ -36,38 +48,30 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
         </div>
       </nav>
 
-      {/* Mobile Bottom Navbar */}
+      {/* ===================================
+          MOBILE BOTTOM NAVBAR 
+          (Back button intentionally excluded)
+      =================================== */}
       <div className="mobile-navbar">
-        
-        {/* Left Side: Hamburger & Grid */}
         <div className="mobile-left">
-          
-          {/* Mobile Hamburger -> Opens the full-screen Mobile Menu */}
           {location.pathname !== "/" && (
             <FaBars className="hamburger-icon" onClick={toggleMobileMenu} />
           )}
-          
           <div className="mobile-icon-box" onClick={toggleSidebar}>
             <HiOutlineViewGrid className="mobile-icon" />
           </div>
         </div>
         
-        {/* Center: Logo */}
         <Link to="/" className="mobile-logo-link">
           <img src={Mainlogo} alt="Logo" className="mobile-logo" />
         </Link>
 
-        {/* Right Side: User & Single Theme Icon */}
         <div className="mobile-right">
           <FaUserCircle className="mobile-user" />
-          
-          {/* Single Icon Toggle */}
           <div className="mobile-theme-icon" onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? <FaSun /> : <FaMoon />}
           </div>
-
         </div>
-
       </div>
     </>
   );

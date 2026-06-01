@@ -218,6 +218,31 @@
     }
 }
 
+/* ===================================
+   DESKTOP BACK BUTTON (Left Aligned)
+=================================== */
+.nav-back-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 20px; /* Slightly larger to match the other icons perfectly */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* FIX 1: Reduced padding and margin to close the gap */
+    padding: 5px; 
+    margin-right: 8px; 
+    
+    transition: color 0.2s ease; /* Only animate the color change now */
+}
+
+/* FIX 2: Removed the background box and movement effect, strictly matching the color fill of other icons */
+.nav-back-btn:hover {
+    color: #3b82f6; /* Changes to your brand blue on hover */
+}
+
 /* Mobile Navbar */
 .mobile-navbar {
     display: none;
