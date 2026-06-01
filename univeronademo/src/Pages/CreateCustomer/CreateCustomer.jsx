@@ -43,23 +43,6 @@ function CreateCustomer() {
           ========================================== */}
           <div className="form-section">
             <h3 className="section-title">General Information</h3>
-            <div className="profile-upload-container" style={{ 
-                marginTop: '0px', 
-                paddingTop: '30px' 
-              }}>
-              {/* <h4 style={{ color: '#888', marginBottom: '15px', fontSize: '14px', fontWeight: '500' }}>
-                Customer Profile Image
-              </h4> */}
-              <label className="profile-circle">
-                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageUpload} />
-                {profileImg ? (
-                  <img src={profileImg} alt="Profile" className="profile-image" />
-                ) : (
-                  <span className="upload-placeholder">+ Upload Customer<br/>Photo</span>
-                )}
-              </label>
-              {/* <span style={{ fontSize: '12px', color: '#888' }}>Allowed formats: JPG, PNG</span> */}
-            </div>
             <div className="form-grid">
               
               <div className="form-group">
