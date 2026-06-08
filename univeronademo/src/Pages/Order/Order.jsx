@@ -6,28 +6,28 @@ import './Order.css';
 function Order() {
   const navigate = useNavigate();
   
-  // 1. Replaced hardcoded array with an empty state array
+  // States
   const [customers, setCustomers] = useState([]);
-  
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [activeTab, setActiveTab] = useState('general');
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false); 
 
-  // 2. Fetch live data from Laravel API on component mount
+  // ===================================
+  // 1. FETCH INITIAL CUSTOMER LIST
+  // ===================================
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        // IMPORTANT: Verify this exact URL from your Postman setup
         const response = await fetch('https://sdsinfotech.co.in/api/customers', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 1|rYASEZ9eoX2xeUUQ14XXPeKv2HecomL2loEfIV8Jbd21bab2' // Replace with your actual token
+            'Authorization': 'Bearer 1|rYASEZ9eoX2xeUUQ14XXPeKv2HecomL2loEfIV8Jbd21bab2' // IMPORTANT: Replace with your actual token
           }
         });
 
         const result = await response.json();
 
-        // 3. Check if response is 200 OK and update state with the 'data' array
         if (result.statusCode === 200 && result.data) {
           setCustomers(result.data);
         } else {
@@ -41,9 +41,38 @@ function Order() {
     fetchCustomers();
   }, []);
 
-  const handleRowClick = (customer) => {
-    setSelectedCustomer(customer);
-    setActiveTab('general'); 
+  // ===================================
+  // 2. FETCH DEEP CUSTOMER DETAILS
+  // ===================================
+  const handleRowClick = async (customer) => {
+    // Open the modal instantly with basic list data
+    setSelectedCustomer(customer); 
+    setActiveTab('general');
+    setIsLoadingDetails(true); 
+
+    try {
+      // Fetch the deep data using the specific customer ID
+      const response = await fetch(`https://sdsinfotech.co.in/api/customers/${customer.id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 1|rYASEZ9eoX2xeUUQ14XXPeKv2HecomL2loEfIV8Jbd21bab2' // IMPORTANT: Replace with your actual token
+        }
+      });
+
+      const result = await response.json();
+
+      // If successful, silently overwrite the basic data with the deep detailed data
+      if (result.statusCode === 200 && result.data) {
+        setSelectedCustomer(result.data);
+      } else {
+        console.error("Failed to load details:", result.statusMessage);
+      }
+    } catch (error) {
+      console.error("Connection failed while fetching details:", error);
+    } finally {
+      setIsLoadingDetails(false); 
+    }
   };
 
   return (
@@ -87,19 +116,17 @@ function Order() {
           <tbody>
             {customers.map((cust) => (
               <tr key={cust.id} onClick={() => handleRowClick(cust)}>
-                {/* 4. Mapped the exact JSON fields to the table columns */}
                 <td>{cust.customer_no}</td>
                 <td>{cust.name}</td>
-                {/* Added '|| "-"' so if the data is null, it shows a dash instead of being blank */}
                 <td className="hide-on-mobile">{cust.email || '-'}</td>
                 <td className="hide-on-mobile">{cust.city || '-'}</td>
                 <td className="hide-on-mobile">{cust.primary_mobile || '-'}</td>
                 <td className="hide-on-mobile">
                   <div className="action-icons">
-                    <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => { e.stopPropagation(); /* Add edit logic */ }}>
+                    <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => { e.stopPropagation(); }}>
                       <FaEdit />
                     </button>
-                    <button className="btn-icon btn-delete-icon" title="Delete" onClick={(e) => { e.stopPropagation(); /* Add delete logic */ }}>
+                    <button className="btn-icon btn-delete-icon" title="Delete" onClick={(e) => { e.stopPropagation(); }}>
                       <FaTrash />
                     </button>
                     <button className="btn-icon" style={{ color: '#888' }} title="More">
@@ -110,10 +137,10 @@ function Order() {
               </tr>
             ))}
             
-            {/* Show a message if no data is found yet */}
+            {/* Empty State / Loading State for Table */}
             {customers.length === 0 && (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
+                <td colSpan="6" style={{ textAlign: 'center', padding: '30px', color: '#888' }}>
                   Loading customers or no data available...
                 </td>
               </tr>
@@ -130,7 +157,17 @@ function Order() {
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             
             <div className="modal-header-top">
-              <h2 className="modal-title">Customer</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <h2 className="modal-title">Customer</h2>
+                
+                {/* Shows a loading message while the deep API fetch is running */}
+                {isLoadingDetails && (
+                  <span style={{ fontSize: '12px', color: '#3b82f6', fontStyle: 'italic' }}>
+                    Fetching latest details...
+                  </span>
+                )}
+              </div>
+              
               <div className="modal-actions">
                 <button className="btn-icon btn-edit-icon" title="Edit"><FaEdit /></button>
                 <button className="btn-icon btn-delete-icon" title="Delete"><FaTrash /></button>
@@ -152,10 +189,10 @@ function Order() {
               </button>
             </div>
 
+            {/* TAB: GENERAL INFORMATION */}
             {activeTab === 'general' && (
               <>
                 <div className="detail-grid">
-                  {/* 5. Mapped the selected customer's JSON fields into the modal */}
                   <div className="detail-item"><span className="detail-label">Customer ID</span><span className="detail-value" style={{ color: '#3b82f6', fontWeight: 'bold' }}>{selectedCustomer.customer_no}</span></div>
                   <div className="detail-item"><span className="detail-label">Type</span><span className="detail-value">{selectedCustomer.type === 1 ? 'B to B' : selectedCustomer.type}</span></div>
                   
@@ -181,6 +218,7 @@ function Order() {
               </>
             )}
 
+            {/* TAB: ADDRESS DETAILS */}
             {activeTab === 'address' && (
               <div className="detail-grid">
                  <div className="detail-item"><span className="detail-label">Address 1</span><span className="detail-value">{selectedCustomer.address1 || '—'}</span></div>
@@ -191,6 +229,7 @@ function Order() {
               </div>
             )}
 
+            {/* TAB: INTERNAL NOTES */}
             {activeTab === 'notes' && (
               <div style={{ padding: '20px 0', color: '#888' }}>
                 No internal notes available for this customer.
