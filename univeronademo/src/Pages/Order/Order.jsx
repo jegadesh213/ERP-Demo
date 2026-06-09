@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaRegTimesCircle, FaPlus, FaSearch } from 'react-icons/fa';
+import { useLoader } from '../../context/LoaderContext'; // Double check path matching your folder tree
 import './Order.css';
 
 function Order() {
   const navigate = useNavigate();
+  const { showLoader, hideLoader } = useLoader();
   
   // States
   const [customers, setCustomers] = useState([]);
@@ -17,24 +19,24 @@ function Order() {
   // ===================================
   useEffect(() => {
     const fetchCustomers = async () => {
+      showLoader(); // ADDED: Turn on loader
       try {
         const response = await fetch('https://sdsinfotech.co.in/api/customers', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 1|rYASEZ9eoX2xeUUQ14XXPeKv2HecomL2loEfIV8Jbd21bab2' // IMPORTANT: Replace with your actual token
+            'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' 
           }
         });
 
         const result = await response.json();
-
         if (result.statusCode === 200 && result.data) {
           setCustomers(result.data);
-        } else {
-          console.error("Failed to load data:", result.statusMessage);
         }
       } catch (error) {
         console.error("Connection failed:", error);
+      } finally {
+        hideLoader(); // ADDED: Turn off loader
       }
     };
 
@@ -45,33 +47,27 @@ function Order() {
   // 2. FETCH DEEP CUSTOMER DETAILS
   // ===================================
   const handleRowClick = async (customer) => {
-    // Open the modal instantly with basic list data
     setSelectedCustomer(customer); 
     setActiveTab('general');
-    setIsLoadingDetails(true); 
+    showLoader(); // ADDED: Turn on full page loader
 
     try {
-      // Fetch the deep data using the specific customer ID
       const response = await fetch(`https://sdsinfotech.co.in/api/customers/${customer.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 1|rYASEZ9eoX2xeUUQ14XXPeKv2HecomL2loEfIV8Jbd21bab2' // IMPORTANT: Replace with your actual token
+          'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' 
         }
       });
 
       const result = await response.json();
-
-      // If successful, silently overwrite the basic data with the deep detailed data
       if (result.statusCode === 200 && result.data) {
         setSelectedCustomer(result.data);
-      } else {
-        console.error("Failed to load details:", result.statusMessage);
       }
     } catch (error) {
-      console.error("Connection failed while fetching details:", error);
+      console.error("Fetching details failed:", error);
     } finally {
-      setIsLoadingDetails(false); 
+      hideLoader(); // ADDED: Turn off loader
     }
   };
 

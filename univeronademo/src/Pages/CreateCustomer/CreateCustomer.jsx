@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
+import { useLoader } from '../../context/LoaderContext'; // Double check path matching your folder tree
 import './CreateCustomer.css';
 
 function CreateCustomer() {
   const navigate = useNavigate();
+  const { showLoader, hideLoader } = useLoader();
 
   // State for Profile Image
   const [profileImg, setProfileImg] = useState(null);
@@ -77,6 +79,7 @@ function CreateCustomer() {
   useEffect(() => {
     if (editId) {
       const fetchCustomerData = async () => {
+        showLoader(); // ADDED: Turn on loader
         try {
           const response = await fetch(`https://sdsinfotech.co.in/api/customers/${editId}`, {
             headers: { 'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' }
@@ -85,7 +88,6 @@ function CreateCustomer() {
           
           if (result.statusCode === 200 && result.data) {
             const data = result.data;
-            // Map the API fields back into the UI form
             setFormData(prev => ({
               ...prev,
               type: data.type?.toString() || "1",
@@ -108,6 +110,8 @@ function CreateCustomer() {
           }
         } catch (error) {
           console.error("Failed to fetch customer for editing:", error);
+        } finally {
+          hideLoader(); // ADDED: Turn off loader
         }
       };
       fetchCustomerData();
@@ -137,6 +141,7 @@ function CreateCustomer() {
   // 2. FILTERED POST REQUEST
   const handleSave = async () => {
     setIsSubmitting(true);
+    showLoader();
     
     const payload = {
       type: parseInt(formData.type) || 1,
@@ -165,14 +170,14 @@ function CreateCustomer() {
       // NEW: Dynamically choose PUT or POST based on editId
       const method = editId ? 'PUT' : 'POST';
       const url = editId 
-        ? `https://sdsinfotech.co.in/api/customer/${editId}` 
-        : 'https://sdsinfotech.co.in/api/customer';
+        ? `https://sdsinfotech.co.in/api/customers/${editId}` 
+        : 'https://sdsinfotech.co.in/api/customers';
 
       const response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer YOUR_BEARER_TOKEN_HERE' 
+          'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' 
         },
         body: JSON.stringify(payload)
       });
@@ -190,6 +195,7 @@ function CreateCustomer() {
       alert("Connection failed. Please check your network.");
     } finally {
       setIsSubmitting(false);
+      hideLoader();
     }
   };
 
