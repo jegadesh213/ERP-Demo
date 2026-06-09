@@ -13,6 +13,8 @@ function Order() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [activeTab, setActiveTab] = useState('general');
   const [isLoadingDetails, setIsLoadingDetails] = useState(false); 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [appliedSearch, setAppliedSearch] = useState('');
 
   // ===================================
   // 1. FETCH INITIAL CUSTOMER LIST
@@ -77,6 +79,27 @@ function Order() {
     navigate('/create-customer', { state: { editId: customerId } });
   };
 
+  // NEW: Listens for the Enter key press to update the search filter
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setAppliedSearch(searchTerm);
+    }
+  };
+
+  // NEW: Filters the original customers array based on the applied search term
+  const filteredCustomers = customers.filter((cust) => {
+    if (!appliedSearch) return true;
+    const lowerSearch = appliedSearch.toLowerCase();
+    
+    return (
+      (cust.customer_no && cust.customer_no.toLowerCase().includes(lowerSearch)) ||
+      (cust.name && cust.name.toLowerCase().includes(lowerSearch)) ||
+      (cust.email && cust.email.toLowerCase().includes(lowerSearch)) ||
+      (cust.city && cust.city.toLowerCase().includes(lowerSearch)) ||
+      (cust.primary_mobile && cust.primary_mobile.toLowerCase().includes(lowerSearch))
+    );
+  });
+
   return (
     <div className="order-page">
       
@@ -94,7 +117,14 @@ function Order() {
         <div className="header-right">
           <div className="search-bar">
             <FaSearch className="search-icon" />
-            <input type="text" placeholder="Search..." />
+            {/* UPDATED: Added value, onChange, and onKeyDown handlers */}
+            <input 
+              type="text" 
+              placeholder="Search and press Enter..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
+            />
           </div>
         </div>
       </div>
@@ -116,7 +146,8 @@ function Order() {
           </thead>
           
           <tbody>
-            {customers.map((cust) => (
+            {/* UPDATED: Now maps over filteredCustomers instead of customers */}
+            {filteredCustomers.map((cust) => (
               <tr key={cust.id} onClick={() => handleRowClick(cust)}>
                 <td>{cust.customer_no}</td>
                 <td>{cust.name}</td>
@@ -139,11 +170,11 @@ function Order() {
               </tr>
             ))}
             
-            {/* Empty State / Loading State for Table */}
-            {customers.length === 0 && (
+            {/* UPDATED: Dynamic messaging if no matching results are found */}
+            {filteredCustomers.length === 0 && (
               <tr>
                 <td colSpan="6" style={{ textAlign: 'center', padding: '30px', color: '#888' }}>
-                  Loading customers or no data available...
+                  {customers.length === 0 ? "Loading customers..." : "No matching records found. Press Enter to search again."}
                 </td>
               </tr>
             )}
