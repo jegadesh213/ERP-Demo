@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
 import './CreateCustomer.css';
 
@@ -69,6 +69,51 @@ function CreateCustomer() {
     notes: ""
   });
 
+  // NEW: Catch the passed ID from the router
+  const location = useLocation();
+  const editId = location.state?.editId; 
+
+  // NEW: Fetch existing data if we are in "Edit Mode"
+  useEffect(() => {
+    if (editId) {
+      const fetchCustomerData = async () => {
+        try {
+          const response = await fetch(`https://sdsinfotech.co.in/api/customers/${editId}`, {
+            headers: { 'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' }
+          });
+          const result = await response.json();
+          
+          if (result.statusCode === 200 && result.data) {
+            const data = result.data;
+            // Map the API fields back into the UI form
+            setFormData(prev => ({
+              ...prev,
+              type: data.type?.toString() || "1",
+              customer_number: data.customer_no || "",
+              name: data.name || "",
+              phone: data.primary_mobile || "",
+              mobile: data.secondary_mobile || "",
+              email: data.email || "",
+              website: data.website || "",
+              project: data.project || "",
+              bill_address1: data.address1 || "",
+              bill_address2: data.address2 || "",
+              bill_city: data.city || "",
+              bill_zip: data.zip_code || "",
+              bill_landmark: data.landmark || "",
+              gst_no: data.gst_no || "",
+              pan_no: data.pan_no || "",
+              status: data.status?.toString() || "1"
+            }));
+          }
+        } catch (error) {
+          console.error("Failed to fetch customer for editing:", error);
+        }
+      };
+      fetchCustomerData();
+    }
+  }, [editId]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
@@ -93,36 +138,41 @@ function CreateCustomer() {
   const handleSave = async () => {
     setIsSubmitting(true);
     
-    // EXTRACT ONLY REQUIRED DATA: This matches your exact requested JSON payload
     const payload = {
       type: parseInt(formData.type) || 1,
       name: formData.name,
       gst_no: formData.gst_no,
       pan_no: formData.pan_no,
-      primary_mobile: formData.phone, // Mapped from UI Phone
-      secondary_mobile: formData.mobile, // Mapped from UI Mobile
+      primary_mobile: formData.phone, 
+      secondary_mobile: formData.mobile, 
       email: formData.email,
       website: formData.website,
       project: formData.project,
       address1: formData.bill_address1,
       address2: formData.bill_address2,
-      country_id: 1, // Hardcoded as requested
-      state_id: 1,   // Hardcoded as requested
+      country_id: 1, 
+      state_id: 1,   
       city: formData.bill_city,
       zip_code: formData.bill_zip,
       landmark: formData.bill_landmark,
-      sales_person_id: 1, // Hardcoded as requested
-      payment_term_id: 1, // Hardcoded as requested
-      payment_method_id: 1, // Hardcoded as requested
+      sales_person_id: 1, 
+      payment_term_id: 1, 
+      payment_method_id: 1, 
       status: parseInt(formData.status) || 1
     };
 
     try {
-      const response = await fetch('https://sdsinfotech.co.in/api/customers', {
-        method: 'POST',
+      // NEW: Dynamically choose PUT or POST based on editId
+      const method = editId ? 'PUT' : 'POST';
+      const url = editId 
+        ? `https://sdsinfotech.co.in/api/customer/${editId}` 
+        : 'https://sdsinfotech.co.in/api/customer';
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 1|rYASEZ9eoX2xeUUQ14XXPeKv2HecomL2loEfIV8Jbd21bab2' // IMPORTANT: Replace with your token
+          'Authorization': 'Bearer YOUR_BEARER_TOKEN_HERE' 
         },
         body: JSON.stringify(payload)
       });
@@ -133,7 +183,7 @@ function CreateCustomer() {
         setShowSuccessPopup(true);
         setTimeout(() => navigate('/order'), 2000);
       } else {
-        alert("Failed to create customer: " + (result.statusMessage || "Unknown error"));
+        alert("Failed to save: " + (result.statusMessage || "Unknown error"));
       }
     } catch (error) {
       console.error("Submission error:", error);
@@ -442,23 +492,6 @@ function CreateCustomer() {
               <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                 <div className="label-wrapper"><label>Notes</label><span className="char-limit">Max 300</span></div>
                 <textarea name="notes" value={formData.notes} onChange={handleChange} maxLength={300} placeholder="Add any internal notes here..."></textarea>
-              </div>
-            </div>
-          </div>
-
-          {/* ==========================================
-              7. SYSTEM AUDIT (Read Only)
-          ========================================== */}
-          <div className="form-section" style={{ opacity: 0.7 }}>
-            <h3 className="section-title">System Audit (Auto-Generated)</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Created On</label>
-                <input type="date" disabled value={new Date().toISOString().split('T')[0]} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Created By</label><span className="char-limit">Max 50</span></div>
-                <input type="text" disabled value="Admin User" />
               </div>
             </div>
           </div>

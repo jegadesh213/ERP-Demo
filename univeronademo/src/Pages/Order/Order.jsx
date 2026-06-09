@@ -75,6 +75,12 @@ function Order() {
     }
   };
 
+  // NEW: Handler for clicking the Edit button
+  const handleEditClick = (e, customerId) => {
+    e.stopPropagation(); // Prevents the row from expanding
+    navigate('/create-customer', { state: { editId: customerId } });
+  };
+
   return (
     <div className="order-page">
       
@@ -123,7 +129,7 @@ function Order() {
                 <td className="hide-on-mobile">{cust.primary_mobile || '-'}</td>
                 <td className="hide-on-mobile">
                   <div className="action-icons">
-                    <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => { e.stopPropagation(); }}>
+                    <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => handleEditClick(e, cust.id)}>
                       <FaEdit />
                     </button>
                     <button className="btn-icon btn-delete-icon" title="Delete" onClick={(e) => { e.stopPropagation(); }}>
@@ -169,7 +175,9 @@ function Order() {
               </div>
               
               <div className="modal-actions">
-                <button className="btn-icon btn-edit-icon" title="Edit"><FaEdit /></button>
+                <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => handleEditClick(e, selectedCustomer.id)}>
+                  <FaEdit />
+                </button>
                 <button className="btn-icon btn-delete-icon" title="Delete"><FaTrash /></button>
                 <button className="btn-close-modal" onClick={() => setSelectedCustomer(null)}>
                   <FaTimes />
