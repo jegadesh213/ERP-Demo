@@ -9,8 +9,13 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Helper condition: returns true ONLY if we are on the Home Page or the Sales Hub Page
+  // Helper condition: true only if we are on the Home Page or the Sales Hub Page
   const hideHamburger = location.pathname === "/" || location.pathname === "/sales";
+
+  /* ===================================================
+     👉 NEW FIX CONDITION: True only if we are on the Home Page root
+     =================================================== */
+  const isHomePage = location.pathname === "/";
 
   return (
     <>
@@ -29,12 +34,15 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
             <FaArrowLeft />
           </button>
 
-          {/* UPDATED: Hamburger will hide completely (return null) on / and /sales */}
+          {/* Hamburger will hide completely on / and /sales */}
           {!hideHamburger && (
             <FaBars className="hamburger-icon" onClick={toggleMiniSidebar} />
           )}
 
-          <HiOutlineViewGrid className="menu-icon" onClick={toggleSidebar} />
+          {/* UPDATED FIX: The Grid icon will now only render if we are NOT on the Landing Home Page */}
+          {!isHomePage && (
+            <HiOutlineViewGrid className="menu-icon" onClick={toggleSidebar} />
+          )}
           
           <Link to="/">
             <img src={Mainlogo} alt="Logo" className="main-logo" />
@@ -58,14 +66,17 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
       <div className="mobile-navbar">
         <div className="mobile-left">
           
-          {/* UPDATED: Mobile Hamburger will also hide completely on / and /sales */}
+          {/* Mobile Hamburger will also hide completely on / and /sales */}
           {!hideHamburger && (
             <FaBars className="hamburger-icon" onClick={toggleMobileMenu} />
           )}
 
-          <div className="mobile-icon-box" onClick={toggleSidebar}>
-            <HiOutlineViewGrid className="mobile-icon" />
-          </div>
+          {/* UPDATED FIX: Mobile Grid icon will also hide completely on the Landing Home Page */}
+          {!isHomePage && (
+            <div className="mobile-icon-box" onClick={toggleSidebar}>
+              <HiOutlineViewGrid className="mobile-icon" />
+            </div>
+          )}
         </div>
         
         <Link to="/" className="mobile-logo-link">

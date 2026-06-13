@@ -1,15 +1,20 @@
-/* Sidebar Drawer */
+/* ===================================
+   SIDEBAR DRAWER (GLASSMORPHIC OVERLAY)
+=================================== */
 .mobile-menu {
     position: fixed;
     top: 0;
     left: -100%; /* Starts off-screen */
-    width: 280px; /* Width of the mobile drawer */
+    width: 280px; 
     height: 100vh;
-    z-index: 1000; /* Stays above everything */
+    z-index: 1000; /* Stays securely above layout components */
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(20px);
+    
+    /* Premium deep blur layers */
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
 }
 
 /* Slide in when open */
@@ -17,92 +22,165 @@
     left: 0;
 }
 
-/* Themes */
+/* Themes (Translucent RGBA setups matching your design guidelines) */
 .dark-mobile-menu {
-    background: rgba(5, 8, 22, 0.95);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(21, 23, 38, 0.55);
+    border-right: 1.5px solid rgba(255, 255, 255, 0.06);
     color: white;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
 }
 
 .light-mobile-menu {
-    background: rgba(255, 255, 255, 0.95);
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-    color: black;
+    background: rgba(255, 255, 255, 0.65);
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Header */
+/* ===================================
+   DRAWER HEADER SECTION
+=================================== */
 .mobile-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 30px 20px;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.light-mobile-menu .mobile-menu-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .mobile-user-profile {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .mobile-avatar {
-    font-size: 35px;
-    color: hotpink;
+    font-size: 32px;
+    color: #7b61ff; /* Matches core branding purple */
 }
 
 .mobile-username {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
+    letter-spacing: 0.2px;
 }
 
 .mobile-close-btn {
     background: transparent;
     border: none;
-    font-size: 24px;
-    color: inherit;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.4);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
 }
 
-/* Links Container */
+.mobile-close-btn:hover {
+    color: #7b61ff;
+}
+
+.light-mobile-menu .mobile-close-btn {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* ===================================
+   NAVIGATION ITEM LIST LINKS
+=================================== */
 .mobile-menu-links {
-    padding: 20px 0;
+    padding: 20px 12px; /* Side gaps allow the trace bounds to look like rounded pills */
     display: flex;
     flex-direction: column;
+    gap: 8px;
 }
 
 .mobile-link-item {
     display: flex;
     align-items: center;
-    padding: 15px 25px;
+    padding: 14px 20px;
     text-decoration: none;
-    color: inherit;
-    font-size: 16px;
-    font-weight: 500;
-    transition: 0.3s;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 16px;
+    /* 1. Establish transparent crisp baseline outer frame size */
+    border: 1.5px solid transparent; 
+    box-sizing: border-box;
+    transition: color 0.25s ease, transform 0.2s ease;
+}
+
+.light-mobile-menu .mobile-link-item {
+    color: #4c566a;
 }
 
 .mobile-link-icon {
-    font-size: 22px;
-    margin-right: 15px;
+    font-size: 20px;
+    margin-right: 14px;
     display: flex;
     align-items: center;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.25s ease;
 }
 
-/* Hover and Active States */
-.mobile-link-item:hover, .mobile-link-item.active {
-    background: rgba(255, 105, 180, 0.1);
-    color: hotpink;
-    border-left: 4px solid hotpink;
+.light-mobile-menu .mobile-link-icon {
+    color: #717c9b;
 }
 
-/* Background Overlay */
+/* ===================================
+   CRITICAL HOVER & ACTIVE FIX 🛠️
+=================================== */
+.mobile-link-item:hover, 
+.mobile-link-item.active {
+    color: #7b61ff;
+    
+    /* Slight premium bounce indicator when tapped on touch screen interfaces */
+    transform: translateX(2px); 
+
+    /* 2. CRITICAL DOUBLE BACKGROUND TRICK:
+          First layer keeps the translucent dark theme solid inside the padding boundary.
+          Second layer injects your exact active navbar color spectrum into the border boundary. */
+    /* background-image: linear-gradient(rgba(30, 32, 54, 0.65), rgba(30, 32, 54, 0.65)), 
+                      linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff); */
+                      
+    /* 3. Forces properties to clip cleanly exclusively inside their mapped canvas layers */
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+}
+
+/* Light mode specific background clipping layer update */
+.light-mobile-menu .mobile-link-item:hover,
+/* .light-mobile-menu .mobile-link-item.active {
+    background-image: linear-gradient(rgba(240, 242, 245, 0.85), rgba(240, 242, 245, 0.85)), 
+                      linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff);
+} */
+
+.mobile-link-item:hover .mobile-link-icon,
+.mobile-link-item.active .mobile-link-icon {
+    color: #7b61ff;
+}
+
+/* ===================================
+   BACKGROUND DRAWER OVERLAY
+=================================== */
 .mobile-menu-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999; /* Sits just below the menu */
-    backdrop-filter: blur(2px);
+    background: rgba(5, 8, 22, 0.4);
+    z-index: 999; /* Positions perfectly underneath layout panels */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: fadeInOverlay 0.25s ease;
+}
+
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

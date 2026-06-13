@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiOutlineClipboardList, HiOutlineDocumentText, HiOutlineCube, HiOutlineAdjustments, HiOutlineCog } from 'react-icons/hi';
+// Swapped out unneeded items for HiOutlineDocumentReport
+import { HiOutlineClipboardList, HiOutlineDocumentText, HiOutlineDocumentReport } from 'react-icons/hi';
 import { FaUserCircle, FaTimes } from 'react-icons/fa';
 import './MobileMenu.css';
 
 function MobileMenu({ isOpen, toggleMobileMenu, darkMode }) {
   const location = useLocation();
 
+  // Updated menu array matching Sales Hub operational workspaces
   const menuItems = [
     { id: 1, name: 'Order', icon: <HiOutlineClipboardList />, path: '/order' },
     { id: 2, name: 'To Invoice', icon: <HiOutlineDocumentText />, path: '/invoice' },
-    { id: 3, name: 'Products', icon: <HiOutlineCube />, path: '/products' },
-    { id: 4, name: 'Configurations', icon: <HiOutlineAdjustments />, path: '/configurations' },
-    { id: 5, name: 'Settings', icon: <HiOutlineCog />, path: '/settings' },
+    { id: 3, name: 'Quotation', icon: <HiOutlineDocumentReport />, path: '/quotation' },
   ];
 
   return (
@@ -37,7 +37,7 @@ function MobileMenu({ isOpen, toggleMobileMenu, darkMode }) {
               to={item.path} 
               key={item.id} 
               className={`mobile-link-item ${location.pathname === item.path ? 'active' : ''}`}
-              onClick={toggleMobileMenu} // Auto-close when clicked
+              onClick={toggleMobileMenu} // Auto-closes drawer nicely
             >
               <span className="mobile-link-icon">{item.icon}</span>
               <span className="mobile-link-text">{item.name}</span>

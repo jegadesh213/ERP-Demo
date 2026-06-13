@@ -1,24 +1,23 @@
 /* ===================================
-   GRID CONTAINER SETUP (DESKTOP LEFT-ALIGNED)
+   GRID CONTAINER SETUP
 =================================== */
 .minimal-home-container {
     width: 100%;
-    /* Removed auto-centering margins to let it sit flush with the left side */
-    margin: 35px 0 0 0; 
-    padding: 0;
+    max-width: 900px;
+    margin: 80px auto 0 auto;
+    padding: 0 24px;
     display: flex;
-    /* UPDATED: Aligns tiles to the left to match your red marked area */
-    justify-content: flex-start; 
-    align-items: flex-start;
-    animation: fadeIn 1s ease;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
 }
 
 .minimal-tiles-grid {
     display: grid;
     grid-template-columns: repeat(2, 220px); /* Symmetrical columns for desktop */
     gap: 30px;
-    /* UPDATED: Left-aligns the grid columns on desktop */
-    justify-content: flex-start; 
+    justify-content: center;
+    width: 100%;
 }
 
 /* ===================================
@@ -120,41 +119,43 @@
 }
 
 /* ===================================
-   MOBILE RESPONSIVE MAINTAINED (2 PER ROW)
+   MOBILE RESPONSIVE CHANGES (ENLARGED)
 =================================== */
 @media (max-width: 600px) {
     .minimal-home-container {
-        margin: 50px auto 0 auto; /* Centered layout for mobile viewports */
-        padding: 0 16px;
-        justify-content: center; 
-        align-items: center;
+        margin: 60px auto 0 auto; /* Pulls layout context slightly up */
+        padding: 0 12px;
     }
 
     .minimal-tiles-grid {
-        /* Forces exactly 2 matching columns side-by-side on mobile devices */
         grid-template-columns: repeat(2, 1fr); 
-        max-width: 440px; 
-        gap: 16px; 
-        justify-content: center;
+        /* UPDATED: Increased max-width constraint from 440px to 540px 
+           to let tiles fill out more physical space across wide device viewports */
+        max-width: 540px; 
+        gap: 14px; /* Reduced gap boundary footprint slightly to maximize tile dimensions */
     }
 
     .minimal-tile {
-        border-radius: 24px; 
-        padding: 24px 12px;  
+        border-radius: 28px; /* High rounding profile */
+        /* UPDATED: Scaled up internal cell space from 24px/12px to give tiles more presence */
+        padding: 32px 16px;  
     }
 
     .minimal-icon-circle {
-        width: 64px;  
-        height: 64px;
+        /* UPDATED: Enlarged circle plate diameters from 64px back to a high-impact size */
+        width: 74px;  
+        height: 74px;
         margin-top: 0;
     }
 
     .minimal-icon {
-        font-size: 22px; 
+        /* UPDATED: Increased typography symbol layout scale */
+        font-size: 26px; 
     }
 
     .minimal-tile-label {
-        font-size: 14px; 
+        /* UPDATED: Enlarged text labeling layout headers */
+        font-size: 15px; 
     }
 }
 
