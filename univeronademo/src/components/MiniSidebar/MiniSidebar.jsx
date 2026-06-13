@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-// Changed HiOutlineDocument to HiOutlineDocumentReport
-import { HiOutlineClipboardList, HiOutlineDocumentText, HiOutlineDocumentReport } from 'react-icons/hi';
+// Added HiOutlineUsers for the Customer profile logo icon
+import { HiOutlineUsers, HiOutlineClipboardList, HiOutlineDocumentText, HiOutlineDocumentReport } from 'react-icons/hi';
 import './MiniSidebar.css';
 
 function MiniSidebar({ darkMode, isExpanded }) {
@@ -10,9 +10,10 @@ function MiniSidebar({ darkMode, isExpanded }) {
   if (location.pathname === '/' || location.pathname === '/sales') return null;
 
   const menuItems = [
-    { id: 1, name: 'Order', icon: <HiOutlineClipboardList />, path: '/order' },
-    { id: 2, name: 'To Invoice', icon: <HiOutlineDocumentText />, path: '/invoice' },
-    { id: 3, name: 'Quotation', icon: <HiOutlineDocumentReport />, path: '/quotation' },
+    { id: 1, name: 'Customer', icon: <HiOutlineUsers />, path: '/customer' },
+    { id: 2, name: 'Order', icon: <HiOutlineClipboardList />, path: '/order' },
+    { id: 3, name: 'To Invoice', icon: <HiOutlineDocumentText />, path: '/invoice' },
+    { id: 4, name: 'Quotation', icon: <HiOutlineDocumentReport />, path: '/quotation' },
   ];
 
   return (

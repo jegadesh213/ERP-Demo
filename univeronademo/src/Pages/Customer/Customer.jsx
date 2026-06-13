@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaRegTimesCircle, FaPlus, FaSearch } from 'react-icons/fa';
 import { useLoader } from '../../context/LoaderContext'; // Double check path matching your folder tree
-import './Order.css';
+import './Customer.css';
 
-function Order() {
+function Customer() {
   const navigate = useNavigate();
   const { showLoader, hideLoader } = useLoader();
   
@@ -279,4 +279,4 @@ function Order() {
   );
 }
 
-export default Order;
+export default Customer;

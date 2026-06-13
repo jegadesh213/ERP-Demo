@@ -7,8 +7,9 @@ import MiniSidebar from "./components/MiniSidebar/MiniSidebar.jsx";
 import MobileMenu from "./components/MobileMenu/MobileMenu.jsx";
 import Home from "./Pages/Home/Home.jsx";
 import SalesHub from "./Pages/SalesHub/SalesHub.jsx";
-import Order from "./Pages/Order/Order.jsx"; 
+// import Order from "./Pages/Order/Order.jsx"; 
 import CreateCustomer from "./Pages/CreateCustomer/CreateCustomer.jsx";
+import Customer from "./Pages/Customer/Customer.jsx";
 
 import './App.css';
 
@@ -49,8 +50,9 @@ function App() {
               {/* UPDATED: Path maps cleanly to the new intermediate gateway hub */}
               <Route path="/sales" element={<SalesHub />} />
               
-              <Route path="/order" element={<Order />} />
+              <Route path="/customer" element={<Customer />} />
               <Route path="/create-customer" element={<CreateCustomer />} />
+              <Route path="/order" element={<h2 style={{ textAlign: 'center' }}>Order Page</h2>} />
               <Route path="/settings" element={<h2 style={{ textAlign: 'center' }}>Settings Page</h2>} />
               <Route path="/inspection" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Inspection Module</h2>} />
               
