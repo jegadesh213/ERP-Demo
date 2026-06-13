@@ -1,14 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaShoppingCart, FaCog, FaTimes } from 'react-icons/fa';
+// Swapped FaShoppingCart for the cleaner Hi icon packs to match your landing page dashboard theme
+import { HiOutlineTrendingUp, HiOutlineShieldCheck, HiOutlineCog } from 'react-icons/hi';
+import { FaTimes } from 'react-icons/fa';
 import './Sidebar.css';
 
 function Sidebar({ isOpen, toggleSidebar, darkMode }) {
   const navigate = useNavigate();
 
+  // Updated array: Included both Sales and Inspection with their matching logos
   const erpModules = [
-    { id: 1, title: 'Sales', icon: <FaShoppingCart />, path: '/sales' },
-    { id: 2, title: 'Settings', icon: <FaCog />, path: '/settings' }
+    { id: 1, title: 'Sales', icon: <HiOutlineTrendingUp />, path: '/sales' },
+    { id: 2, title: 'Inspection', icon: <HiOutlineShieldCheck />, path: '/inspection' },
+    { id: 3, title: 'Settings', icon: <HiOutlineCog />, path: '/settings' }
   ];
 
   const handleNavigation = (path) => {

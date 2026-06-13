@@ -1,19 +1,18 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiOutlineClipboardList, HiOutlineDocumentText, HiOutlineCube, HiOutlineAdjustments, HiOutlineCog } from 'react-icons/hi';
+// Changed HiOutlineDocument to HiOutlineDocumentReport
+import { HiOutlineClipboardList, HiOutlineDocumentText, HiOutlineDocumentReport } from 'react-icons/hi';
 import './MiniSidebar.css';
 
 function MiniSidebar({ darkMode, isExpanded }) {
   const location = useLocation();
 
-  if (location.pathname === '/') return null;
+  if (location.pathname === '/' || location.pathname === '/sales') return null;
 
   const menuItems = [
     { id: 1, name: 'Order', icon: <HiOutlineClipboardList />, path: '/order' },
     { id: 2, name: 'To Invoice', icon: <HiOutlineDocumentText />, path: '/invoice' },
-    { id: 3, name: 'Products', icon: <HiOutlineCube />, path: '/products' },
-    { id: 4, name: 'Configurations', icon: <HiOutlineAdjustments />, path: '/configurations' },
-    { id: 5, name: 'Settings', icon: <HiOutlineCog />, path: '/settings' },
+    { id: 3, name: 'Quotation', icon: <HiOutlineDocumentReport />, path: '/quotation' },
   ];
 
   return (

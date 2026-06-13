@@ -143,6 +143,54 @@
     left: 80px; /* Slides out past the sidebar */
 }
 
+/* ===================================
+   GLASSMORPHIC MOBILE SIDEBAR OVERLAY
+=================================== */
+
+/* Target the main container of your sliding mobile panel */
+.sidebar, .mobile-sidebar { 
+    /* 1. Frosted deep translucent background */
+    background: rgba(21, 23, 38, 0.45) !important; 
+    
+    /* 2. Double-layer glass blur filters for high hardware performance rendering */
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    
+    /* 3. Crisp modern borders to define the shape edge against background glow effects */
+    border-right: 1.5px solid rgba(255, 255, 255, 0.06);
+    
+    /* 4. Deep soft shadow to separate the layout from the core landing viewport */
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Light Mode support block (Syncs with your .light-mini configurations) */
+.light .sidebar, .light .mobile-sidebar {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ===================================
+   SIDEBAR ACTION ITEMS (e.g., Settings Card)
+=================================== */
+
+/* Adjusting the items inside to sit naturally over glass */
+.sidebar-item, .settings-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px; /* Clean rounded edges matching your asset boxes */
+    transition: all 0.25s ease-in-out;
+}
+
+/* Matches your unique active navbar gradient line trace style on item focus/hover */
+.sidebar-item:hover, .sidebar-item.active {
+    border-color: transparent;
+    background-image: linear-gradient(#151726, #151726), 
+                      linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff) !important;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    box-shadow: 0 8px 25px rgba(123, 97, 255, 0.2);
+}
 
 
 /* ===================================

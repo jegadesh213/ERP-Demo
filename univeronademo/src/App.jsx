@@ -1,11 +1,12 @@
 import { useState } from 'react';
-// 1. Add 'Navigate' to your react-router-dom imports
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; 
 import { LoaderProvider } from './context/LoaderContext';
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import MiniSidebar from "./components/MiniSidebar/MiniSidebar.jsx";
 import MobileMenu from "./components/MobileMenu/MobileMenu.jsx";
+import Home from "./Pages/Home/Home.jsx";
+import SalesHub from "./Pages/SalesHub/SalesHub.jsx";
 import Order from "./Pages/Order/Order.jsx"; 
 import CreateCustomer from "./Pages/CreateCustomer/CreateCustomer.jsx";
 
@@ -23,7 +24,6 @@ function App() {
 
   return (
     <Router>
-      {/* ADDED: Wrap everything inside the LoaderProvider */}
       <LoaderProvider>
         <div className={`App ${darkMode ? 'dark' : 'light'}`}>
           
@@ -44,11 +44,19 @@ function App() {
 
           <div className="main-content">
             <Routes>
-              <Route path="/" element={<h2 style={{ textAlign: 'center' }}>Home Dashboard</h2>} />
-              <Route path="/sales" element={<Navigate to="/order" replace />} />
+              <Route path="/" element={<Home />} />
+              
+              {/* UPDATED: Path maps cleanly to the new intermediate gateway hub */}
+              <Route path="/sales" element={<SalesHub />} />
+              
               <Route path="/order" element={<Order />} />
               <Route path="/create-customer" element={<CreateCustomer />} />
               <Route path="/settings" element={<h2 style={{ textAlign: 'center' }}>Settings Page</h2>} />
+              <Route path="/inspection" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Inspection Module</h2>} />
+              
+              {/* Fallback empty routes to prevent breaks on click */}
+              <Route path="/invoice" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Invoices List</h2>} />
+              <Route path="/quotation" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Quotations List</h2>} />
             </Routes>
           </div>
 

@@ -1,0 +1,167 @@
+/* ===================================
+   GRID CONTAINER SETUP (DESKTOP LEFT-ALIGNED)
+=================================== */
+.minimal-home-container {
+    width: 100%;
+    /* Removed auto-centering margins to let it sit flush with the left side */
+    margin: 35px 0 0 0; 
+    padding: 0;
+    display: flex;
+    /* UPDATED: Aligns tiles to the left to match your red marked area */
+    justify-content: flex-start; 
+    align-items: flex-start;
+    animation: fadeIn 1s ease;
+}
+
+.minimal-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 220px); /* Symmetrical columns for desktop */
+    gap: 30px;
+    /* UPDATED: Left-aligns the grid columns on desktop */
+    justify-content: flex-start; 
+}
+
+/* ===================================
+   THE ICON TILES (Sleek Rounded Square)
+=================================== */
+.minimal-tile {
+    background: rgba(30, 32, 54, 0.45); /* Translucent slate tone */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 32px; /* Smooth heavy rounding */
+    padding: 35px 20px;
+    aspect-ratio: 1 / 1.1; /* Keeps them slightly taller than a perfect square */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    box-sizing: border-box;
+    
+    /* Smooth transitions for interactive states */
+    transition: transform 0.25s ease, 
+                box-shadow 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+}
+
+.light .minimal-tile {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+/* Inner Centering Icon Circle */
+.minimal-icon-circle {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    transition: background 0.25s ease;
+}
+
+.minimal-icon {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.25s ease;
+}
+
+.light .minimal-icon {
+    color: #4c566a;
+}
+
+/* Bold Label Text */
+.minimal-tile-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    letter-spacing: 0.3px;
+    margin: 0;
+    transition: color 0.25s ease;
+}
+
+.light .minimal-tile-label {
+    color: #1a1b26;
+}
+
+/* ===================================
+   EXACT GRADIENT BORDER HOVER COUPLING
+=================================== */
+.minimal-tile:hover {
+    transform: translateY(-4px); 
+    box-shadow: 0 12px 35px rgba(123, 97, 255, 0.25); /* Neon purple layout lighting glow */
+    
+    border: 1.5px solid transparent;
+    background-image: linear-gradient(#151726, #151726), 
+                      linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff);
+                      
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+}
+
+.minimal-tile:hover .minimal-icon-circle {
+    background: rgba(123, 97, 255, 0.15);
+}
+
+.minimal-tile:hover .minimal-icon {
+    color: #7b61ff !important; /* Highlights using your core navbar purple value */
+}
+
+.minimal-tile:hover .minimal-tile-label {
+    color: #7b61ff;
+}
+
+/* ===================================
+   MOBILE RESPONSIVE MAINTAINED (2 PER ROW)
+=================================== */
+@media (max-width: 600px) {
+    .minimal-home-container {
+        margin: 50px auto 0 auto; /* Centered layout for mobile viewports */
+        padding: 0 16px;
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .minimal-tiles-grid {
+        /* Forces exactly 2 matching columns side-by-side on mobile devices */
+        grid-template-columns: repeat(2, 1fr); 
+        max-width: 440px; 
+        gap: 16px; 
+        justify-content: center;
+    }
+
+    .minimal-tile {
+        border-radius: 24px; 
+        padding: 24px 12px;  
+    }
+
+    .minimal-icon-circle {
+        width: 64px;  
+        height: 64px;
+        margin-top: 0;
+    }
+
+    .minimal-icon {
+        font-size: 22px; 
+    }
+
+    .minimal-tile-label {
+        font-size: 14px; 
+    }
+}
+
+/* ===================================
+   SYSTEM ANIMATIONS
+=================================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -9,6 +9,9 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Helper condition: returns true ONLY if we are on the Home Page or the Sales Hub Page
+  const hideHamburger = location.pathname === "/" || location.pathname === "/sales";
+
   return (
     <>
       {/* ===================================
@@ -26,7 +29,8 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
             <FaArrowLeft />
           </button>
 
-          {location.pathname !== "/" && (
+          {/* UPDATED: Hamburger will hide completely (return null) on / and /sales */}
+          {!hideHamburger && (
             <FaBars className="hamburger-icon" onClick={toggleMiniSidebar} />
           )}
 
@@ -50,13 +54,15 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
 
       {/* ===================================
           MOBILE BOTTOM NAVBAR 
-          (Back button intentionally excluded)
       =================================== */}
       <div className="mobile-navbar">
         <div className="mobile-left">
-          {location.pathname !== "/" && (
+          
+          {/* UPDATED: Mobile Hamburger will also hide completely on / and /sales */}
+          {!hideHamburger && (
             <FaBars className="hamburger-icon" onClick={toggleMobileMenu} />
           )}
+
           <div className="mobile-icon-box" onClick={toggleSidebar}>
             <HiOutlineViewGrid className="mobile-icon" />
           </div>
