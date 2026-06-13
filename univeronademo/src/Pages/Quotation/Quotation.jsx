@@ -78,6 +78,11 @@ function Quotation() {
 
   return (
     <div className="q-form-container">
+      <div className="q-page-header">
+        <h1 className="q-page-title">Quotation Form</h1>
+        {/* <p className="q-page-subtitle">Configure commercial pro-forma estimates and line items matrix</p> */}
+      </div>
+
       <form onSubmit={handleSubmit}>
         
         {/* ===================================

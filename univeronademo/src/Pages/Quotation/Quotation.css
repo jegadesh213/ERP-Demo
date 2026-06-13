@@ -1,15 +1,40 @@
 /* ===================================
-   FORM WRAPPER CONTAINER (WHITE SPACE FIX)
+   FORM WRAPPER CONTAINER & 1S FADE FIX
 =================================== */
 .q-form-container {
     width: 100%;
     max-width: 100%;
     margin: 10px 0 0 0;
-    animation: fadeIn 1s ease;
+    /* 👉 FIXED: Enforced crisp full 1-second transition scale standard */
+    animation: fadeIn 1s ease-in-out; 
     box-sizing: border-box;
-    
-    /* 🛠️ THE FIX: Adds a safety padding threshold at the baseline to prevent layout bleed */
     padding-bottom: 60px; 
+}
+
+/* ===================================
+   👉 NEW ADDED HEADER TYPOGRAPHY STYLES
+=================================== */
+.q-page-header {
+    margin-bottom: 28px;
+    /* animation: fadeIn 1s ease-in-out; */
+}
+
+.q-page-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+    margin: 0 0 6px 0;
+}
+
+.light .q-page-title {
+    color: #1a1b26;
+}
+
+.q-page-subtitle {
+    color: #626880;
+    font-size: 13.5px;
+    margin: 0;
 }
 
 /* Base Bento Card Framing Layers */
@@ -271,7 +296,7 @@
 }
 
 /* ===================================================
-   👉 EXTENDED FIX: PREMIUM WORKSPACE CUSTOM SCROLLBARS 
+   PREMIUM WORKSPACE CUSTOM SCROLLBARS 
 =================================================== */
 .q-table-scroller::-webkit-scrollbar,
 body::-webkit-scrollbar {
@@ -286,14 +311,14 @@ body::-webkit-scrollbar-track {
 
 .q-table-scroller::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
-    background: rgba(123, 97, 255, 0.3); /* Premium translucent neon tracking track */
+    background: rgba(123, 97, 255, 0.3); 
     border-radius: 20px;
     border: 1px solid rgba(15, 17, 26, 0.5);
 }
 
 .q-table-scroller::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
-    background: rgba(123, 97, 255, 0.7); /* Deep active core highlighting */
+    background: rgba(123, 97, 255, 0.7); 
 }
 
 /* ===================================
@@ -366,9 +391,9 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* ===================================
-   SYSTEM ANIMATIONS
+   👉 KEYFRAME SYSTEM (1S DURATION SPEC)
 =================================== */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
 }
