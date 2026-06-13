@@ -1,286 +1,328 @@
+/* ===================================================
+   MASTER MAIN CONTAINER WITH WORKSPACE 1S ENTRY SPEED
+=================================================== */
 .create-page {
     width: 100%;
-    animation: fadeIn 0.4s ease;
-    /* FIX: Removed the large 50px bottom padding that was forcing the page to scroll */
-    padding-bottom: 10px; 
+    /* Enforced the clean 1 second animation duration requirement standard */
+    animation: custMasterFadeIn 1s ease-in-out; 
+    padding-bottom: 50px; 
+    box-sizing: border-box;
 }
 
-.form-card {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
-    
-    /* FIX: Reduced the bottom margin */
-    margin-bottom: 10px; 
-    
-    /* FIX: Increased the subtracted value so the card perfectly fits below your headers */
-    height: calc(100vh - 260px); 
-    overflow-y: auto;
+/* ===================================================
+   WORKSPACE PAGE TITLE TYPOGRAPHY HEADER
+=================================================== */
+.cust-page-header {
+    margin-bottom: 28px;
+    animation: custMasterFadeIn 1s ease-in-out;
 }
 
-.dark .form-card {
-    background: #1a1b26;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: none;
+.cust-page-title {
+    font-size: 26px;
+    font-weight: 700;
     color: white;
+    letter-spacing: 0.3px;
+    margin: 0 0 6px 0;
 }
 
-/* ===================================
-   CUSTOM SCROLLBAR FOR THE FORM CARD
-=================================== */
-.form-card::-webkit-scrollbar {
-    width: 6px;
+.light .cust-page-title {
+    color: #1a1b26;
 }
 
-.form-card::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 10px;
-    margin: 10px 0; /* Keeps the scrollbar from hitting the very top/bottom edges */
+.cust-page-subtitle {
+    color: #626880;
+    font-size: 13.5px;
+    margin: 0;
 }
 
-.form-card::-webkit-scrollbar-thumb {
-    background: rgba(128, 128, 128, 0.3);
-    border-radius: 10px;
-}
-
-.form-card::-webkit-scrollbar-thumb:hover {
-    background: rgba(128, 128, 128, 0.6);
-}
-
-/* For Firefox */
-.form-card {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(128, 128, 128, 0.3) transparent;
-}
-
-/* ===================================
-   PROFILE PICTURE UPLOAD
-=================================== */
-.profile-upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 40px;
-    gap: 10px;
-}
-
-.profile-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 2px dashed #3b82f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    background: rgba(59, 130, 246, 0.05);
-    transition: 0.3s ease;
-}
-
-.profile-circle:hover {
-    background: rgba(59, 130, 246, 0.15);
-}
-
-.profile-image {
+/* ===================================================
+   FORM WRAPPER CONTAINER GRID SCROLLER
+=================================================== */
+.customer-form-scroller {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: calc(100vh - 200px); 
+    overflow-y: auto;
+    padding-right: 6px;
+    box-sizing: border-box;
 }
 
-.upload-placeholder {
-    color: #3b82f6;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
+/* ===================================================
+   THE BENTO GLASSMORPHIC CARDS LAYERS
+=================================================== */
+.cust-glass-card {
+    background: rgba(30, 32, 54, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 28px;
+    padding: 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
-/* ===================================
-   FORM SECTIONS & GRID
-=================================== */
-.form-section {
-    margin-bottom: 40px;
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 600;
+.cust-section-title {
+    font-size: 17px;
+    font-weight: 700;
     margin-bottom: 25px;
-    color: #3b82f6; 
-    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
-    padding-bottom: 10px;
+    color: #7b61ff; /* Accent branding theme purple */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 12px;
+    letter-spacing: 0.3px;
 }
 
-.form-grid {
+/* Input Placement Grid Map tracks */
+.cust-form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 20px 40px; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 24px 35px; 
 }
 
-.form-group {
+/* ===================================================
+   SYSTEM INPUT MATRIX FIELD SETUPS
+=================================================== */
+.cust-input-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 100%;
 }
 
-.form-group label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #888;
+.cust-input-group label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #717c9b;
+    letter-spacing: 0.1px;
 }
 
-/* Shows the max length hint on the right side of the label */
 .label-wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
+
 .char-limit {
     font-size: 11px;
-    color: #aaa;
+    color: rgba(113, 124, 155, 0.6);
+    font-weight: 500;
 }
 
-.form-group input, 
-.form-group select,
-.form-group textarea {
-    padding: 12px 15px;
-    border: 1px solid rgba(128, 128, 128, 0.3);
-    border-radius: 8px;
+.cust-input-group input, 
+.cust-input-group select,
+.cust-input-group textarea {
+    padding: 12px 16px;
+    background: rgba(15, 17, 26, 0.5);
+    border: 1.5px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
     font-size: 14px;
-    background: transparent;
-    color: inherit;
-    transition: 0.2s ease;
+    color: white;
     outline: none;
+    transition: all 0.25s ease;
     font-family: inherit;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.form-group textarea {
+.cust-input-group textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 90px;
 }
 
-.form-group input:focus, 
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+/* Focus Border Trace glow matching other modules */
+.cust-input-group input:focus, 
+.cust-input-group select:focus,
+.cust-input-group textarea:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.8);
+    box-shadow: 0 0 12px rgba(123, 97, 255, 0.15);
 }
 
-/* File Input Styling */
-.form-group input[type="file"] {
-    padding: 9px;
-    border: 1px dashed rgba(128, 128, 128, 0.5);
-    background: rgba(128, 128, 128, 0.05);
+.full-width-field {
+    grid-column: span 2;
+}
+
+/* File Upload Field Overrides */
+.file-upload-input {
+    padding: 10px !important;
+    border: 1.5px dashed rgba(255, 255, 255, 0.12) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
     cursor: pointer;
 }
 
-.dark .form-group input, 
-.dark .form-group select,
-.dark .form-group textarea {
-    border-color: rgba(255, 255, 255, 0.15);
-}
-
-.dark .form-group select option {
-    background: #1a1b26; 
-}
-
-/* ===================================
-   BUTTONS
-=================================== */
-.form-actions {
+/* ===================================================
+   MASTER BOTTOM REGISTRY CONTROLS LANE
+=================================================== */
+.cust-action-shelf {
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    gap: 16px;
+    margin-top: 35px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 24px;
 }
 
-.btn-cancel, .btn-save {
-    padding: 12px 24px;
-    border-radius: 8px;
+.cust-btn-cancel, .cust-btn-save {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 16px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: all 0.22s ease;
     border: none;
+    box-sizing: border-box;
 }
 
-.btn-cancel {
-    background: transparent;
-    color: #888;
-    border: 1px solid rgba(128, 128, 128, 0.3);
+.cust-btn-cancel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.btn-cancel:hover {
-    background: rgba(128, 128, 128, 0.1);
-    color: inherit;
+.cust-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
-.btn-save {
-    background: #3b82f6;
+.cust-btn-save {
+    background: #7b61ff;
     color: white;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.35);
 }
 
-.btn-save:hover {
-    background: #2563eb;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+.cust-btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(123, 97, 255, 0.5);
 }
 
-/* ===================================
-   SUCCESS POPUP OVERLAY
-=================================== */
+/* ===================================================
+   SYSTEM INTERNAL CARD SCROLLBAR DESIGN
+=================================================== */
+.customer-form-scroller::-webkit-scrollbar {
+    width: 6px;
+}
+.customer-form-scroller::-webkit-scrollbar-track {
+    background: transparent;
+}
+.customer-form-scroller::-webkit-scrollbar-thumb {
+    background: rgba(123, 97, 255, 0.25);
+    border-radius: 20px;
+}
+.customer-form-scroller::-webkit-scrollbar-thumb:hover {
+    background: rgba(123, 97, 255, 0.6);
+}
+
+/* ===================================================
+   LIGHT MODE THEMING ADAPTERS OVERRIDES
+=================================================== */
+.light .cust-glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.light .cust-section-title {
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+.light .cust-input-group input, 
+.light .cust-input-group select,
+.light .cust-input-group textarea {
+    background: #f4f5f6 !important;
+    border-color: rgba(0, 0, 0, 0.06);
+    color: #1a1b26;
+}
+
+.light .cust-btn-cancel {
+    background: white;
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #4c566a;
+}
+
+.light .file-upload-input {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    background: rgba(0, 0, 0, 0.01) !important;
+}
+
+/* ===================================================
+   SUCCESS POPUP OVERLAYS
+=================================================== */
 .success-popup-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(5, 8, 22, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+    animation: custMasterFadeIn 0.3s ease;
 }
 
 .success-popup {
-    background: white;
-    padding: 30px 40px;
-    border-radius: 12px;
+    background: rgba(30, 32, 54, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 35px 50px;
+    border-radius: 24px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    animation: slideUp 0.3s ease;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    color: white;
+    animation: custSlideUp 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.dark .success-popup {
-    background: #1a1b26;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: white;
+.light .success-popup {
+    background: white;
+    border-color: rgba(0, 0, 0, 0.05);
+    color: #1a1b26;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 .success-icon {
-    font-size: 40px;
-    color: #10b981; /* Emerald green */
+    font-size: 45px;
+    color: #00cc88;
     margin-bottom: 15px;
 }
 
-@keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+/* ===================================================
+   RESPONSIVE DESIGN TIMINGS (MOBILE MEDIA TRACKS)
+=================================================== */
+@media (max-width: 768px) {
+    .customer-form-scroller {
+        height: calc(100vh - 170px) !important;
+    }
+    .cust-glass-card {
+        padding: 24px 16px;
+        border-radius: 20px;
+    }
+    .cust-form-grid { 
+        grid-template-columns: 1fr; 
+        gap: 18px; 
+    }
+    .full-width-field {
+        grid-column: span 1;
+    }
+    .cust-action-shelf { 
+        flex-direction: column-reverse; 
+        gap: 12px;
+    }
+    .cust-btn-cancel, .cust-btn-save { 
+        width: 100%; 
+        justify-content: center;
+    }
 }
 
-/* ===================================
-   MOBILE RESPONSIVENESS
-=================================== */
-@media (max-width: 768px) {
-    .form-card { 
-        padding: 20px; 
-        
-        /* FIX: Subtracts less space, making the card taller on mobile ONLY */
-        height: calc(100vh - 195px) !important; 
-    }
-    
-    .form-grid { grid-template-columns: 1fr; gap: 20px; }
-    .form-actions { flex-direction: column-reverse; }
-    .btn-cancel, .btn-save { width: 100%; }
+/* ===================================================
+   SYSTEM KEYFRAMES (STABLE 1S CONFIGURATIONS)
+=================================================== */
+@keyframes custMasterFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes custSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }

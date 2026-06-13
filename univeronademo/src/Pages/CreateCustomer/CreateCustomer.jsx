@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
-import { useLoader } from '../../context/LoaderContext'; // Double check path matching your folder tree
+import { HiOutlineUserAdd } from 'react-icons/hi';
+import { useLoader } from '../../context/LoaderContext'; 
 import './CreateCustomer.css';
 
 function CreateCustomer() {
@@ -19,9 +20,7 @@ function CreateCustomer() {
     "UAE": ["Dubai", "Abu Dhabi", "Sharjah"]
   };
 
-  // 1. MASSIVE UI STATE: Holds data for every single input field on the screen
   const [formData, setFormData] = useState({
-    // General
     type: "1",
     customer_number: "",
     division: "",
@@ -33,7 +32,6 @@ function CreateCustomer() {
     mobile: "",
     email: "",
     website: "",
-    // Bill To
     bill_address1: "",
     bill_address2: "",
     bill_city: "",
@@ -41,7 +39,6 @@ function CreateCustomer() {
     bill_country: "",
     bill_state: "",
     bill_landmark: "",
-    // Ship To
     ship_address1: "",
     ship_address2: "",
     ship_city: "",
@@ -49,21 +46,18 @@ function CreateCustomer() {
     ship_country: "",
     ship_state: "",
     ship_landmark: "",
-    // Financial
     gst_no: "",
     pan_no: "",
     payment_term: "",
     payment_method: "",
     currency: "INR",
     credit_limit: "",
-    // Bank
     bank_holder: "",
     bank_name: "",
     bank_account: "",
     bank_ifsc: "",
     bank_branch: "",
     bank_type: "",
-    // Sales & Docs
     sales_region: "",
     customer_group: "",
     shipping_method: "",
@@ -71,15 +65,13 @@ function CreateCustomer() {
     notes: ""
   });
 
-  // NEW: Catch the passed ID from the router
   const location = useLocation();
   const editId = location.state?.editId; 
 
-  // NEW: Fetch existing data if we are in "Edit Mode"
   useEffect(() => {
     if (editId) {
       const fetchCustomerData = async () => {
-        showLoader(); // ADDED: Turn on loader
+        showLoader(); 
         try {
           const response = await fetch(`https://sdsinfotech.co.in/api/customers/${editId}`, {
             headers: { 'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' }
@@ -111,7 +103,7 @@ function CreateCustomer() {
         } catch (error) {
           console.error("Failed to fetch customer for editing:", error);
         } finally {
-          hideLoader(); // ADDED: Turn off loader
+          hideLoader(); 
         }
       };
       fetchCustomerData();
@@ -121,7 +113,6 @@ function CreateCustomer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
-  // Handles Image Upload Preview
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -129,7 +120,6 @@ function CreateCustomer() {
     }
   };
 
-  // Universal Handler for all inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -138,7 +128,6 @@ function CreateCustomer() {
     }));
   };
 
-  // 2. FILTERED POST REQUEST
   const handleSave = async () => {
     setIsSubmitting(true);
     showLoader();
@@ -167,7 +156,6 @@ function CreateCustomer() {
     };
 
     try {
-      // NEW: Dynamically choose PUT or POST based on editId
       const method = editId ? 'PUT' : 'POST';
       const url = editId 
         ? `https://sdsinfotech.co.in/api/customers/${editId}` 
@@ -201,329 +189,317 @@ function CreateCustomer() {
 
   return (
     <div className="create-page">
-      <div className="page-header">
-        <h1 className="page-title">Create Customer</h1>
+      <div className="cust-page-header">
+        <h1 className="cust-page-title">{editId ? "Edit Customer Profile" : "Create Customer Master"}</h1>
+        {/* <p className="cust-page-subtitle">Configure ledger definitions, delivery addresses, and operational tax controls</p> */}
       </div>
 
-      <div className="form-card">
-        <form className="customer-form">
+      <form className="customer-form-scroller">
 
-          {/* ==========================================
-              1. GENERAL INFORMATION
-          ========================================== */}
-          <div className="form-section">
-            <h3 className="section-title">General Information</h3>
-            <div className="form-grid">
-              
-              <div className="form-group">
-                <label>Customer Type</label>
-                <select name="type" value={formData.type} onChange={handleChange}>
-                  <option value="1">B to B</option>
-                  <option value="2">B to C</option>
-                  <option value="3">One time</option>
-                  <option value="4">Export</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Customer Number</label><span className="char-limit">Max 10</span></div>
-                <input type="text" name="customer_number" value={formData.customer_number} onChange={handleChange} maxLength={10} placeholder="Auto-generated or enter" />
-              </div>
-              
-              <div className="form-group">
-                <label>Division</label>
-                <select name="division" value={formData.division} onChange={handleChange}>
-                  <option value="">Select Division</option>
-                  <option value="Service">Service</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <label>Type of Industry</label>
-                <select name="industry" value={formData.industry} onChange={handleChange}>
-                  <option value="">Select Industry</option>
-                  <option value="IT">Information Technology</option>
-                  <option value="Manufacturing">Manufacturing</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <label>Status</label>
-                <select name="status" value={formData.status} onChange={handleChange}>
-                  <option value="1">Active</option>
-                  <option value="0">In Active</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Customer Name</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} maxLength={50} placeholder="Full Name" />
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Contact Person Name</label><span className="char-limit">Max 30</span></div>
-                <input type="text" name="contact_person" value={formData.contact_person} onChange={handleChange} maxLength={30} />
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Phone (Primary)</label><span className="char-limit">Max 16</span></div>
-                <input type="text" name="phone" value={formData.phone} onChange={handleChange} maxLength={16} />
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Mobile (Secondary)</label><span className="char-limit">Max 10</span></div>
-                <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={10} />
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Email</label><span className="char-limit">Max 30</span></div>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} maxLength={30} />
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Website</label><span className="char-limit">Max 30</span></div>
-                <input type="text" name="website" value={formData.website} onChange={handleChange} maxLength={30} placeholder="https://" />
-              </div>
+        {/* ==========================================
+            1. GENERAL INFORMATION CARD
+        ========================================== */}
+        <div className="cust-glass-card">
+          <h3 className="cust-section-title">General Information</h3>
+          <div className="cust-form-grid">
+            
+            <div className="cust-input-group">
+              <label>Customer Type</label>
+              <select name="type" value={formData.type} onChange={handleChange}>
+                <option value="1">B to B</option>
+                <option value="2">B to C</option>
+                <option value="3">One time</option>
+                <option value="4">Export</option>
+              </select>
             </div>
-
-            {/* <div className="profile-upload-container" style={{ marginTop: '30px', borderTop: '1px dashed rgba(128, 128, 128, 0.2)', paddingTop: '30px' }}>
-              <h4 style={{ color: '#888', marginBottom: '15px', fontSize: '14px', fontWeight: '500' }}>Customer Profile Image</h4>
-              <label className="profile-circle">
-                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageUpload} />
-                {profileImg ? <img src={profileImg} alt="Profile" className="profile-image" /> : <span className="upload-placeholder">+ Upload<br/>Photo</span>}
-              </label>
-              <span style={{ fontSize: '12px', color: '#888' }}>Allowed formats: JPG, PNG</span>
-            </div> */}
-          </div>
-
-          {/* ==========================================
-              2. BILL TO ADDRESS
-          ========================================== */}
-          <div className="form-section">
-            <h3 className="section-title">Bill to Address</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <div className="label-wrapper"><label>Street 1</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="bill_address1" value={formData.bill_address1} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Street 2</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="bill_address2" value={formData.bill_address2} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>City</label><span className="char-limit">Max 40</span></div>
-                <input type="text" name="bill_city" value={formData.bill_city} onChange={handleChange} maxLength={40} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Postal Code</label><span className="char-limit">Max 10</span></div>
-                <input type="text" name="bill_zip" value={formData.bill_zip} onChange={handleChange} maxLength={10} />
-              </div>
-              
-              <div className="form-group">
-                <label>Country</label>
-                <select name="bill_country" value={formData.bill_country} onChange={handleChange}>
-                  <option value="">Select Country</option>
-                  {Object.keys(countryStateData).map(country => <option key={country} value={country}>{country}</option>)}
-                </select>
-              </div>
-              <div className="form-group">
-                <label>State</label>
-                <select name="bill_state" value={formData.bill_state} onChange={handleChange} disabled={!formData.bill_country}>
-                  <option value="">Select State</option>
-                  {formData.bill_country && countryStateData[formData.bill_country].map(state => <option key={state} value={state}>{state}</option>)}
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <div className="label-wrapper"><label>Land Mark</label><span className="char-limit">Max 30</span></div>
-                <input type="text" name="bill_landmark" value={formData.bill_landmark} onChange={handleChange} maxLength={30} />
-              </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Customer Number</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="customer_number" value={formData.customer_number} onChange={handleChange} maxLength={10} placeholder="Auto-generated ID string" />
+            </div>
+            
+            <div className="cust-input-group">
+              <label>Division</label>
+              <select name="division" value={formData.division} onChange={handleChange}>
+                <option value="">Select Division</option>
+                <option value="Service">Service</option>
+              </select>
+            </div>
+            
+            <div className="cust-input-group">
+              <label>Type of Industry</label>
+              <select name="industry" value={formData.industry} onChange={handleChange}>
+                <option value="">Select Industry</option>
+                <option value="IT">Information Technology</option>
+                <option value="Manufacturing">Manufacturing</option>
+              </select>
+            </div>
+            
+            <div className="cust-input-group">
+              <label>Status</label>
+              <select name="status" value={formData.status} onChange={handleChange}>
+                <option value="1">Active Ledger</option>
+                <option value="0">Inactive Blocked</option>
+              </select>
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Customer Name</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} maxLength={50} placeholder="Legal Corporate Name" required />
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Contact Person Name</label><span className="char-limit">Max 30</span></div>
+              <input type="text" name="contact_person" value={formData.contact_person} onChange={handleChange} maxLength={30} placeholder="Primary representative" />
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Phone (Primary)</label><span className="char-limit">Max 16</span></div>
+              <input type="text" name="phone" value={formData.phone} onChange={handleChange} maxLength={16} placeholder="+91..." />
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Mobile (Secondary)</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={10} />
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Email</label><span className="char-limit">Max 30</span></div>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} maxLength={30} placeholder="accounting@domain.com" />
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Website</label><span className="char-limit">Max 30</span></div>
+              <input type="text" name="website" value={formData.website} onChange={handleChange} maxLength={30} placeholder="https://" />
             </div>
           </div>
+        </div>
 
-          {/* ==========================================
-              3. SHIP TO ADDRESS (Kept in UI)
-          ========================================== */}
-          <div className="form-section">
-            <h3 className="section-title">Ship to Address</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <div className="label-wrapper"><label>Street 1</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="ship_address1" value={formData.ship_address1} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Street 2</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="ship_address2" value={formData.ship_address2} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>City</label><span className="char-limit">Max 40</span></div>
-                <input type="text" name="ship_city" value={formData.ship_city} onChange={handleChange} maxLength={40} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Postal Code</label><span className="char-limit">Max 10</span></div>
-                <input type="text" name="ship_zip" value={formData.ship_zip} onChange={handleChange} maxLength={10} />
-              </div>
-              
-              <div className="form-group">
-                <label>Country</label>
-                <select name="ship_country" value={formData.ship_country} onChange={handleChange}>
-                  <option value="">Select Country</option>
-                  {Object.keys(countryStateData).map(country => <option key={country} value={country}>{country}</option>)}
-                </select>
-              </div>
-              <div className="form-group">
-                <label>State</label>
-                <select name="ship_state" value={formData.ship_state} onChange={handleChange} disabled={!formData.ship_country}>
-                  <option value="">Select State</option>
-                  {formData.ship_country && countryStateData[formData.ship_country].map(state => <option key={state} value={state}>{state}</option>)}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <div className="label-wrapper"><label>Land Mark</label><span className="char-limit">Max 30</span></div>
-                <input type="text" name="ship_landmark" value={formData.ship_landmark} onChange={handleChange} maxLength={30} />
-              </div>
+        {/* ==========================================
+            2. BILL TO ADDRESS CARD
+        ========================================== */}
+        <div className="cust-glass-card">
+          <h3 className="cust-section-title">Bill to Address</h3>
+          <div className="cust-form-grid">
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Street 1</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="bill_address1" value={formData.bill_address1} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Street 2</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="bill_address2" value={formData.bill_address2} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>City</label><span className="char-limit">Max 40</span></div>
+              <input type="text" name="bill_city" value={formData.bill_city} onChange={handleChange} maxLength={40} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Postal Code</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="bill_zip" value={formData.bill_zip} onChange={handleChange} maxLength={10} />
+            </div>
+            
+            <div className="cust-input-group">
+              <label>Country</label>
+              <select name="bill_country" value={formData.bill_country} onChange={handleChange}>
+                <option value="">Select Country</option>
+                {Object.keys(countryStateData).map(country => <option key={country} value={country}>{country}</option>)}
+              </select>
+            </div>
+            <div className="cust-input-group">
+              <label>State</label>
+              <select name="bill_state" value={formData.bill_state} onChange={handleChange} disabled={!formData.bill_country}>
+                <option value="">Select State</option>
+                {formData.bill_country && countryStateData[formData.bill_country].map(state => <option key={state} value={state}>{state}</option>)}
+              </select>
+            </div>
+            
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Land Mark</label><span className="char-limit">Max 30</span></div>
+              <input type="text" name="bill_landmark" value={formData.bill_landmark} onChange={handleChange} maxLength={30} />
             </div>
           </div>
+        </div>
 
-          {/* ==========================================
-              4. FINANCIAL & TAX DETAILS
-          ========================================== */}
-          <div className="form-section">
-            <h3 className="section-title">Financial & Tax Details</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <div className="label-wrapper"><label>GST Tax No</label><span className="char-limit">Max 15</span></div>
-                <input type="text" name="gst_no" value={formData.gst_no} onChange={handleChange} maxLength={15} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>PAN Number</label><span className="char-limit">Max 10</span></div>
-                <input type="text" name="pan_no" value={formData.pan_no} onChange={handleChange} maxLength={10} />
-              </div>
-              <div className="form-group">
-                <label>Payment Term</label>
-                <select name="payment_term" value={formData.payment_term} onChange={handleChange}>
-                  <option value="">Select Term</option>
-                  <option value="Net 30">Net 30</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Payment Method</label>
-                <select name="payment_method" value={formData.payment_method} onChange={handleChange}>
-                  <option value="">Select Method</option>
-                  <option value="Bank Transfer">Bank Transfer</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Currency</label>
-                <select name="currency" value={formData.currency} onChange={handleChange}>
-                  <option value="INR">INR - Indian Rupee</option>
-                  <option value="USD">USD - US Dollar</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Credit Limit</label><span className="char-limit">Max 10</span></div>
-                <input type="text" name="credit_limit" value={formData.credit_limit} onChange={handleChange} maxLength={10} />
-              </div>
+        {/* ==========================================
+            3. SHIP TO ADDRESS CARD
+        ========================================== */}
+        <div className="cust-glass-card">
+          <h3 className="cust-section-title">Ship to Address</h3>
+          <div className="cust-form-grid">
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Street 1</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="ship_address1" value={formData.ship_address1} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Street 2</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="ship_address2" value={formData.ship_address2} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>City</label><span className="char-limit">Max 40</span></div>
+              <input type="text" name="ship_city" value={formData.ship_city} onChange={handleChange} maxLength={40} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Postal Code</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="ship_zip" value={formData.ship_zip} onChange={handleChange} maxLength={10} />
+            </div>
+            
+            <div className="cust-input-group">
+              <label>Country</label>
+              <select name="ship_country" value={formData.ship_country} onChange={handleChange}>
+                <option value="">Select Country</option>
+                {Object.keys(countryStateData).map(country => <option key={country} value={country}>{country}</option>)}
+              </select>
+            </div>
+            <div className="cust-input-group">
+              <label>State</label>
+              <select name="ship_state" value={formData.ship_state} onChange={handleChange} disabled={!formData.ship_country}>
+                <option value="">Select State</option>
+                {formData.ship_country && countryStateData[formData.ship_country].map(state => <option key={state} value={state}>{state}</option>)}
+              </select>
+            </div>
+
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Land Mark</label><span className="char-limit">Max 30</span></div>
+              <input type="text" name="ship_landmark" value={formData.ship_landmark} onChange={handleChange} maxLength={30} />
             </div>
           </div>
+        </div>
 
-          {/* ==========================================
-              5. BANK DETAILS (Kept in UI)
-          ========================================== */}
-          <div className="form-section">
-            <h3 className="section-title">Bank Details</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <div className="label-wrapper"><label>Account Holder Name</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="bank_holder" value={formData.bank_holder} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Bank Name</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Account Number</label><span className="char-limit">Max 30</span></div>
-                <input type="text" name="bank_account" value={formData.bank_account} onChange={handleChange} maxLength={30} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>IFSC Code</label><span className="char-limit">Max 15</span></div>
-                <input type="text" name="bank_ifsc" value={formData.bank_ifsc} onChange={handleChange} maxLength={15} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Branch Name</label><span className="char-limit">Max 30</span></div>
-                <input type="text" name="bank_branch" value={formData.bank_branch} onChange={handleChange} maxLength={30} />
-              </div>
-              <div className="form-group">
-                <label>Account Type</label>
-                <select name="bank_type" value={formData.bank_type} onChange={handleChange}>
-                  <option value="">Select Type</option>
-                  <option value="Savings">Savings</option>
-                  <option value="Current">Current</option>
-                </select>
-              </div>
+        {/* ==========================================
+            4. FINANCIAL & TAX DETAILS CARD
+        ========================================== */}
+        <div className="cust-glass-card">
+          <h3 className="cust-section-title">Financial & Tax Details</h3>
+          <div className="cust-form-grid">
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>GST Tax No</label><span className="char-limit">Max 15</span></div>
+              <input type="text" name="gst_no" value={formData.gst_no} onChange={handleChange} maxLength={15} placeholder="22AAAAA0000A1Z5" />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>PAN Number</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="pan_no" value={formData.pan_no} onChange={handleChange} maxLength={10} placeholder="ABCDE1234F" />
+            </div>
+            <div className="cust-input-group">
+              <label>Payment Term</label>
+              <select name="payment_term" value={formData.payment_term} onChange={handleChange}>
+                <option value="">Select Term</option>
+                <option value="Net 30">Net 30 Days</option>
+              </select>
+            </div>
+            <div className="cust-input-group">
+              <label>Payment Method</label>
+              <select name="payment_method" value={formData.payment_method} onChange={handleChange}>
+                <option value="">Select Method</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+              </select>
+            </div>
+            <div className="cust-input-group">
+              <label>Currency</label>
+              <select name="currency" value={formData.currency} onChange={handleChange}>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="USD">USD - US Dollar</option>
+              </select>
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Credit Limit</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="credit_limit" value={formData.credit_limit} onChange={handleChange} maxLength={10} placeholder="0.00" />
             </div>
           </div>
+        </div>
 
-          {/* ==========================================
-              6. SALES & DOCUMENTS
-          ========================================== */}
-          <div className="form-section">
-            <h3 className="section-title">Sales, Documents & Notes</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <div className="label-wrapper"><label>Sales Region</label><span className="char-limit">Max 20</span></div>
-                <input type="text" name="sales_region" value={formData.sales_region} onChange={handleChange} maxLength={20} />
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Customer Group</label><span className="char-limit">Max 15</span></div>
-                <input type="text" name="customer_group" value={formData.customer_group} onChange={handleChange} maxLength={15} />
-              </div>
-              <div className="form-group">
-                <label>Shipping Method</label>
-                <select name="shipping_method" value={formData.shipping_method} onChange={handleChange}>
-                  <option value="">Select Method</option>
-                  <option value="Air">Air Freight</option>
-                  <option value="Road">Road Transport</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <div className="label-wrapper"><label>Project</label><span className="char-limit">Max 50</span></div>
-                <input type="text" name="project" value={formData.project} onChange={handleChange} maxLength={50} />
-              </div>
-              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <label>Documents Attachment</label>
-                <input type="file" multiple />
-              </div>
-              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <div className="label-wrapper"><label>Notes</label><span className="char-limit">Max 300</span></div>
-                <textarea name="notes" value={formData.notes} onChange={handleChange} maxLength={300} placeholder="Add any internal notes here..."></textarea>
-              </div>
+        {/* ==========================================
+            5. BANK DETAILS CARD
+        ========================================== */}
+        <div className="cust-glass-card">
+          <h3 className="cust-section-title">Bank Details</h3>
+          <div className="cust-form-grid">
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Account Holder Name</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="bank_holder" value={formData.bank_holder} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Bank Name</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Account Number</label><span className="char-limit">Max 30</span></div>
+              <input type="text" name="bank_account" value={formData.bank_account} onChange={handleChange} maxLength={30} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>IFSC Code</label><span className="char-limit">Max 15</span></div>
+              <input type="text" name="bank_ifsc" value={formData.bank_ifsc} onChange={handleChange} maxLength={15} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Branch Name</label><span className="char-limit">Max 30</span></div>
+              <input type="text" name="bank_branch" value={formData.bank_branch} onChange={handleChange} maxLength={30} />
+            </div>
+            <div className="cust-input-group">
+              <label>Account Type</label>
+              <select name="bank_type" value={formData.bank_type} onChange={handleChange}>
+                <option value="">Select Type</option>
+                <option value="Savings">Savings</option>
+                <option value="Current">Current</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* ==========================================
+            6. SALES, DOCUMENTS & NOTES CARD
+        ========================================== */}
+        <div className="cust-glass-card">
+          <h3 className="cust-section-title">Sales, Documents & Notes</h3>
+          <div className="cust-form-grid">
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Sales Region</label><span className="char-limit">Max 20</span></div>
+              <input type="text" name="sales_region" value={formData.sales_region} onChange={handleChange} maxLength={20} />
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Customer Group</label><span className="char-limit">Max 15</span></div>
+              <input type="text" name="customer_group" value={formData.customer_group} onChange={handleChange} maxLength={15} />
+            </div>
+            <div className="cust-input-group">
+              <label>Shipping Method</label>
+              <select name="shipping_method" value={formData.shipping_method} onChange={handleChange}>
+                <option value="">Select Method</option>
+                <option value="Air">Air Freight</option>
+                <option value="Road">Road Transport</option>
+              </select>
+            </div>
+            <div className="cust-input-group">
+              <div className="label-wrapper"><label>Project</label><span className="char-limit">Max 50</span></div>
+              <input type="text" name="project" value={formData.project} onChange={handleChange} maxLength={50} />
+            </div>
+            <div className="cust-input-group full-width-field">
+              <label>Documents Attachment</label>
+              <input type="file" multiple className="file-upload-input" />
+            </div>
+            <div className="cust-input-group full-width-field">
+              <div className="label-wrapper"><label>Notes</label><span className="char-limit">Max 300</span></div>
+              <textarea name="notes" value={formData.notes} onChange={handleChange} maxLength={300} placeholder="Add specific internal billing parameters or documentation tracking history notes..."></textarea>
             </div>
           </div>
 
-          {/* SUBMIT ACTIONS */}
-          <div className="form-actions">
-            <button type="button" className="btn-cancel" onClick={() => navigate('/order')} disabled={isSubmitting}>
-              Cancel
+          {/* MASTER BOTTOM ACTION LANE */}
+          <div className="cust-action-shelf">
+            <button type="button" className="cust-btn-cancel" onClick={() => navigate('/order')} disabled={isSubmitting}>
+              Cancel Configuration
             </button>
-            <button type="button" className="btn-save" onClick={handleSave} disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Customer"}
+            <button type="button" className="cust-btn-save" onClick={handleSave} disabled={isSubmitting}>
+              <HiOutlineUserAdd /> {isSubmitting ? "Processing Registry..." : "Save Customer Account"}
             </button>
           </div>
-          
-        </form>
-      </div>
+        </div>
 
-      {/* ==========================================
-          SUCCESS POPUP COMPONENT
-      ========================================== */}
+      </form>
+
+      {/* SUCCESS OVERLAY */}
       {showSuccessPopup && (
         <div className="success-popup-overlay">
           <div className="success-popup">
             <FaCheckCircle className="success-icon" />
-            <h2>Customer Created!</h2>
-            <p style={{ color: '#888', marginTop: '10px' }}>Redirecting to dashboard...</p>
+            <h2>Customer Saved!</h2>
+            <p style={{ color: '#888', marginTop: '10px' }}>Syncing ledger profile arrays onto live system maps...</p>
           </div>
         </div>
       )}
