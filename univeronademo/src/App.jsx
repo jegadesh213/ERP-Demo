@@ -10,6 +10,8 @@ import SalesHub from "./Pages/SalesHub/SalesHub.jsx";
 // import Order from "./Pages/Order/Order.jsx"; 
 import CreateCustomer from "./Pages/CreateCustomer/CreateCustomer.jsx";
 import Customer from "./Pages/Customer/Customer.jsx";
+import Quotation from "./Pages/Quotation/Quotation.jsx";
+
 
 import './App.css';
 
@@ -58,7 +60,7 @@ function App() {
               
               {/* Fallback empty routes to prevent breaks on click */}
               <Route path="/invoice" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Invoices List</h2>} />
-              <Route path="/quotation" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Quotations List</h2>} />
+              <Route path="/quotation" element={<Quotation />} />
             </Routes>
           </div>
 
