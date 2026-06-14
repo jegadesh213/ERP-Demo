@@ -7,7 +7,8 @@ import './MiniSidebar.css';
 function MiniSidebar({ darkMode, isExpanded }) {
   const location = useLocation();
 
-  if (location.pathname === '/' || location.pathname === '/sales') return null;
+  if (location.pathname === '/' || location.pathname === '/sales' || 
+  location.pathname === '/inspection') return null;
 
   const menuItems = [
     { id: 1, name: 'Customer', icon: <HiOutlineUsers />, path: '/customer' },

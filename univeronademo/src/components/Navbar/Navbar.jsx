@@ -10,7 +10,8 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
   const navigate = useNavigate();
 
   // Helper condition: true only if we are on the Home Page or the Sales Hub Page
-  const hideHamburger = location.pathname === "/" || location.pathname === "/sales";
+  const hideHamburger = location.pathname === "/" || location.pathname === "/sales" || 
+  location.pathname === '/inspection';
 
   /* ===================================================
      👉 NEW FIX CONDITION: True only if we are on the Home Page root

@@ -11,7 +11,7 @@ function SalesHub() {
     { 
       name: 'Customer', 
       icon: <HiOutlineUsers />, 
-      path: '/create-customer',
+      path: '/customer',
       image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600' 
     },
     { 

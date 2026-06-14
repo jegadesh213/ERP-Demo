@@ -12,6 +12,7 @@ import CreateCustomer from "./Pages/CreateCustomer/CreateCustomer.jsx";
 import Customer from "./Pages/Customer/Customer.jsx";
 import Quotation from "./Pages/Quotation/Quotation.jsx";
 import Invoice from "./Pages/Invoice/Invoice.jsx";
+import Inspection from "./Pages/Inspection/Inspection.jsx";
 
 
 import './App.css';
@@ -57,7 +58,7 @@ function App() {
               <Route path="/create-customer" element={<CreateCustomer />} />
               <Route path="/order" element={<Order />} />
               <Route path="/settings" element={<h2 style={{ textAlign: 'center' }}>Settings Page</h2>} />
-              <Route path="/inspection" element={<h2 style={{ textAlign: 'center', color: 'white' }}>Inspection Module</h2>} />
+              <Route path="/inspection" element={<Inspection />} />
               
               {/* Fallback empty routes to prevent breaks on click */}
               <Route path="/invoice" element={<Invoice />} />
