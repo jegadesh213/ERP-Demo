@@ -1,0 +1,321 @@
+/* ===================================================
+   MASTER LOGIN CONTAINER & TIMING STANDARDS
+=================================================== */
+.login-page-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #060713; /* Rich midnight base background */
+    margin: 0;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    animation: loginFadeIn 1s ease-in-out; /* Enforced 1s entry standard */
+}
+
+/* ===================================================
+   THE CENTRAL BENTO GLASSMORPHIC CARD ARTERIES
+=================================================== */
+.login-glass-card {
+    display: flex;
+    width: 1000px;
+    max-width: 92%;
+    height: 620px;
+    max-height: 85vh;
+    
+    /* Premium Glassmorphism Properties matching your forms */
+    background: rgba(30, 32, 54, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(255, 255, 255, 0.07);
+    border-radius: 32px;
+    
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+/* ===================================================
+   LEFT COLUMN FIELDS INTERFACES
+=================================================== */
+.login-fields-side {
+    flex: 1;
+    height: 100%;
+    background: rgba(15, 17, 26, 0.35); /* Translucent dark tint layer */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 45px 50px;
+    box-sizing: border-box;
+}
+
+/* ===================================================
+   BRAND LOGO IMAGE SCALING CONFIGURATIONS
+=================================================== */
+.login-brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 10px; /* Provides consistent downward breathing room */
+}
+
+.login-brand-logo-img {
+    height: 42px;         /* Locked maximum structural height */
+    width: auto;          /* Maintains crisp asset aspect ratio */
+    object-fit: contain;  /* Prevents clipping inside the container */
+    filter: drop-shadow(0 4px 10px rgba(123, 97, 255, 0.2)); /* Subtle matching neon trace depth */
+    transition: transform 0.3s ease;
+}
+
+.login-brand-logo-img:hover {
+    transform: scale(1.02); /* Clean, interactive micro-interaction */
+}
+
+.login-form-box {
+    width: 100%;
+    margin: auto 0;
+}
+
+.login-form-box h3 {
+    font-size: 26px;
+    color: white;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.login-instruction-subtitle {
+    font-size: 13.5px;
+    color: #626880;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+}
+
+/* ===================================================
+   SYSTEM ERROR MESSAGE POPUP LAYOUT
+=================================================== */
+.login-error-message-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 59, 48, 0.08);
+    border: 1.5px solid rgba(255, 59, 48, 0.25);
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #ff3b30;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.err-msg-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* ===================================================
+   INPUT GROUPS ROW STRUCTURAL CODES
+=================================================== */
+.login-action-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.login-input-group-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.login-input-group-row label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #717c9b;
+}
+
+.login-field-icon-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.field-inner-icon {
+    position: absolute;
+    left: 16px;
+    font-size: 18px;
+    color: #43495e;
+    transition: color 0.2s ease;
+}
+
+.login-field-icon-wrapper input {
+    width: 100%;
+    padding: 12px 16px 12px 46px;
+    background: rgba(15, 17, 26, 0.5);
+    border: 1.5px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.login-field-icon-wrapper input:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.8);
+    box-shadow: 0 0 12px rgba(123, 97, 255, 0.15);
+}
+
+.login-field-icon-wrapper input:focus + .field-inner-icon {
+    color: #7b61ff;
+}
+
+/* ===================================================
+   TRIGGERS & UN-CLICKABLE COMPONENT LABELS
+=================================================== */
+.login-submit-trigger-btn {
+    width: 100%;
+    padding: 13px;
+    background: #7b61ff;
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.35);
+    transition: all 0.25s ease;
+}
+
+.login-submit-trigger-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(123, 97, 255, 0.5);
+}
+
+.login-footer-action-lane {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.un-clickable-text-btn {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #43495e;
+    cursor: not-allowed;
+}
+
+.separator-dot {
+    color: #2c303f;
+    font-size: 12px;
+}
+
+/* ===================================================
+   RIGHT SIDE INTEGRATED MEDIA SLIDER
+=================================================== */
+.login-carousel-side {
+    flex: 1.1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 45px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.carousel-slide-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 1.2s ease-in-out, transform 1.5s ease-in-out;
+    z-index: 1;
+}
+
+.carousel-slide-bg.active-slide {
+    opacity: 0.75;
+    transform: scale(1);
+    z-index: 2;
+}
+
+.carousel-slide-glass-gradient-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Soft linear color shade to drop elegantly onto text arrays */
+    background: linear-gradient(180deg, rgba(30, 32, 54, 0.1) 0%, rgba(15, 17, 26, 0.9) 100%);
+    z-index: 3;
+}
+
+.carousel-branding-context {
+    position: relative;
+    z-index: 4;
+    max-width: 100%;
+}
+
+.carousel-branding-context h4 {
+    font-size: 20px;
+    color: white;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.2px;
+}
+
+.carousel-branding-context p {
+    font-size: 13px;
+    color: #717c9b;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ===================================================
+   RESPONSIVE DESIGN VIEWPORT TRACK OVERRIDES (MOBILE)
+=================================================== */
+@media (max-width: 840px) {
+    .login-brand-header {
+        justify-content: center; /* Centers logo perfectly on screens */
+    }
+    
+    .login-brand-logo-img {
+        height: 38px; /* Slightly scaled down to preserve layout density on mobile */
+    }
+
+    .login-glass-card {
+        width: 440px;
+        height: auto;
+        max-height: 90vh;
+    }
+    
+    .login-carousel-side {
+        display: none; /* Safely hides visual layout panels on phones to prioritize input fields */
+    }
+    
+    .login-fields-side {
+        flex: 1;
+        padding: 40px 28px;
+    }
+    
+    .login-form-box {
+        margin: 35px 0;
+    }
+}
+
+/* ===================================================
+   SYSTEM ANIMATIONS (1S FADE IN SPEED TIMING STANDARD)
+=================================================== */
+@keyframes loginFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}

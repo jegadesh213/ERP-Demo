@@ -67,6 +67,7 @@ function CreateCustomer() {
 
   const location = useLocation();
   const editId = location.state?.editId; 
+  const activeToken = localStorage.getItem('auth_token') || '2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b';
 
   useEffect(() => {
     if (editId) {
@@ -74,7 +75,7 @@ function CreateCustomer() {
         showLoader(); 
         try {
           const response = await fetch(`https://sdsinfotech.co.in/api/customers/${editId}`, {
-            headers: { 'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' }
+            headers: { 'Authorization': `Bearer ${activeToken}` }
           });
           const result = await response.json();
           
@@ -165,7 +166,7 @@ function CreateCustomer() {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' 
+          'Authorization': `Bearer ${activeToken}`
         },
         body: JSON.stringify(payload)
       });
