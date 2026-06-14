@@ -1,46 +1,80 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Navbar.css";
 import Mainlogo from "../../assets/Mainlogo.png";
-import { FaUserCircle, FaMoon, FaSun, FaBars, FaArrowLeft } from "react-icons/fa";
+import { FaMoon, FaSun, FaBars, FaArrowLeft, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { HiOutlineViewGrid } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, setDarkMode }) {
   const location = useLocation();
   const navigate = useNavigate();
+  
+  // Create shared element refs to self-collapse menu cards when clicking outside boundary spaces
+  const desktopDropdownRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
 
-  // Helper condition: true only if we are on the Home Page or the Sales Hub Page
-  const hideHamburger = location.pathname === "/" || location.pathname === "/sales" || 
-  location.pathname === '/inspection';
+  // Layout state tracks
+  const [showDesktopDropdown, setShowDesktopDropdown] = useState(false);
+  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
+  const [userName, setUserName] = useState("User Account");
+  const [userEmail, setUserEmail] = useState("");
 
-  /* ===================================================
-     👉 NEW FIX CONDITION: True only if we are on the Home Page root
-     =================================================== */
+  // Conditional guards matching page location routes
+  const hideHamburger = location.pathname === "/" || location.pathname === "/sales" || location.pathname === '/inspection';
   const isHomePage = location.pathname === "/";
+
+  // Pull profile text metadata safely from system database session blocks
+  useEffect(() => {
+    try {
+      const savedProfile = localStorage.getItem("user_profile");
+      if (savedProfile) {
+        const parsed = JSON.parse(savedProfile);
+        if (parsed.name) setUserName(parsed.name);
+        if (parsed.email) setUserEmail(parsed.email);
+      }
+    } catch (err) {
+      console.error("Failed to safely parse user profile dictionary strings:", err);
+    }
+  }, []);
+
+  // Shared outside boundary click listener rule
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
+        setShowDesktopDropdown(false);
+      }
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target)) {
+        setShowMobileDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Flush browser cookies/local storage arrays and return user back to Login window view
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user_profile");
+    setShowDesktopDropdown(false);
+    setShowMobileDropdown(false);
+    navigate("/login", { replace: true });
+  };
 
   return (
     <>
       {/* ===================================
-          DESKTOP NAVBAR
+          DESKTOP NAVIGATION SYSTEM
       =================================== */}
       <nav className="navbar navbar-animation">
         <div className="logo-section logo-animation">
-          
-          {/* Back Button (Far Left) */}
-          <button 
-            className="nav-back-btn" 
-            onClick={() => navigate(-1)} 
-            title="Go Back"
-          >
+          <button className="nav-back-btn" onClick={() => navigate(-1)} title="Go Back">
             <FaArrowLeft />
           </button>
 
-          {/* Hamburger will hide completely on / and /sales */}
           {!hideHamburger && (
             <FaBars className="hamburger-icon" onClick={toggleMiniSidebar} />
           )}
 
-          {/* UPDATED FIX: The Grid icon will now only render if we are NOT on the Landing Home Page */}
           {!isHomePage && (
             <HiOutlineViewGrid className="menu-icon" onClick={toggleSidebar} />
           )}
@@ -48,11 +82,34 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
           <Link to="/">
             <img src={Mainlogo} alt="Logo" className="main-logo" />
           </Link>
-          
         </div>
 
         <div className="right-section icon-animation">
-          <FaUserCircle className="user-icon" />
+          {/* DESKTOP CONTAINER MODAL ARTERY */}
+          <div className="navbar-profile-wrapper" ref={desktopDropdownRef}>
+            <button 
+              type="button" 
+              className={`navbar-profile-trigger-btn ${showDesktopDropdown ? 'active-state' : ''}`}
+              onClick={() => setShowDesktopDropdown(!showDesktopDropdown)}
+            >
+              <FaUserCircle className="user-icon" /> 
+            </button>
+
+            {showDesktopDropdown && (
+              <div className="profile-glass-dropdown-card desktop-position">
+                <div className="dropdown-meta-profile">
+                  <span className="dropdown-profile-fullname">{userName}</span>
+                  {userEmail && <span className="dropdown-profile-email-string">{userEmail}</span>}
+                </div>
+                <div className="dropdown-separator-bar"></div>
+                <button type="button" className="dropdown-logout-trigger-action" onClick={handleLogout}>
+                  <FaSignOutAlt />
+                  <span>Logout Session</span>
+                </button>
+              </div>
+            )}
+          </div>
+
           <div className={darkMode ? "toggle dark-toggle" : "toggle light-toggle"} onClick={() => setDarkMode(!darkMode)}>
             <div className={darkMode ? "toggle-circle dark-circle" : "toggle-circle light-circle"}>
               {darkMode ? <FaMoon /> : <FaSun />}
@@ -62,17 +119,14 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
       </nav>
 
       {/* ===================================
-          MOBILE BOTTOM NAVBAR 
+          MOBILE NAVIGATION BAR (BOTTOM DOCK)
       =================================== */}
       <div className="mobile-navbar">
         <div className="mobile-left">
-          
-          {/* Mobile Hamburger will also hide completely on / and /sales */}
           {!hideHamburger && (
             <FaBars className="hamburger-icon" onClick={toggleMobileMenu} />
           )}
 
-          {/* UPDATED FIX: Mobile Grid icon will also hide completely on the Landing Home Page */}
           {!isHomePage && (
             <div className="mobile-icon-box" onClick={toggleSidebar}>
               <HiOutlineViewGrid className="mobile-icon" />
@@ -85,7 +139,32 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
         </Link>
 
         <div className="mobile-right">
-          <FaUserCircle className="mobile-user" />
+          {/* MOBILE PROFILE POPUP TOGGLE OVERLAY */}
+          <div className="navbar-profile-wrapper" ref={mobileDropdownRef}>
+            <button 
+              type="button" 
+              className="mobile-avatar-shortcut-btn"
+              onClick={() => setShowMobileDropdown(!showMobileDropdown)}
+              title="View User Profile"
+            >
+              <FaUserCircle className="mobile-user" />
+            </button>
+
+            {showMobileDropdown && (
+              <div className="profile-glass-dropdown-card mobile-position">
+                <div className="dropdown-meta-profile">
+                  <span className="dropdown-profile-fullname">{userName}</span>
+                  {userEmail && <span className="dropdown-profile-email-string">{userEmail}</span>}
+                </div>
+                <div className="dropdown-separator-bar"></div>
+                <button type="button" className="dropdown-logout-trigger-action" onClick={handleLogout}>
+                  <FaSignOutAlt />
+                  <span>Logout Session</span>
+                </button>
+              </div>
+            )}
+          </div>
+
           <div className="mobile-theme-icon" onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? <FaSun /> : <FaMoon />}
           </div>

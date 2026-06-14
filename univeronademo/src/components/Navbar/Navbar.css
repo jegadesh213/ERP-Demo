@@ -1,9 +1,11 @@
-/* Floating Pill Navbar */
+/* ===================================================
+   FLOATING PILL NAVBAR STRUCTURE
+=================================================== */
 .navbar {
     position: fixed;
-    top: 40px; /* Pushes it down from the top */
+    top: 40px; 
     left: 50%;
-    transform: translateX(-50%); /* Centers it perfectly */
+    transform: translateX(-50%); 
     
     width: 90%;
     max-width: 1200px;
@@ -14,20 +16,22 @@
     align-items: center;
     justify-content: space-between;
     
-    border-radius: 50px; /* Restores the pill shape */
+    border-radius: 50px; 
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Restores the full border */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     
     z-index: 100;
     transition: 0.5s;
+    box-sizing: border-box;
 }
 
-/* Gradient Border Mask (Needs the border-radius restored too) */
+/* Gradient Border Mask */
 .navbar::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 50px; /* Matches the navbar radius */
+    border-radius: 50px; 
     padding: 1.5px;
     background: linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff);
     opacity: 0;
@@ -47,7 +51,7 @@
     z-index: 2;
 }
 
-/* Dark/Light Context */
+/* Dark/Light Context backgrounds */
 .dark .navbar {
     background: rgba(255, 255, 255, 0.05);
     color: white;
@@ -59,7 +63,6 @@
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo & Icons */
 .logo-section {
     display: flex;
     align-items: center;
@@ -68,6 +71,7 @@
 
 .main-logo {
     width: 150px;
+    display: block;
 }
 
 .menu-icon {
@@ -86,12 +90,148 @@
     gap: 20px;
 }
 
-.user-icon {
-    font-size: 35px;
-    cursor: pointer;
+/* ===================================================
+   PROFILE PLACEMENT ANCHORS
+=================================================== */
+.navbar-profile-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Toggle Button */
+.navbar-profile-trigger-btn {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.2s ease;
+}
+
+.user-icon {
+    font-size: 35px !important; 
+    display: block;
+    transition: color 0.2s ease;
+}
+
+.dark .navbar-profile-trigger-btn { color: white; }
+.light .navbar-profile-trigger-btn { color: black; }
+
+.navbar-profile-trigger-btn:hover .user-icon,
+.navbar-profile-trigger-btn.active-state .user-icon {
+    color: #7b61ff;
+}
+
+/* ===================================================
+   FLOATING OVERLAY GLASS DROPDOWN CARD
+=================================================== */
+.profile-glass-dropdown-card {
+    position: absolute;
+    width: 220px;
+    background: rgba(15, 17, 26, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    z-index: 2500;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Desktop dropdown extends DOWNWARDS */
+.profile-glass-dropdown-card.desktop-position {
+    top: calc(100% + 24px);
+    right: -10px;
+    transform-origin: top right;
+    animation: dropdownOpenAnimation 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Mobile dropdown extends UPWARDS to fit the viewport space cleanly */
+.profile-glass-dropdown-card.mobile-position {
+    bottom: calc(100% + 20px);
+    right: -10px;
+    transform-origin: bottom right;
+    animation: dropdownMobileOpenAnimation 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.light .profile-glass-dropdown-card {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-meta-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 2px 4px 6px 4px;
+    text-align: left;
+}
+
+.dropdown-profile-fullname {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.1px;
+}
+
+.light .dropdown-profile-fullname { color: #1a1b26; }
+
+.dropdown-profile-email-string {
+    font-size: 12px;
+    color: #626880;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.dropdown-separator-bar {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 10px 0;
+    width: 100%;
+}
+
+.light .dropdown-separator-bar { background: rgba(0, 0, 0, 0.06); }
+
+.dropdown-logout-trigger-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #ff3b30; 
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.dropdown-logout-trigger-action:hover {
+    background: rgba(255, 59, 48, 0.08);
+    border-color: rgba(255, 59, 48, 0.15);
+}
+
+.dropdown-logout-trigger-action svg {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* ===================================================
+   SYSTEM APP CORE INTERFACE TOGGLES
+=================================================== */
 .toggle {
     width: 70px;
     height: 35px;
@@ -101,17 +241,11 @@
     padding: 4px;
     cursor: pointer;
     transition: 0.5s;
+    box-sizing: border-box;
 }
 
-.dark-toggle {
-    background: black;
-    justify-content: flex-end;
-}
-
-.light-toggle {
-    background: lightgray;
-    justify-content: flex-start;
-}
+.dark-toggle { background: black; justify-content: flex-end; }
+.light-toggle { background: lightgray; justify-content: flex-start; }
 
 .toggle-circle {
     width: 28px;
@@ -123,127 +257,37 @@
     transition: 0.5s;
 }
 
-.dark-circle {
-    background: white;
-    color: black;
-}
+.dark-circle { background: white; color: black; }
+.light-circle { background: white; color: orange; }
 
-.light-circle {
-    background: white;
-    color: orange;
-}
-
-/* Hamburger Icon Styling */
 .hamburger-icon {
-    font-size: 26px; /* Slightly smaller than the 28px grid icon for visual balance */
+    font-size: 26px; 
     cursor: pointer;
     transition: 0.3s;
-    margin-right: 10px; /* Adds breathing room between the hamburger and grid icon */
+    margin-right: 10px; 
 }
 
-.hamburger-icon:hover {
-    color: hotpink;
-}
+.hamburger-icon:hover { color: hotpink; }
 
-/* 1. Force Left and Right groups into horizontal rows */
-    .mobile-left, 
-    .mobile-right {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 15px !important;
-    }
-
-    /* 2. Standardize all icon sizes so they match perfectly */
-    .hamburger-icon, 
-    .mobile-icon, 
-    .mobile-theme-icon {
-        font-size: 24px !important;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 !important; /* Removes any accidental margins causing stacking */
-    }
-
-    /* 3. Strip any weird height/width from the grid icon's box */
-    .mobile-icon-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: auto !important;
-        height: auto !important;
-        background: transparent;
-    }
-
-    /* 4. Keep the Logo perfectly centered */
-    .mobile-logo-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1; /* Pushes the logo to take up remaining middle space */
-    }
-
-/* Animations */
-.navbar-animation {
-    animation: navbarSlide 1s ease-in-out;
-}
-
-.logo-animation {
-    animation: logoFade 1.5s ease-in-out;
-}
-
-/* Navbar From Top (Fixed for Center Floating) */
-@keyframes navbarSlide {
-    0% { 
-        /* Notice we include BOTH the -50% centering and the -100px drop */
-        transform: translate(-50%, -100px); 
-        opacity: 0; 
-    }
-    100% { 
-        transform: translate(-50%, 0); 
-        opacity: 1; 
-    }
-}
-
-@keyframes logoFade {
-    0% {
-        opacity: 0;
-        transform: translateX(-40px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* ===================================
-   DESKTOP BACK BUTTON (Left Aligned)
-=================================== */
 .nav-back-btn {
     background: transparent;
     border: none;
     color: #888;
-    font-size: 20px; /* Slightly larger to match the other icons perfectly */
+    font-size: 20px; 
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    /* FIX 1: Reduced padding and margin to close the gap */
     padding: 5px; 
     margin-right: 8px; 
-    
-    transition: color 0.2s ease; /* Only animate the color change now */
+    transition: color 0.2s ease;
 }
 
-/* FIX 2: Removed the background box and movement effect, strictly matching the color fill of other icons */
-.nav-back-btn:hover {
-    color: #3b82f6; /* Changes to your brand blue on hover */
-}
+.nav-back-btn:hover { color: #3b82f6; }
 
-/* Mobile Navbar */
+/* ===================================================
+   MOBILE NAVIGATION BAR MEDIA QUERIES
+=================================================== */
 .mobile-navbar {
     display: none;
 }
@@ -263,33 +307,58 @@
         padding: 14px 20px;
         border-radius: 30px;
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         display: flex;
         align-items: center;
         justify-content: space-between;
         z-index: 999;
+        box-sizing: border-box;
     }
 
     .dark .mobile-navbar {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(23, 25, 43, 0.9);
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .light .mobile-navbar {
-        background: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.75);
         border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .mobile-icon-box {
-        width: 40px;
-        height: 40px;
+    .mobile-left, 
+    .mobile-right {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+
+    .hamburger-icon, 
+    .mobile-icon, 
+    .mobile-theme-icon {
+        font-size: 24px !important;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0 !important; 
     }
 
-    .mobile-icon {
-        font-size: 22px;
-        cursor: pointer;
+    .mobile-icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto !important;
+        height: auto !important;
+        background: transparent;
+    }
+
+    .mobile-logo-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1; 
     }
 
     .mobile-logo {
@@ -297,13 +366,58 @@
         object-fit: contain;
     }
 
-    .mobile-right {
+    /* Fixed solid sizing profile shortcuts */
+    .mobile-avatar-shortcut-btn {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
         display: flex;
         align-items: center;
-        gap: 15px;
+        justify-content: center;
+        outline: none;
+        width: auto !important;
+        height: auto !important;
+        cursor: pointer;
+    }
+    
+    .mobile-user {
+        font-size: 34px !important;
+        display: block;
+        width: 34px !important;
+        height: 34px !important;
     }
 
-    .mobile-user {
-        font-size: 34px;
+    .dark .mobile-user { color: white !important; }
+    .light .mobile-user { color: black !important; }
+
+    .mobile-avatar-shortcut-btn:active {
+        transform: scale(0.9);
     }
+}
+
+/* ===================================================
+   SYSTEM TRANSITION KEYFRAMES
+=================================================== */
+.navbar-animation { animation: navbarSlide 1s ease-in-out; }
+.logo-animation { animation: logoFade 1.5s ease-in-out; }
+
+@keyframes dropdownOpenAnimation {
+    from { opacity: 0; transform: scale(0.95) translateY(-8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes dropdownMobileOpenAnimation {
+    from { opacity: 0; transform: scale(0.95) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes navbarSlide {
+    0% { transform: translate(-50%, -100px); opacity: 0; }
+    100% { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes logoFade {
+    0% { opacity: 0; transform: translateX(-40px); }
+    100% { opacity: 1; transform: translateX(0); }
 }
