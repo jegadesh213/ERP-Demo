@@ -8,7 +8,7 @@
     width: 100%;
     max-width: 100%; 
     margin: 40px 0 0 0; 
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 1s ease-in-out; /* Enforced 1s timing standard */
     box-sizing: border-box;
     padding-right: 0; 
 }
@@ -29,9 +29,15 @@
 =================================== */
 .hub-tile-card.image-tile {
     position: relative;
-    background-image: var(--tile-bg);
     background-size: cover;
     background-position: center;
+    
+    /* 🛠️ THE FIX: Set a standard, solid background property baseline first */
+    background-image: var(--tile-bg);
+    background-clip: padding-box;
+    background-origin: padding-box;
+    
+    /* Elegant translucent solid border frame for normal state (No more gaps) */
     border: 1.5px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px; 
     padding: 22px 18px;  
@@ -45,11 +51,12 @@
     
     transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
                 box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-                border-color 0.3s ease;
+                border-color 0.3s ease,
+                background-image 0.3s ease;
 }
 
 .light .hub-tile-card.image-tile {
-    border-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.08);
 }
 
 /* ===================================
@@ -135,6 +142,7 @@
     opacity: 0.6; 
 }
 
+/* 🛠️ HOVER FIX: Gradient clip applies dynamically ONLY on hover state */
 .hub-tiles-grid .hub-tile-card.image-tile:hover {
     transform: scale(1.05);
     opacity: 1; 
@@ -154,8 +162,32 @@
                       linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff);
 }
 
+.hub-tile-card.image-tile:hover .tile-image-overlay {
+    background: linear-gradient(180deg, rgba(123, 97, 255, 0.15) 0%, rgba(15, 17, 26, 0.75) 100%);
+}
+
+.light .hub-tile-card.image-tile:hover .tile-image-overlay {
+    background: linear-gradient(180deg, rgba(123, 97, 255, 0.08) 0%, rgba(240, 242, 245, 0.45) 100%);
+}
+
+.hub-tile-card.image-tile:hover .hub-tile-icon-box {
+    background: #7b61ff;
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.4);
+}
+
+.hub-tile-card.image-tile:hover .hub-tile-content h3 {
+    color: #7b61ff;
+}
+
+.hub-tile-card.image-tile:hover .hub-tile-arrow {
+    color: #7b61ff;
+    transform: translateX(5px);
+}
+
 /* ===================================
-   👉 UPDATED MOBILE STYLING: TWO PER ROW
+   MOBILE STYLING (TWO PER ROW)
 =================================== */
 @media (max-width: 960px) {
     .hub-grid-container {
@@ -164,15 +196,13 @@
     }
 
     .hub-tiles-grid {
-        /* Forces exactly 2 matching tracks side-by-side per row on mobile devices */
         grid-template-columns: repeat(2, 1fr); 
-        gap: 14px; /* Snug gap profile to optimize small container widths */
+        gap: 14px; 
         max-width: 540px;
         margin: 0 auto;
         width: 100%;
     }
 
-    /* Disable scale focus animations on pointerless touch screen environments */
     .hub-tiles-grid:hover .hub-tile-card.image-tile {
         transform: none;
         opacity: 1;
@@ -185,7 +215,7 @@
     .hub-tile-card.image-tile {
         border-radius: 22px;
         padding: 24px 16px;
-        aspect-ratio: 1 / 1.05; /* Proportional card shape for small spaces */
+        aspect-ratio: 1 / 1.05; 
     }
 
     .hub-tile-icon-box {
@@ -200,12 +230,12 @@
     }
 
     .hub-tile-arrow {
-        display: none; /* Strips back vector decorations on compact phone views */
+        display: none; 
     }
 }
 
 /* ===================================
-   SYSTEM ANIMATIONS
+   SYSTEM ANIMATIONS (1S TIMING STANDARD)
 =================================== */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
