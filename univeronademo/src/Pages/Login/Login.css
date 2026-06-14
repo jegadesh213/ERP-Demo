@@ -81,11 +81,19 @@
     margin: auto 0;
 }
 
+/* ===================================================
+   LOGIN FORM HEADER STYLING
+=================================================== */
 .login-form-box h3 {
     font-size: 26px;
     color: white;
     font-weight: 700;
-    margin: 0 0 8px 0;
+    
+    /* 🛠️ THE FIX: Centers the header text perfectly inside the form lane container */
+    text-align: center; 
+    
+    /* Maintains the clean separation spacing we created earlier */
+    margin: 0 0 35px 0; 
 }
 
 .login-instruction-subtitle {

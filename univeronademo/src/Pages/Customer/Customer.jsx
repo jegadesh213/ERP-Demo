@@ -16,6 +16,8 @@ function Customer() {
   const [searchTerm, setSearchTerm] = useState('');
   const [appliedSearch, setAppliedSearch] = useState('');
 
+    const activeToken = localStorage.getItem('auth_token');
+  
   // ===================================
   // 1. FETCH INITIAL CUSTOMER LIST
   // ===================================
@@ -27,7 +29,7 @@ function Customer() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' 
+            'Authorization': `Bearer ${activeToken}`
           }
         });
 
@@ -58,7 +60,7 @@ function Customer() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b' 
+          'Authorization': `Bearer ${activeToken}`
         }
       });
 

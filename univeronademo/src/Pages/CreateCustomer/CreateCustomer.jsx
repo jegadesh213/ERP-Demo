@@ -67,7 +67,7 @@ function CreateCustomer() {
 
   const location = useLocation();
   const editId = location.state?.editId; 
-  const activeToken = localStorage.getItem('auth_token') || '2|s2dvSgBaN7J2Q2UVU4O57IZKpOHAXynESdG2ygqP5afc106b';
+  const activeToken = localStorage.getItem('auth_token');
 
   useEffect(() => {
     if (editId) {
