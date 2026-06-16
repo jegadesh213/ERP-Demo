@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Mainlogo from "../../assets/Mainlogo.png";
 import { useNavigate } from 'react-router-dom';
-import { HiOutlineMail, HiOutlineLockClosed, HiOutlineExclamationCircle } from 'react-icons/hi';
+import { HiOutlineMail, HiOutlineLockClosed, HiOutlineExclamationCircle, HiSun, HiMoon } from 'react-icons/hi';
 import { useLoader } from '../../context/LoaderContext';
 import './Login.css';
 
@@ -12,6 +12,9 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  
+  // 🌓 Defaulting to light mode as requested (false = Light, true = Dark)
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const carouselImages = [
     "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=1000",
@@ -59,31 +62,27 @@ function Login() {
   };
 
   return (
-    <div className="login-page-wrapper">
+    // Dynamic theme class injector based on state
+    <div className={`login-page-wrapper ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       {/* Background radial glowing gradients matching the main workspace pages */}
       <div className="bg-glow purple"></div>
       <div className="bg-glow blue"></div>
 
-      {/* 🛠️ THE FIX: Central Glassmorphic Card Housing the Interface Elements */}
+      {/* Central Glassmorphic Card Housing the Interface Elements */}
       <div className="login-glass-card">
         
         {/* LEFT COMPONENT FIELDS LANE */}
         <div className="login-fields-side">
-            <div className="login-brand-header">
+          <div className="login-brand-header">
             <img 
-                src={Mainlogo} 
-                alt="Univerona Logo" 
-                className="login-brand-logo-img" 
-                // onError={(e) => {
-                // // Fallback route handler if Vite asset structure requires relative paths
-                // e.target.src = "/assets/Mainlogo.png";
-                // }}
+              src={Mainlogo} 
+              alt="Univerona Logo" 
+              className="login-brand-logo-img" 
             />
-            </div>
+          </div>
 
           <div className="login-form-box">
             <h3>Welcome!</h3>
-            {/* <p className="login-instruction-subtitle">Please enter your system access keys to open dashboard workspace maps</p> */}
 
             {errorMessage && (
               <div className="login-error-message-box">
@@ -145,13 +144,19 @@ function Login() {
               <div className="carousel-slide-glass-gradient-overlay"></div>
             </div>
           ))}
-          {/* <div className="carousel-branding-context">
-            <h4>Heavy Asset Fleet Operations Management</h4>
-            <p>Generate, scale, track, and process commercial estimations, supply orders, and verified logistics reports under unified glassmorphic tracking structures.</p>
-          </div> */}
         </div>
 
       </div>
+
+      {/* 🛠️ LIGHT/DARK MODE TOGGLE FLOATER */}
+      <button 
+        className="theme-toggle-floater" 
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        aria-label="Toggle theme"
+      >
+        {isDarkMode ? <HiSun className="toggle-icon" /> : <HiMoon className="toggle-icon" />}
+      </button>
     </div>
   );
 }

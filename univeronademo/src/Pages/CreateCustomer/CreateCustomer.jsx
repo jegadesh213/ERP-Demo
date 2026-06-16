@@ -175,7 +175,7 @@ function CreateCustomer() {
 
       if (result.statusCode === 200 || result.statusCode === 201 || !result.error) {
         setShowSuccessPopup(true);
-        setTimeout(() => navigate('/order'), 2000);
+        setTimeout(() => navigate('/customer'), 2000);
       } else {
         alert("Failed to save: " + (result.statusMessage || "Unknown error"));
       }
@@ -483,7 +483,7 @@ function CreateCustomer() {
 
           {/* MASTER BOTTOM ACTION LANE */}
           <div className="cust-action-shelf">
-            <button type="button" className="cust-btn-cancel" onClick={() => navigate('/order')} disabled={isSubmitting}>
+            <button type="button" className="cust-btn-cancel" onClick={() => navigate('/customer')} disabled={isSubmitting}>
               Cancel Configuration
             </button>
             <button type="button" className="cust-btn-save" onClick={handleSave} disabled={isSubmitting}>

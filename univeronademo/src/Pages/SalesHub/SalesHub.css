@@ -186,10 +186,30 @@
     transform: translateX(5px);
 }
 
+/* ===================================================
+   🛠️ UPDATED RESPONSIVE BREAKPOINTS SYSTEM
+=================================================== */
+
+/* Drops down to 3 tiles per row when layout room gets smaller */
+@media (max-width: 1200px) {
+    .hub-tiles-grid {
+        grid-template-columns: repeat(3, var(--tile-width));
+        gap: 20px;
+    }
+}
+
+/* Drops down to 2 tiles per row before collapsing fully into small mobile sizes */
+@media (max-width: 950px) {
+    .hub-tiles-grid {
+        grid-template-columns: repeat(2, var(--tile-width));
+        gap: 16px;
+    }
+}
+
 /* ===================================
-   MOBILE STYLING (TWO PER ROW)
+   MOBILE STYLING (TWO PER ROW FLUID)
 =================================== */
-@media (max-width: 960px) {
+@media (max-width: 700px) {
     .hub-grid-container {
         margin: 40px auto 0 auto;
         padding: 0 12px;

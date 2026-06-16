@@ -7,33 +7,25 @@
 
     width: 100%;
     max-width: 100%; 
-    margin: 15px 0px 0px -50px; 
-    
-    /* 🛠️ THE FIX: Removed display: flex and justify-content to eliminate the layout gap */
+    margin: 15px 0px 0px 0px; /* 🛠️ FIXED: Reset left margin to 0 to keep grid responsive */
     display: block; 
-    
-    /* Adjusted padding to cleanly match your app's global component layouts */
     padding: 0; 
-    
     animation: inspectFadeIn 1s ease-in-out; /* Enforced 1s standard */
     box-sizing: border-box;
 }
 
 /* ===================================================
-   THE GRID SETUP (5 COLUMNS SNAPPED TO NATURAL START)
+   THE GRID SETUP (DEFAULT: 5 COLUMNS ON DESKTOP)
 =================================================== */
 .inspect-tiles-grid {
     display: grid;
+    /* 🛠️ DEFAULT STATE: Renders exactly 5 items side-by-side */
     grid-template-columns: repeat(5, var(--tile-width)); 
     gap: 24px; 
-    
-    /* 🛠️ THE FIX: Controls placement natively without parent Flexbox pushing blocks */
-    justify-content: start; 
-    
-    /* Sets the exact inward margin required to trace under the navbar start line */
-    margin-left: 45px; 
-    
-    width: auto;
+    justify-content: center; /* 🛠️ UPDATED: Centers grid cleanly to stop screen overflow bugs */
+    margin: 0 auto;
+    width: max-content;
+    max-width: 100%;
     box-sizing: border-box;
 }
 
@@ -177,28 +169,39 @@
 }
 
 /* ===================================================
-   MOBILE RESPONSIVE STYLING (TWO PER ROW)
+   🛠️ RESPONSIVE STEPPING BREAKPOINTS SYSTEM
 =================================================== */
-@media (max-width: 1200px) {
+
+/* 1. BELOW 1400px -> DROPS DOWN TO 4 TILES PER ROW */
+@media (max-width: 1400px) {
     .inspect-tiles-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        width: 100%;
-        margin-left: 0;
-        padding: 0 20px;
+        grid-template-columns: repeat(4, var(--tile-width));
+        gap: 20px;
     }
 }
 
+/* 2. BELOW 1150px -> DROPS DOWN TO 3 TILES PER ROW */
+@media (max-width: 1150px) {
+    .inspect-tiles-grid {
+        grid-template-columns: repeat(3, var(--tile-width));
+        gap: 20px;
+    }
+}
+
+/* 3. BELOW 960px -> DROPS DOWN TO 2 TILES PER ROW (MOBILE OPTIMIZED) */
 @media (max-width: 960px) {
     .inspect-grid-container {
         margin: 20px auto 0 auto;
     }
 
     .inspect-tiles-grid {
+        /* Drops rigid tile variables to let flex fractional blocks stretch smoothly */
         grid-template-columns: repeat(2, 1fr); 
         gap: 14px; 
         max-width: 540px;
         margin: 0 auto;
         width: 100%;
+        padding: 0 16px;
     }
 
     .inspect-tile-card.image-tile {
