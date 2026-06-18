@@ -18,6 +18,7 @@ import FlashInspection from "./Pages/FlashInspectionReport/FlashInspectionReport
 import InspectionReport from "./Pages/InspectionReport/InspectionReport.jsx";
 import VendorAssessment from "./Pages/VendorAssessmentReport/VendorAssessmentReport.jsx";
 import ExpeditingReport from "./Pages/ExpeditingReport/ExpeditingReport.jsx";
+import InspectionReleaseNote from "./Pages/InspectionReleaseNote/InspectionReleaseNote.jsx";
 
 
 import './App.css';
@@ -137,23 +138,11 @@ function AppContent({
             </ProtectedRoute>
           } />
 
-          {/* <Route path="/inspection" element={
+          <Route path="/release-note" element={
             <ProtectedRoute>
-              <Inspection />
+              <InspectionReleaseNote />
             </ProtectedRoute>
           } />
-
-          <Route path="/inspection" element={
-            <ProtectedRoute>
-              <Inspection />
-            </ProtectedRoute>
-          } />
-
-          <Route path="/inspection" element={
-            <ProtectedRoute>
-              <Inspection />
-            </ProtectedRoute>
-          } /> */}
 
           {/* Inspection End */}
           

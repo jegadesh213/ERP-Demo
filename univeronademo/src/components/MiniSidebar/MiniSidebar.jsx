@@ -32,7 +32,7 @@ function MiniSidebar({ darkMode, isExpanded }) {
     { id: 2, name: 'Inspection Report', icon: <HiOutlineClipboardList />, path: '/inspection-report' },
     { id: 3, name: 'Vendor Assessment', icon: <MdOutlineAssessment />, path: '/vendor-assessment' },
     { id: 4, name: 'Expediting Report', icon: <MdOutlineSpeed />, path: '/expediting-report' },
-    { id: 5, name: 'Inspection Release Note', icon: <HiOutlineBadgeCheck />, path: '/inspection-release-note' },
+    { id: 5, name: 'Inspection Release Note', icon: <HiOutlineBadgeCheck />, path: '/release-note' },
   ];
 
   // 4. DETECTOR LAYER: Switch tracking array if route maps to an inspection module
@@ -41,7 +41,7 @@ function MiniSidebar({ darkMode, isExpanded }) {
     '/inspection-report', 
     '/vendor-assessment', 
     '/expediting-report',
-    '/inspection-release-note'
+    '/release-note'
   ].includes(currentPath);
 
   const activeMenuItems = isInspectionWorkspace ? inspectionItems : salesHubItems;

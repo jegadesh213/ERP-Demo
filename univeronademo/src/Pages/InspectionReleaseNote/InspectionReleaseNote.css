@@ -1,0 +1,505 @@
+/* ===================================================
+   MASTER FRAME LAYOUT ALIGNMENTS & SCHEMES
+=================================================== */
+.irn-release-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto 0 auto; /* Flush directly with your layout positioning metrics standards */
+    padding-bottom: 80px;
+    box-sizing: border-box;
+    animation: irnFormEntryTrack 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.irn-release-header {
+    margin-bottom: 35px;
+    text-align: left;
+}
+
+.irn-release-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.3px;
+}
+.dark .irn-release-header h2 { color: #ffffff; }
+.light .irn-release-header h2 { color: #1a1b26; }
+
+.irn-release-header p {
+    font-size: 14px;
+    margin: 0;
+}
+.dark .irn-release-header p { color: #717c9b; }
+.light .irn-release-header p { color: #5c637a; }
+
+.irn-release-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+/* ===================================================
+   BENTO STRUCTURE CANVAS CHASSIS CARDS
+=================================================== */
+.irn-bento-card {
+    border-radius: 24px;
+    padding: 32px;
+    box-sizing: border-box;
+    transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.dark .irn-bento-card {
+    background: rgba(30, 32, 54, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.light .irn-bento-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+/* ===================================================
+   METADATA GRID PANEL REGIONS
+=================================================== */
+.metadata-grid-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.input-group label,
+.checkbox-field-wrapper span,
+.regulatory-disclaimer-panel h5,
+.batch-allocation-panel h4 {
+    font-size: 13px;
+    font-weight: 600;
+}
+.dark .input-group label, .dark .regulatory-disclaimer-panel h5, .dark .batch-allocation-panel h4 { color: #9aa5ce; }
+.light .input-group label, .light .regulatory-disclaimer-panel h5, .light .batch-allocation-panel h4 { color: #43495e; }
+
+.input-group input,
+.stamp-inner-bounds input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.dark .input-group input, .dark .stamp-inner-bounds input {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+.dark .input-group input:focus, .dark .stamp-inner-bounds input:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.85);
+}
+
+.light .input-group input, .light .stamp-inner-bounds input {
+    background: rgba(240, 242, 245, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+}
+.light .input-group input:focus, .light .stamp-inner-bounds input:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+}
+
+/* Page Number Form Combinator formatting controls */
+.page-inputs-combo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.page-inputs-combo input {
+    text-align: center;
+    max-width: 100px;
+}
+
+.divider-slash {
+    font-size: 14px;
+    font-weight: bold;
+}
+.dark .divider-slash { color: #565f89; }
+.light .divider-slash { color: #9aa5ce; }
+
+/* ===================================================
+   PRODUCT SECTIONS REGISTRY MATRIX TABLES
+=================================================== */
+.table-header-control-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.table-header-control-strip h3,
+.validator-signature-panel h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+.dark .table-header-control-strip h3, .dark .validator-signature-panel h3 { color: #ffffff; }
+.light .table-header-control-strip h3, .light .validator-signature-panel h3 { color: #1a1b26; }
+
+.append-grid-row-btn {
+    background: rgba(123, 97, 255, 0.1);
+    color: #7b61ff;
+    border: 1.5px solid rgba(123, 97, 255, 0.2);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.append-grid-row-btn:hover {
+    background: #7b61ff;
+    color: #ffffff;
+}
+
+.table-responsive-scroller-rail {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.irn-matrix-grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.irn-matrix-grid-table th {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(123, 97, 255, 0.15);
+}
+.dark .irn-matrix-grid-table th { color: #717c9b; }
+.light .irn-matrix-grid-table th { color: #5c637a; }
+
+.irn-matrix-grid-table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .irn-matrix-grid-table td { border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+
+.irn-matrix-grid-table td input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    background: transparent;
+    border: 1.5px solid transparent;
+    transition: all 0.25s ease;
+}
+.dark .irn-matrix-grid-table td input { color: #ffffff; }
+.light .irn-matrix-grid-table td input { color: #1a1b26; }
+
+.dark .irn-matrix-grid-table td input:focus {
+    background: rgba(15, 17, 26, 0.7);
+    border-color: #7b61ff;
+}
+.light .irn-matrix-grid-table td input:focus {
+    background: #ffffff;
+    border-color: #7b61ff;
+}
+
+.table-footnote-hint {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.dark .table-footnote-hint { color: #565f89; }
+.light .table-footnote-hint { color: #8c95b3; }
+
+/* ===================================================
+   BATCH CLASSIFICATION MATRIX SELECTION RADIOS
+=================================================== */
+.batch-allocation-panel h4 {
+    margin: 0 0 16px 0;
+}
+
+.flex-radio-check-spread {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.checkbox-field-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.dark .checkbox-field-wrapper { color: #ffffff; }
+.light .checkbox-field-wrapper { color: #1a1b26; }
+
+.checkbox-field-wrapper input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.dark .checkbox-field-wrapper input {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+.light .checkbox-field-wrapper input {
+    background: rgba(240, 242, 245, 0.9);
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+}
+
+.checkbox-field-wrapper input:checked {
+    background: #7b61ff !important;
+    border-color: #7b61ff !important;
+}
+
+.checkbox-field-wrapper input:checked::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+/* ===================================================
+   REGULATORY SYSTEM DISCLAIMER ALERT CALLOUTS
+=================================================== */
+.regulatory-disclaimer-panel {
+    border-left: 4px solid #7b61ff !important;
+}
+
+.regulatory-disclaimer-panel h5 {
+    margin: 0 0 8px 0;
+}
+
+.regulatory-disclaimer-panel p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+.dark .regulatory-disclaimer-panel p { color: #9aa5ce; }
+.light .regulatory-disclaimer-panel p { color: #5c637a; }
+
+/* ===================================================
+   VALIDATOR SIGNATURE BOARDS AND GRAPHIC STAMPS
+=================================================== */
+.signature-double-column-lane {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.fields-stack-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.stamp-box-graphic-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stamp-box-graphic-container label {
+    font-size: 12.5px;
+    font-weight: 600;
+}
+.dark .stamp-box-graphic-container label { color: #717c9b; }
+.light .stamp-box-graphic-container label { color: #5c637a; }
+
+.stamp-inner-bounds {
+    flex: 1;
+    min-height: 140px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.dark .stamp-inner-bounds {
+    background: rgba(15, 17, 26, 0.3);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+.light .stamp-inner-bounds {
+    background: rgba(240, 242, 245, 0.5);
+    border: 2px dashed rgba(0, 0, 0, 0.12);
+}
+
+.stamp-id-field {
+    text-align: center;
+    max-width: 180px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.dark .stamp-id-field {
+    background: rgba(15, 17, 26, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+.light .stamp-id-field {
+    background: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ===================================================
+   FLOW CONTROL FOOTER FLUID SYSTEM RAILS
+=================================================== */
+.irn-canvas-action-bar-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 15px;
+}
+
+.primary-btn, .secondary-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.secondary-btn {
+    background: transparent;
+    color: #888;
+}
+.secondary-btn:hover { color: #ff3b30; }
+
+.primary-btn {
+    background: #7b61ff;
+    color: white;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.3);
+}
+.primary-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(123, 97, 255, 0.45);
+}
+
+/* ===================================================
+   🆕 NEW INTEGRATED NOTE REMARKS TEXTAREA FIELD
+=================================================== */
+.irn-textarea-note-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 24px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+/* Dynamic line dividing the radio row from textarea bounds */
+.dark .irn-textarea-note-row { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.light .irn-textarea-note-row { border-top: 1px solid rgba(0, 0, 0, 0.05); }
+
+.irn-textarea-note-row label {
+    font-size: 13px;
+    font-weight: 600;
+}
+.dark .irn-textarea-note-row label { color: #9aa5ce; }
+.light .irn-textarea-note-row label { color: #43495e; }
+
+.irn-textarea-note-row textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Dark Mode Inputs Theme Properties */
+.dark .irn-textarea-note-row textarea {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+.dark .irn-textarea-note-row textarea:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.85);
+    box-shadow: 0 0 12px rgba(123, 97, 255, 0.15);
+}
+
+/* Light Mode Inputs Theme Properties */
+.light .irn-textarea-note-row textarea {
+    background: rgba(240, 242, 245, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+}
+.light .irn-textarea-note-row textarea:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+    box-shadow: 0 0 12px rgba(123, 97, 255, 0.1);
+}
+
+/* ===================================================
+   RESPONSIVE DESIGN SCHEMES MEDIA QUERY ADAPTOR
+=================================================== */
+@media (max-width: 900px) {
+    .field-row, .signature-double-column-lane {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .stamp-inner-bounds {
+        min-height: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+    .flex-radio-check-spread {
+        flex-direction: column;
+        gap: 14px;
+    }
+    .irn-bento-card {
+        padding: 20px;
+    }
+}
+
+@keyframes irnFormEntryTrack {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
