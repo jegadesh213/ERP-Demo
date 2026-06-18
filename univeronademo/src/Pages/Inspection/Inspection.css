@@ -7,7 +7,7 @@
 
     width: 100%;
     max-width: 100%; 
-    margin: 15px 0px 0px 0px; /* 🛠️ FIXED: Reset left margin to 0 to keep grid responsive */
+    margin: 15px 0px 0px -50px; /* 🛠️ FIXED: Reset left margin to 0 to keep grid responsive */
     display: block; 
     padding: 0; 
     animation: inspectFadeIn 1s ease-in-out; /* Enforced 1s standard */
