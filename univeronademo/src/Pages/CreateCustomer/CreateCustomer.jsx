@@ -62,8 +62,7 @@ function CreateCustomer() {
     customer_group: "",
     shipping_method: "",
     project: "",
-    notes: "", 
-    status: "1"
+    notes: ""
   });
 
   const location = useLocation();
