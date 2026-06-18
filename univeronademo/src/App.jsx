@@ -13,7 +13,8 @@ import Customer from "./Pages/Customer/Customer.jsx";
 import Quotation from "./Pages/Quotation/Quotation.jsx";
 import Invoice from "./Pages/Invoice/Invoice.jsx";
 import Inspection from "./Pages/Inspection/Inspection.jsx";
-import Login from "./Pages/Login/Login.jsx"; // 👉 Added Login import
+import Login from "./Pages/Login/Login.jsx"
+import FlashInspection from "./Pages/FlashInspectionReport/FlashInspectionReport.jsx";
 
 import './App.css';
 
@@ -99,12 +100,46 @@ function AppContent({
               <Order />
             </ProtectedRoute>
           } />
+
+          {/* Inspection Start */}
           
           <Route path="/inspection" element={
             <ProtectedRoute>
               <Inspection />
             </ProtectedRoute>
           } />
+
+          <Route path="/flash-inspection" element={
+            <ProtectedRoute>
+              <FlashInspection />
+            </ProtectedRoute>
+          } />
+
+          {/* <Route path="/inspection" element={
+            <ProtectedRoute>
+              <Inspection />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/inspection" element={
+            <ProtectedRoute>
+              <Inspection />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/inspection" element={
+            <ProtectedRoute>
+              <Inspection />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/inspection" element={
+            <ProtectedRoute>
+              <Inspection />
+            </ProtectedRoute>
+          } /> */}
+
+          {/* Inspection End */}
           
           <Route path="/invoice" element={
             <ProtectedRoute>

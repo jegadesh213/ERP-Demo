@@ -1,0 +1,435 @@
+/* ===================================================
+   MASTER ALIGNMENT STRUCTURE & CANVAS DEFINITIONS
+=================================================== */
+.flash-report-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto 0 auto; /* Flush directly with navigation layout parameters */
+    padding-bottom: 60px;
+    box-sizing: border-box;
+    animation: reportEntryFade 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.flash-report-header {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.flash-report-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+}
+.dark .flash-report-header h2 { color: #ffffff; }
+.light .flash-report-header h2 { color: #1a1b26; }
+
+.flash-report-header p {
+    font-size: 14px;
+    margin: 0;
+}
+.dark .flash-report-header p { color: #717c9b; }
+.light .flash-report-header p { color: #5c637a; }
+
+.flash-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+}
+
+/* ===================================================
+   BENTO DESIGN SURFACE CARD WRAPPERS
+=================================================== */
+.report-bento-card {
+    border-radius: 24px;
+    padding: 32px;
+    box-sizing: border-box;
+    transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.dark .report-bento-card {
+    background: rgba(30, 32, 54, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.light .report-bento-card {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+/* ===================================================
+   SECTION 1: METADATA GRID PARAMETERS
+=================================================== */
+.meta-grid-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.meta-grid-section .full-width-input {
+    grid-column: span 2;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+}
+.dark .input-group label { color: #9aa5ce; }
+.light .input-group label { color: #43495e; }
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.dark .input-group input {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+.dark .input-group input:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.8);
+}
+
+.light .input-group input {
+    background: rgba(240, 242, 245, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+}
+.light .input-group input:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+}
+
+/* ===================================================
+   SECTION 2: PRODUCT GRID ENTRY MATRIX TABLE
+=================================================== */
+.table-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-header-row h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+.dark .table-header-row h3 { color: #ffffff; }
+.light .table-header-row h3 { color: #1a1b26; }
+
+.add-row-btn {
+    background: rgba(123, 97, 255, 0.1);
+    color: #7b61ff;
+    border: 1.5px solid rgba(123, 97, 255, 0.2);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.add-row-btn:hover {
+    background: #7b61ff;
+    color: #ffffff;
+}
+
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.inspected-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.inspected-items-table th {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(123, 97, 255, 0.15);
+}
+.dark .inspected-items-table th { color: #717c9b; }
+.light .inspected-items-table th { color: #5c637a; }
+
+.inspected-items-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .inspected-items-table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.inspected-items-table td input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    box-sizing: border-box;
+    background: transparent;
+    border: 1.5px solid transparent;
+    transition: all 0.25s ease;
+}
+.dark .inspected-items-table td input { color: #ffffff; }
+.light .inspected-items-table td input { color: #1a1b26; }
+
+.dark .inspected-items-table td input:focus {
+    background: rgba(15, 17, 26, 0.7);
+    border-color: #7b61ff;
+}
+.light .inspected-items-table td input:focus {
+    background: #ffffff;
+    border-color: #7b61ff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+/* ===================================================
+   SECTION 3: MATRIX TRACK CHECKBOX DESIGN FIELDS
+=================================================== */
+.results-status-split {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.radio-group-block h4,
+.inspection-matrix-grid h4 {
+    margin: 0 0 14px 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+.dark .radio-group-block h4, .dark .inspection-matrix-grid h4 { color: #9aa5ce; }
+.light .radio-group-block h4, .light .inspection-matrix-grid h4 { color: #43495e; }
+
+.custom-options-row {
+    display: flex;
+    gap: 24px;
+}
+
+.checkbox-field-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
+.dark .checkbox-field-label { color: #ffffff; }
+.light .checkbox-field-label { color: #1a1b26; }
+
+.checkbox-field-label input[type="checkbox"],
+.checkbox-field-label input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.checkbox-field-label input[type="radio"] {
+    border-radius: 50%;
+}
+
+.dark .checkbox-field-label input {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+.light .checkbox-field-label input {
+    background: rgba(240, 242, 245, 0.9);
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+}
+
+.checkbox-field-label input:checked {
+    background: #7b61ff !important;
+    border-color: #7b61ff !important;
+}
+
+.checkbox-field-label input:checked::after {
+    content: "✓";
+    font-size: 12px;
+    color: white;
+    font-weight: 700;
+}
+.checkbox-field-label input[type="radio"]:checked::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.textarea-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+.textarea-group label {
+    font-size: 13px;
+    font-weight: 600;
+}
+.dark .textarea-group label { color: #9aa5ce; }
+.light .textarea-group label { color: #43495e; }
+
+.textarea-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+.dark .textarea-group textarea {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    color: white;
+}
+.dark .textarea-group textarea:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.8);
+}
+.light .textarea-group textarea {
+    background: rgba(240, 242, 245, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+}
+.light .textarea-group textarea:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+}
+
+.inspection-matrix-grid {
+    margin-bottom: 25px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .inspection-matrix-grid {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.matrix-check-box-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 24px;
+}
+
+.clearance-certificates-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.inspector-signature-row {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .inspector-signature-row {
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ===================================================
+   ACTION FLOW CONTROLS
+=================================================== */
+.form-submission-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.action-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.action-btn.cancel {
+    background: transparent;
+    color: #888;
+}
+.action-btn.cancel:hover { color: #ff3b30; }
+
+.action-btn.submit {
+    background: #7b61ff;
+    color: white;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.3);
+}
+.action-btn.submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(123, 97, 255, 0.45);
+}
+
+/* ===================================================
+   RESPONSIVE DESIGN SYSTEM MEDIA QUERIES
+=================================================== */
+@media (max-width: 880px) {
+    .meta-grid-section {
+        grid-template-columns: 1fr;
+    }
+    .meta-grid-section .full-width-input {
+        grid-column: span 1;
+    }
+    .results-status-split {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .matrix-check-box-columns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .matrix-check-box-columns {
+        grid-template-columns: 1fr;
+    }
+    .clearance-certificates-row {
+        gap: 16px;
+        flex-direction: column;
+    }
+    .report-bento-card {
+        padding: 20px;
+    }
+}
+
+@keyframes reportEntryFade {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
