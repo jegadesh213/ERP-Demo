@@ -1,0 +1,519 @@
+/* ===================================================
+   MASTER BASE CONFIGURATION & GRAPHIC CANVAS METRICS
+=================================================== */
+.inspect-report-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto 0 auto; 
+    padding-bottom: 80px;
+    box-sizing: border-box;
+    animation: inspectFormFade 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.inspect-report-header {
+    margin-bottom: 35px;
+    text-align: left;
+}
+
+.inspect-report-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.3px;
+}
+.dark .inspect-report-header h2 { color: #ffffff; }
+.light .inspect-report-header h2 { color: #1a1b26; }
+
+.inspect-report-header p {
+    font-size: 14px;
+    margin: 0;
+}
+.dark .inspect-report-header p { color: #717c9b; }
+.light .inspect-report-header p { color: #5c637a; }
+
+.inspect-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+/* ===================================================
+   BENTO MATRIX GLASS CARD BOX ENTITIES
+=================================================== */
+.inspect-bento-card {
+    border-radius: 24px;
+    padding: 32px;
+    box-sizing: border-box;
+    transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.dark .inspect-bento-card {
+    background: rgba(30, 32, 54, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.light .inspect-bento-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+/* ===================================================
+   FIELDS ROWS GRID DESIGN ENGINE
+=================================================== */
+.meta-grid-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.input-group.full-width {
+    width: 100%;
+}
+
+.input-group label,
+.textarea-row label,
+.photo-description-field-box label {
+    font-size: 13px;
+    font-weight: 600;
+}
+.dark .input-group label, .dark .textarea-row label, .dark .photo-description-field-box label { color: #9aa5ce; }
+.light .input-group label, .light .textarea-row label, .light .photo-description-field-box label { color: #43495e; }
+
+.input-group input,
+.photo-description-field-box input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.dark .input-group input, .dark .photo-description-field-box input {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+.dark .input-group input:focus, .dark .photo-description-field-box input:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.85);
+}
+
+.light .input-group input, .light .photo-description-field-box input {
+    background: rgba(240, 242, 245, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+}
+.light .input-group input:focus, .light .photo-description-field-box input:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+}
+
+/* ===================================================
+   ENTRY LOG TABLES
+=================================================== */
+.table-action-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.table-action-header h3,
+.hours-record-matrix-card h3,
+.photographs-section-card h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+.dark .table-action-header h3, .dark .hours-record-matrix-card h3, .dark .photographs-section-card h3 { color: #ffffff; }
+.light .table-action-header h3, .light .hours-record-matrix-card h3, .light .photographs-section-card h3 { color: #1a1b26; }
+
+.append-row-btn {
+    background: rgba(123, 97, 255, 0.1);
+    color: #7b61ff;
+    border: 1.5px solid rgba(123, 97, 255, 0.2);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.append-row-btn:hover {
+    background: #7b61ff;
+    color: #ffffff;
+}
+
+.table-overflow-scroller {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.inspect-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.inspect-matrix-table th {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(123, 97, 255, 0.15);
+}
+.dark .inspect-matrix-table th { color: #717c9b; }
+.light .inspect-matrix-table th { color: #5c637a; }
+
+.inspect-matrix-table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .inspect-matrix-table td { border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+
+.inspect-matrix-table td input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    background: transparent;
+    border: 1.5px solid transparent;
+    transition: all 0.25s ease;
+}
+.dark .inspect-matrix-table td input { color: #ffffff; }
+.light .inspect-matrix-table td input { color: #1a1b26; }
+
+.dark .inspect-matrix-table td input:focus {
+    background: rgba(15, 17, 26, 0.7);
+    border-color: #7b61ff;
+}
+.light .inspect-matrix-table td input:focus {
+    background: #ffffff;
+    border-color: #7b61ff;
+}
+
+/* ===================================================
+   CHECKBOX & MULTI-TEXT FIELD TRACKS
+=================================================== */
+.checkbox-split-control-lane {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 24px;
+}
+
+.radio-block h4,
+.attachments-accent-lane h4,
+.signature-block h4 {
+    margin: 0 0 14px 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+.dark .radio-block h4, .dark .attachments-accent-lane h4, .dark .signature-block h4 { color: #9aa5ce; }
+.light .radio-block h4, .light .attachments-accent-lane h4, .light .signature-block h4 { color: #43495e; }
+
+.flex-selection-row, .checkbox-spread-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.custom-check-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
+.dark .custom-check-wrapper { color: #ffffff; }
+.light .custom-check-wrapper { color: #1a1b26; }
+
+.custom-check-wrapper input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.custom-check-wrapper input[type="radio"] { border-radius: 50%; }
+
+.dark .custom-check-wrapper input {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+.light .custom-check-wrapper input {
+    background: rgba(240, 242, 245, 0.9);
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+}
+
+.custom-check-wrapper input:checked {
+    background: #7b61ff !important;
+    border-color: #7b61ff !important;
+}
+.custom-check-wrapper input:checked::after {
+    content: "✓";
+    font-size: 12px;
+    color: white;
+    font-weight: 700;
+}
+.custom-check-wrapper input[type="radio"]:checked::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.textarea-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.textarea-row textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+.dark .textarea-row textarea {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    color: white;
+}
+.dark .textarea-row textarea:focus {
+    border-color: #7b61ff;
+    background: rgba(15, 17, 26, 0.8);
+}
+.light .textarea-row textarea {
+    background: rgba(240, 242, 245, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    color: #1a1b26;
+}
+.light .textarea-row textarea:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+}
+
+.attachments-accent-lane {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .attachments-accent-lane { border-top: 1px solid rgba(0,0,0,0.06); }
+
+/* ===================================================
+   🆕 NEW UPGRADED FILE UPLOADER + DESCRIPTION LIST
+=================================================== */
+.photos-uploader-flex-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.photo-upload-row-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px;
+    border-radius: 16px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.dark .photo-upload-row-item { 
+    background: rgba(15, 17, 26, 0.3); 
+    border: 1px solid rgba(255, 255, 255, 0.04); 
+}
+.light .photo-upload-row-item { 
+    background: rgba(240, 242, 245, 0.4); 
+    border: 1px solid rgba(0, 0, 0, 0.04); 
+}
+
+.photo-thumbnail-uploader-box {
+    width: 90px;
+    height: 90px;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dark .photo-thumbnail-uploader-box { 
+    background: rgba(15, 17, 26, 0.6); 
+    border: 2px dashed rgba(255, 255, 255, 0.12); 
+}
+.light .photo-thumbnail-uploader-box { 
+    background: rgba(255, 255, 255, 0.9); 
+    border: 2px dashed rgba(0, 0, 0, 0.15); 
+}
+
+.upload-dropzone-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-align: center;
+    padding: 4px;
+}
+
+.upload-plus-icon { font-size: 20px; font-weight: bold; color: #7b61ff; }
+.upload-hint-text { font-size: 10px; font-weight: 600; margin-top: 4px; color: #888; }
+
+.uploaded-thumb-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hidden-file-input {
+    display: none !important;
+}
+
+.photo-description-field-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===================================================
+   HOURS METER ARCHITECTURE & COUNTERS
+=================================================== */
+.hours-inputs-metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 24px 0;
+}
+
+.signatures-stamps-double-lane {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.light .signatures-stamps-double-lane { border-top: 1px solid rgba(0,0,0,0.06); }
+
+.signature-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ===================================================
+   RAILS ACTIONS SYSTEM CONTROLS
+=================================================== */
+.report-canvas-action-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.form-primary-btn, .form-secondary-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.form-secondary-btn {
+    background: transparent;
+    color: #888;
+}
+.form-secondary-btn:hover { color: #ff3b30; }
+
+.form-primary-btn {
+    background: #7b61ff;
+    color: white;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.3);
+}
+.form-primary-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(123, 97, 255, 0.45);
+}
+
+/* ===================================================
+   RESPONSIVE OVERRIDES
+=================================================== */
+@media (max-width: 900px) {
+    .field-row, .checkbox-split-control-lane,
+    .signatures-stamps-double-lane {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .hours-inputs-metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .photo-upload-row-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    .photo-description-field-box {
+        width: 100%;
+    }
+    .hours-inputs-metrics-row {
+        grid-template-columns: 1fr;
+    }
+    .checkbox-spread-row {
+        flex-direction: column;
+        gap: 14px;
+    }
+    .inspect-bento-card {
+        padding: 20px;
+    }
+}
+
+@keyframes inspectFormFade {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}

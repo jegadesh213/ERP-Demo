@@ -15,6 +15,8 @@ import Invoice from "./Pages/Invoice/Invoice.jsx";
 import Inspection from "./Pages/Inspection/Inspection.jsx";
 import Login from "./Pages/Login/Login.jsx"
 import FlashInspection from "./Pages/FlashInspectionReport/FlashInspectionReport.jsx";
+import InspectionReport from "./Pages/InspectionReport/InspectionReport.jsx";
+
 
 import './App.css';
 
@@ -115,13 +117,13 @@ function AppContent({
             </ProtectedRoute>
           } />
 
-          {/* <Route path="/inspection" element={
+          <Route path="/inspection-report" element={
             <ProtectedRoute>
-              <Inspection />
+              <InspectionReport />
             </ProtectedRoute>
           } />
 
-          <Route path="/inspection" element={
+          {/* <Route path="/inspection" element={
             <ProtectedRoute>
               <Inspection />
             </ProtectedRoute>
