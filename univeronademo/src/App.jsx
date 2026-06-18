@@ -16,6 +16,7 @@ import Inspection from "./Pages/Inspection/Inspection.jsx";
 import Login from "./Pages/Login/Login.jsx"
 import FlashInspection from "./Pages/FlashInspectionReport/FlashInspectionReport.jsx";
 import InspectionReport from "./Pages/InspectionReport/InspectionReport.jsx";
+import VendorAssessment from "./Pages/VendorAssessmentReport/VendorAssessmentReport.jsx";
 
 
 import './App.css';
@@ -120,6 +121,12 @@ function AppContent({
           <Route path="/inspection-report" element={
             <ProtectedRoute>
               <InspectionReport />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/vendor-assessment" element={
+            <ProtectedRoute>
+              <VendorAssessment />
             </ProtectedRoute>
           } />
 
