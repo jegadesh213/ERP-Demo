@@ -20,7 +20,7 @@ function Navbar({ toggleSidebar, toggleMiniSidebar, toggleMobileMenu, darkMode, 
   const [userEmail, setUserEmail] = useState("");
 
   // Conditional guards matching page location routes
-  const hideHamburger = location.pathname === "/" || location.pathname === "/sales" || location.pathname === '/inspection';
+  const hideHamburger = location.pathname === "/" || location.pathname === "/sales" || location.pathname === '/inspection' || location.pathname === '/purchase-order';
   const isHomePage = location.pathname === "/";
 
   // Pull profile text metadata safely from system database session blocks

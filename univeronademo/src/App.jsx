@@ -19,6 +19,7 @@ import InspectionReport from "./Pages/InspectionReport/InspectionReport.jsx";
 import VendorAssessment from "./Pages/VendorAssessmentReport/VendorAssessmentReport.jsx";
 import ExpeditingReport from "./Pages/ExpeditingReport/ExpeditingReport.jsx";
 import InspectionReleaseNote from "./Pages/InspectionReleaseNote/InspectionReleaseNote.jsx";
+import PurchaseOrder from "./Pages/PurchaseOrder/PurchaseOrder.jsx";
 
 
 import './App.css';
@@ -145,6 +146,12 @@ function AppContent({
           } />
 
           {/* Inspection End */}
+
+          <Route path="/purchase-order" element={
+            <ProtectedRoute>
+              <PurchaseOrder />
+            </ProtectedRoute>
+          } />
           
           <Route path="/invoice" element={
             <ProtectedRoute>

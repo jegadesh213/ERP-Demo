@@ -13,7 +13,8 @@ function MiniSidebar({ darkMode, isExpanded }) {
   if (
     currentPath === '/' || 
     currentPath === '/sales' || 
-    currentPath === '/inspection'
+    currentPath === '/inspection' ||
+    currentPath === '/purchase-order'
   ) {
     return null;
   }

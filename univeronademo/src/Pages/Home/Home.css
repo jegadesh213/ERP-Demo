@@ -15,7 +15,7 @@
 
 .minimal-tiles-grid {
     display: grid;
-    grid-template-columns: repeat(2, 220px); /* Symmetrical rigid desktop sizing */
+    grid-template-columns: repeat(3, 220px); /* Symmetrical rigid desktop sizing */
     gap: 30px;
     justify-content: flex-start; /* Keeps column tracks flush left */
     width: auto;

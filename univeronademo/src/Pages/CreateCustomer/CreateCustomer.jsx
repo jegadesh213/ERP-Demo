@@ -81,23 +81,45 @@ function CreateCustomer() {
           
           if (result.statusCode === 200 && result.data) {
             const data = result.data;
+            // 🛠️ THE FIX: Updated parsing maps to match the new backend keys precisely
             setFormData(prev => ({
               ...prev,
               type: data.type?.toString() || "1",
               customer_number: data.customer_no || "",
               name: data.name || "",
+              contact_person: data.contact_person_name || "",
               phone: data.primary_mobile || "",
               mobile: data.secondary_mobile || "",
               email: data.email || "",
               website: data.website || "",
-              project: data.project || "",
-              bill_address1: data.address1 || "",
-              bill_address2: data.address2 || "",
-              bill_city: data.city || "",
-              bill_zip: data.zip_code || "",
-              bill_landmark: data.landmark || "",
+              division: data.division || "",
+              industry: data.industry_id?.toString() || "",
+              bill_address1: data.billing_address1 || "",
+              bill_address2: data.billing_address2 || "",
+              bill_city: data.billing_city || "",
+              bill_zip: data.billing_postal_code || "",
+              bill_landmark: data.billing_land_mark || "",
+              ship_address1: data.shipping_address1 || "",
+              ship_address2: data.shipping_address2 || "",
+              ship_city: data.shipping_city || "",
+              ship_zip: data.shipping_postal_code || "",
+              ship_landmark: data.shipping_land_mark || "",
               gst_no: data.gst_no || "",
               pan_no: data.pan_no || "",
+              payment_term: data.payment_term_id?.toString() || "",
+              payment_method: data.payment_method_id?.toString() || "",
+              currency: data.currency_id === 2 ? "USD" : "INR",
+              credit_limit: data.credit_limit || "",
+              bank_holder: data.holder_name || "",
+              bank_name: data.bank_name || "",
+              bank_account: data.account_no || "",
+              bank_ifsc: data.ifsc_code || "",
+              bank_branch: data.branch_name || "",
+              bank_type: data.account_type || "",
+              sales_region: data.sales_region || "",
+              customer_group: data.customer_group || "",
+              shipping_method: data.shipping_method || "",
+              notes: data.note || "",
               status: data.status?.toString() || "1"
             }));
           }
@@ -123,36 +145,73 @@ function CreateCustomer() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    
+    // Check if the field being changed is one of the phone/mobile inputs
+    if (name === "phone" || name === "mobile") {
+      // Strips out any character that is NOT a numeric digit (0-9)
+      const numericValue = value.replace(/\D/g, '');
+      
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: numericValue
+      }));
+    } else {
+      // Standard behavior for all other form inputs
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleSave = async () => {
     setIsSubmitting(true);
     showLoader();
     
+    // 🛠️ THE FIX: Rewritten request payload schema matching the updated backend data structure
     const payload = {
       type: parseInt(formData.type) || 1,
       name: formData.name,
-      gst_no: formData.gst_no,
-      pan_no: formData.pan_no,
-      primary_mobile: formData.phone, 
-      secondary_mobile: formData.mobile, 
-      email: formData.email,
-      website: formData.website,
-      project: formData.project,
-      address1: formData.bill_address1,
-      address2: formData.bill_address2,
-      country_id: 1, 
-      state_id: 1,   
-      city: formData.bill_city,
-      zip_code: formData.bill_zip,
-      landmark: formData.bill_landmark,
-      sales_person_id: 1, 
-      payment_term_id: 1, 
-      payment_method_id: 1, 
+      contact_person_name: formData.contact_person || null,
+      primary_mobile: formData.phone || null, 
+      secondary_mobile: formData.mobile || null, 
+      email: formData.email || null,
+      website: formData.website || null,
+      industry_id: parseInt(formData.industry) || null,
+      division: formData.division || null,
+      billing_address1: formData.bill_address1 || null,
+      billing_address2: formData.bill_address2 || null,
+      billing_country_id: 1, 
+      billing_state_id: 1,   
+      billing_city: formData.bill_city || null,
+      billing_postal_code: formData.bill_zip || null,
+      billing_land_mark: formData.bill_landmark || null,
+      shipping_address1: formData.ship_address1 || null,
+      shipping_address2: formData.ship_address2 || null,
+      shipping_country_id: 1,
+      shipping_state_id: 1,
+      shipping_city: formData.ship_city || null,
+      shipping_postal_code: formData.ship_zip || null,
+      shipping_land_mark: formData.ship_landmark || null,
+      gst_no: formData.gst_no || null,
+      pan_no: formData.pan_no || null,
+      payment_term_id: parseInt(formData.payment_term) || 1, 
+      payment_method_id: parseInt(formData.payment_method) || 1, 
+      currency_id: formData.currency === "USD" ? 2 : 1,
+      credit_limit: formData.credit_limit || "0.00",
+      bank_name: formData.bank_name || null,
+      account_no: formData.bank_account || null,
+      ifsc_code: formData.bank_ifsc || null,
+      branch_name: formData.bank_branch || null,
+      holder_name: formData.bank_holder || null,
+      account_type: formData.bank_type || null,
+      sales_region: formData.sales_region || null,
+      sales_person: null,
+      customer_group: formData.customer_group || null,
+      pricing_group: null,
+      shipping_method: formData.shipping_method || null,
+      delivery_terms: null,
+      note: formData.notes || null,
       status: parseInt(formData.status) || 1
     };
 
@@ -192,10 +251,9 @@ function CreateCustomer() {
     <div className="create-page">
       <div className="cust-page-header">
         <h1 className="cust-page-title">{editId ? "Edit Customer Profile" : "Create Customer Master"}</h1>
-        {/* <p className="cust-page-subtitle">Configure ledger definitions, delivery addresses, and operational tax controls</p> */}
       </div>
 
-      <form className="customer-form-scroller">
+      <form className="customer-form-scroller" onSubmit={(e) => e.preventDefault()}>
 
         {/* ==========================================
             1. GENERAL INFORMATION CARD
@@ -216,7 +274,7 @@ function CreateCustomer() {
             
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Customer Number</label><span className="char-limit">Max 10</span></div>
-              <input type="text" name="customer_number" value={formData.customer_number} onChange={handleChange} maxLength={10} placeholder="Auto-generated ID string" />
+              <input type="text" name="customer_number" value={formData.customer_number} onChange={handleChange} maxLength={10} placeholder="Auto-generated ID string" readOnly={!!editId} />
             </div>
             
             <div className="cust-input-group">
@@ -231,8 +289,8 @@ function CreateCustomer() {
               <label>Type of Industry</label>
               <select name="industry" value={formData.industry} onChange={handleChange}>
                 <option value="">Select Industry</option>
-                <option value="IT">Information Technology</option>
-                <option value="Manufacturing">Manufacturing</option>
+                <option value="1">Information Technology</option>
+                <option value="2">Manufacturing</option>
               </select>
             </div>
             
@@ -384,14 +442,14 @@ function CreateCustomer() {
               <label>Payment Term</label>
               <select name="payment_term" value={formData.payment_term} onChange={handleChange}>
                 <option value="">Select Term</option>
-                <option value="Net 30">Net 30 Days</option>
+                <option value="1">Net 30 Days</option>
               </select>
             </div>
             <div className="cust-input-group">
               <label>Payment Method</label>
               <select name="payment_method" value={formData.payment_method} onChange={handleChange}>
                 <option value="">Select Method</option>
-                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="1">Bank Transfer</option>
               </select>
             </div>
             <div className="cust-input-group">
@@ -473,7 +531,7 @@ function CreateCustomer() {
             </div>
             <div className="cust-input-group full-width-field">
               <label>Documents Attachment</label>
-              <input type="file" multiple className="file-upload-input" />
+              <input type="file" multiple className="file-upload-input" onChange={handleImageUpload} />
             </div>
             <div className="cust-input-group full-width-field">
               <div className="label-wrapper"><label>Notes</label><span className="char-limit">Max 300</span></div>

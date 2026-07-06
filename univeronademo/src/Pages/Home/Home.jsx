@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HiOutlineTrendingUp, HiOutlineShieldCheck } from 'react-icons/hi';
+import { HiOutlineTrendingUp, HiOutlineShieldCheck, HiOutlineDocumentText } from 'react-icons/hi';
 import './Home.css';
 
 function Home() {
@@ -24,6 +24,14 @@ function Home() {
             <HiOutlineShieldCheck className="minimal-icon" />
           </div>
           <h3 className="minimal-tile-label">Inspection</h3>
+        </div>
+
+        {/* Purchase Order Tile */}
+        <div className="minimal-tile" onClick={() => navigate('/purchase-order')}>
+          <div className="minimal-icon-circle">
+            <HiOutlineDocumentText className="minimal-icon" />
+          </div>
+          <h3 className="minimal-tile-label">Purchase Order</h3>
         </div>
 
       </div>
