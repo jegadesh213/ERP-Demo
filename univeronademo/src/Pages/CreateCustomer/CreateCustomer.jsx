@@ -9,8 +9,8 @@ function CreateCustomer() {
   const navigate = useNavigate();
   const { showLoader, hideLoader } = useLoader();
 
-  // State for Profile Image
-  const [profileImg, setProfileImg] = useState(null);
+  // State for Attachments (Tracks original File objects)
+  const [attachments, setAttachments] = useState([]);
 
   // Dynamic Country/State Dropdowns (UI Only)
   const countryStateData = {
@@ -81,7 +81,6 @@ function CreateCustomer() {
           
           if (result.statusCode === 200 && result.data) {
             const data = result.data;
-            // 🛠️ THE FIX: Updated parsing maps to match the new backend keys precisely
             setFormData(prev => ({
               ...prev,
               type: data.type?.toString() || "1",
@@ -137,95 +136,94 @@ function CreateCustomer() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImg(URL.createObjectURL(file));
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setAttachments(files);
     }
   };
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  
-  // Validation for Phone and Mobile fields to prevent invalid symbols/letters
-  if (name === 'mobile' || name === 'phone') {
-    // Allows only numbers. (If you want to allow a leading +, use: value.replace(/[^\d+]/g, ''))
-    const cleanValue = value.replace(/[^\d]/g, ''); 
-    setFormData(prev => ({
-      ...prev,
-      [name]: cleanValue
-    }));
-    return; // Intercept and exit early
-  }
+    const { name, value } = e.target;
+    
+    if (name === 'mobile' || name === 'phone') {
+      const cleanValue = value.replace(/[^\d]/g, ''); 
+      setFormData(prev => ({ ...prev, [name]: cleanValue }));
+      return; 
+    }
 
-  setFormData(prev => ({
-    ...prev,
-    [name]: value
-  }));
-};
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSave = async () => {
+    if (formData.mobile && !/^\d{10,15}$/.test(formData.mobile)) {
+      alert("Please enter a valid mobile number containing only digits (10 to 15 digits).");
+      return;
+    }
+    
+    if (formData.phone && !/^\d{7,15}$/.test(formData.phone)) {
+      alert("Please enter a valid phone number containing only digits.");
+      return;
+    }
+
     setIsSubmitting(true);
-    // Simple validation check before sending payload to backend
-  if (formData.mobile && !/^\d{10,15}$/.test(formData.mobile)) {
-    alert("Please enter a valid mobile number containing only digits (10 to 15 digits).");
-    return;
-  }
-  
-  if (formData.phone && !/^\d{7,15}$/.test(formData.phone)) {
-    alert("Please enter a valid phone number containing only digits.");
-    return;
-  }
     showLoader();
     
-    // 🛠️ THE FIX: Rewritten request payload schema matching the updated backend data structure
-    const payload = {
-      type: parseInt(formData.type) || 1,
-      name: formData.name,
-      contact_person_name: formData.contact_person || null,
-      primary_mobile: formData.phone || null, 
-      secondary_mobile: formData.mobile || null, 
-      email: formData.email || null,
-      website: formData.website || null,
-      industry_id: parseInt(formData.industry) || null,
-      division: formData.division || null,
-      billing_address1: formData.bill_address1 || null,
-      billing_address2: formData.bill_address2 || null,
-      billing_country_id: 1, 
-      billing_state_id: 1,   
-      billing_city: formData.bill_city || null,
-      billing_postal_code: formData.bill_zip || null,
-      billing_land_mark: formData.bill_landmark || null,
-      shipping_address1: formData.ship_address1 || null,
-      shipping_address2: formData.ship_address2 || null,
-      shipping_country_id: 1,
-      shipping_state_id: 1,
-      shipping_city: formData.ship_city || null,
-      shipping_postal_code: formData.ship_zip || null,
-      shipping_land_mark: formData.ship_landmark || null,
-      gst_no: formData.gst_no || null,
-      pan_no: formData.pan_no || null,
-      payment_term_id: parseInt(formData.payment_term) || 1, 
-      payment_method_id: parseInt(formData.payment_method) || 1, 
-      currency_id: formData.currency === "USD" ? 2 : 1,
-      credit_limit: formData.credit_limit || "0.00",
-      bank_name: formData.bank_name || null,
-      account_no: formData.bank_account || null,
-      ifsc_code: formData.bank_ifsc || null,
-      branch_name: formData.bank_branch || null,
-      holder_name: formData.bank_holder || null,
-      account_type: formData.bank_type || null,
-      sales_region: formData.sales_region || null,
-      sales_person: null,
-      customer_group: formData.customer_group || null,
-      pricing_group: null,
-      shipping_method: formData.shipping_method || null,
-      delivery_terms: null,
-      note: formData.notes || null,
-      status: parseInt(formData.status) || 1
-    };
+    // Construct Multi-part Form Data payload
+    const dataPayload = new FormData();
+    
+    dataPayload.append('type', parseInt(formData.type) || 1);
+    dataPayload.append('name', formData.name);
+    dataPayload.append('contact_person_name', formData.contact_person || '');
+    dataPayload.append('primary_mobile', formData.phone || '');
+    dataPayload.append('secondary_mobile', formData.mobile || '');
+    dataPayload.append('email', formData.email || '');
+    dataPayload.append('website', formData.website || '');
+    dataPayload.append('industry_id', formData.industry ? parseInt(formData.industry) : '');
+    dataPayload.append('division', formData.division || '');
+    dataPayload.append('billing_address1', formData.bill_address1 || '');
+    dataPayload.append('billing_address2', formData.bill_address2 || '');
+    dataPayload.append('billing_country_id', 1);
+    dataPayload.append('billing_state_id', 1);
+    dataPayload.append('billing_city', formData.bill_city || '');
+    dataPayload.append('billing_postal_code', formData.bill_zip || '');
+    dataPayload.append('billing_land_mark', formData.bill_landmark || '');
+    dataPayload.append('shipping_address1', formData.ship_address1 || '');
+    dataPayload.append('shipping_address2', formData.ship_address2 || '');
+    dataPayload.append('shipping_country_id', 1);
+    dataPayload.append('shipping_state_id', 1);
+    dataPayload.append('shipping_city', formData.ship_city || '');
+    dataPayload.append('shipping_postal_code', formData.ship_zip || '');
+    dataPayload.append('shipping_land_mark', formData.ship_landmark || '');
+    dataPayload.append('gst_no', formData.gst_no || '');
+    dataPayload.append('pan_no', formData.pan_no || '');
+    dataPayload.append('payment_term_id', parseInt(formData.payment_term) || 1);
+    dataPayload.append('payment_method_id', parseInt(formData.payment_method) || 1);
+    dataPayload.append('currency_id', formData.currency === "USD" ? 2 : 1);
+    dataPayload.append('credit_limit', formData.credit_limit || "0.00");
+    dataPayload.append('bank_name', formData.bank_name || '');
+    dataPayload.append('account_no', formData.bank_account || '');
+    dataPayload.append('ifsc_code', formData.bank_ifsc || '');
+    dataPayload.append('branch_name', formData.bank_branch || '');
+    dataPayload.append('holder_name', formData.bank_holder || '');
+    dataPayload.append('account_type', formData.bank_type || '');
+    dataPayload.append('sales_region', formData.sales_region || '');
+    dataPayload.append('customer_group', formData.customer_group || '');
+    dataPayload.append('shipping_method', formData.shipping_method || '');
+    dataPayload.append('note', formData.notes || '');
+    dataPayload.append('status', parseInt(formData.status) || 1);
+
+    // Dynamic Multi-File Injection matching expected collection schema
+    attachments.forEach((file) => {
+      dataPayload.append('attachments[]', file);
+    });
+
+    // Handle Laravel/Backend method constraints for PUT over multi-part payloads
+    const method = editId ? 'POST' : 'POST'; 
+    if (editId) {
+      dataPayload.append('_method', 'PUT');
+    }
 
     try {
-      const method = editId ? 'PUT' : 'POST';
       const url = editId 
         ? `https://sdsinfotech.co.in/api/customers/${editId}` 
         : 'https://sdsinfotech.co.in/api/customers';
@@ -233,10 +231,10 @@ function CreateCustomer() {
       const response = await fetch(url, {
         method: method,
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${activeToken}`
+          // Do NOT set Content-Type header here; the browser automatically adds the multipart boundary
         },
-        body: JSON.stringify(payload)
+        body: dataPayload
       });
 
       const result = await response.json();
@@ -263,14 +261,9 @@ function CreateCustomer() {
       </div>
 
       <form className="customer-form-scroller" onSubmit={(e) => e.preventDefault()}>
-
-        {/* ==========================================
-            1. GENERAL INFORMATION CARD
-        ========================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">General Information</h3>
           <div className="cust-form-grid">
-            
             <div className="cust-input-group">
               <label>Customer Type</label>
               <select name="type" value={formData.type} onChange={handleChange}>
@@ -280,12 +273,10 @@ function CreateCustomer() {
                 <option value="4">Export</option>
               </select>
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Customer Number</label><span className="char-limit">Max 10</span></div>
               <input type="text" name="customer_number" value={formData.customer_number} onChange={handleChange} maxLength={10} placeholder="Auto-generated ID string" readOnly={!!editId} />
             </div>
-            
             <div className="cust-input-group">
               <label>Division</label>
               <select name="division" value={formData.division} onChange={handleChange}>
@@ -293,7 +284,6 @@ function CreateCustomer() {
                 <option value="Service">Service</option>
               </select>
             </div>
-            
             <div className="cust-input-group">
               <label>Type of Industry</label>
               <select name="industry" value={formData.industry} onChange={handleChange}>
@@ -302,7 +292,6 @@ function CreateCustomer() {
                 <option value="2">Manufacturing</option>
               </select>
             </div>
-            
             <div className="cust-input-group">
               <label>Status</label>
               <select name="status" value={formData.status} onChange={handleChange}>
@@ -310,32 +299,26 @@ function CreateCustomer() {
                 <option value="0">Inactive Blocked</option>
               </select>
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Customer Name</label><span className="char-limit">Max 50</span></div>
               <input type="text" name="name" value={formData.name} onChange={handleChange} maxLength={50} placeholder="Legal Corporate Name" required />
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Contact Person Name</label><span className="char-limit">Max 30</span></div>
               <input type="text" name="contact_person" value={formData.contact_person} onChange={handleChange} maxLength={30} placeholder="Primary representative" />
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Phone (Primary)</label><span className="char-limit">Max 10</span></div>
               <input type="text" name="phone" value={formData.phone} onChange={handleChange} maxLength={10} />
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Mobile (Secondary)</label><span className="char-limit">Max 10</span></div>
               <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={10} />
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Email</label><span className="char-limit">Max 30</span></div>
               <input type="email" name="email" value={formData.email} onChange={handleChange} maxLength={30} placeholder="accounting@domain.com" />
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Website</label><span className="char-limit">Max 30</span></div>
               <input type="text" name="website" value={formData.website} onChange={handleChange} maxLength={30} placeholder="https://" />
@@ -343,9 +326,6 @@ function CreateCustomer() {
           </div>
         </div>
 
-        {/* ==========================================
-            2. BILL TO ADDRESS CARD
-        ========================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Bill to Address</h3>
           <div className="cust-form-grid">
@@ -365,7 +345,6 @@ function CreateCustomer() {
               <div className="label-wrapper"><label>Postal Code</label><span className="char-limit">Max 10</span></div>
               <input type="text" name="bill_zip" value={formData.bill_zip} onChange={handleChange} maxLength={10} />
             </div>
-            
             <div className="cust-input-group">
               <label>Country</label>
               <select name="bill_country" value={formData.bill_country} onChange={handleChange}>
@@ -380,7 +359,6 @@ function CreateCustomer() {
                 {formData.bill_country && countryStateData[formData.bill_country].map(state => <option key={state} value={state}>{state}</option>)}
               </select>
             </div>
-            
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Land Mark</label><span className="char-limit">Max 30</span></div>
               <input type="text" name="bill_landmark" value={formData.bill_landmark} onChange={handleChange} maxLength={30} />
@@ -388,9 +366,6 @@ function CreateCustomer() {
           </div>
         </div>
 
-        {/* ==========================================
-            3. SHIP TO ADDRESS CARD
-        ========================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Ship to Address</h3>
           <div className="cust-form-grid">
@@ -410,7 +385,6 @@ function CreateCustomer() {
               <div className="label-wrapper"><label>Postal Code</label><span className="char-limit">Max 10</span></div>
               <input type="text" name="ship_zip" value={formData.ship_zip} onChange={handleChange} maxLength={10} />
             </div>
-            
             <div className="cust-input-group">
               <label>Country</label>
               <select name="ship_country" value={formData.ship_country} onChange={handleChange}>
@@ -425,7 +399,6 @@ function CreateCustomer() {
                 {formData.ship_country && countryStateData[formData.ship_country].map(state => <option key={state} value={state}>{state}</option>)}
               </select>
             </div>
-
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Land Mark</label><span className="char-limit">Max 30</span></div>
               <input type="text" name="ship_landmark" value={formData.ship_landmark} onChange={handleChange} maxLength={30} />
@@ -433,9 +406,6 @@ function CreateCustomer() {
           </div>
         </div>
 
-        {/* ==========================================
-            4. FINANCIAL & TAX DETAILS CARD
-        ========================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Financial & Tax Details</h3>
           <div className="cust-form-grid">
@@ -475,9 +445,6 @@ function CreateCustomer() {
           </div>
         </div>
 
-        {/* ==========================================
-            5. BANK DETAILS CARD
-        ========================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Bank Details</h3>
           <div className="cust-form-grid">
@@ -512,9 +479,6 @@ function CreateCustomer() {
           </div>
         </div>
 
-        {/* ==========================================
-            6. SALES, DOCUMENTS & NOTES CARD
-        ========================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Sales, Documents & Notes</h3>
           <div className="cust-form-grid">
@@ -544,11 +508,10 @@ function CreateCustomer() {
             </div>
             <div className="cust-input-group full-width-field">
               <div className="label-wrapper"><label>Notes</label><span className="char-limit">Max 300</span></div>
-              <textarea name="notes" value={formData.notes} onChange={handleChange} maxLength={300} placeholder="Add specific internal billing parameters or documentation tracking history notes..."></textarea>
+              <textarea name="notes" value={formData.notes} onChange={handleChange} maxLength={300} placeholder="Add specific internal billing parameters history notes..."></textarea>
             </div>
           </div>
 
-          {/* MASTER BOTTOM ACTION LANE */}
           <div className="cust-action-shelf">
             <button type="button" className="cust-btn-cancel" onClick={() => navigate('/customer')} disabled={isSubmitting}>
               Cancel Configuration
@@ -558,10 +521,8 @@ function CreateCustomer() {
             </button>
           </div>
         </div>
-
       </form>
 
-      {/* SUCCESS OVERLAY */}
       {showSuccessPopup && (
         <div className="success-popup-overlay">
           <div className="success-popup">
@@ -571,7 +532,6 @@ function CreateCustomer() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
