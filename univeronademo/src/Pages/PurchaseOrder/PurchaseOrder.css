@@ -15,15 +15,15 @@
 }
 
 /* ===================================================
-   THE GRID SETUP (CENTERED FOR SINGLE CARD)
+   THE GRID SETUP (LEFT-ALIGNED DESIGNS)
 =================================================== */
 .po-tiles-grid {
     display: grid;
-    grid-template-columns: var(--tile-width); /* Clean single column sizing */
+    /* Allows tiles to fill row automatically from the beginning */
+    grid-template-columns: repeat(auto-fill, var(--tile-width)); 
     gap: 24px; 
-    justify-content: center; 
-    margin: 0 auto;
-    width: max-content;
+    justify-content: start; /* Aligns tiles starting from the beginning (left) */
+    width: 100%;
     max-width: 100%;
     box-sizing: border-box;
 }

@@ -1,18 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// Swapped FaShoppingCart for the cleaner Hi icon packs to match your landing page dashboard theme
-import { HiOutlineTrendingUp, HiOutlineShieldCheck, HiOutlineCog } from 'react-icons/hi';
+// 1. Added HiOutlineDocumentText to match your clean dashboard icon pack theme
+import { HiOutlineTrendingUp, HiOutlineShieldCheck, HiOutlineDocumentText, HiOutlineCog } from 'react-icons/hi';
 import { FaTimes } from 'react-icons/fa';
 import './Sidebar.css';
 
 function Sidebar({ isOpen, toggleSidebar, darkMode }) {
   const navigate = useNavigate();
 
-  // Updated array: Included both Sales and Inspection with their matching logos
+  // 2. Added the Purchase Order module into the data loop array
   const erpModules = [
     { id: 1, title: 'Sales', icon: <HiOutlineTrendingUp />, path: '/sales' },
     { id: 2, title: 'Inspection', icon: <HiOutlineShieldCheck />, path: '/inspection' },
-    { id: 3, title: 'Settings', icon: <HiOutlineCog />, path: '/settings' }
+    { id: 3, title: 'Purchase Order', icon: <HiOutlineDocumentText />, path: '/purchase-order' },
+    { id: 4, title: 'Settings', icon: <HiOutlineCog />, path: '/settings' }
   ];
 
   const handleNavigation = (path) => {

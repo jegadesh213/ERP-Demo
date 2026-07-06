@@ -144,28 +144,37 @@ function CreateCustomer() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    
-    // Check if the field being changed is one of the phone/mobile inputs
-    if (name === "phone" || name === "mobile") {
-      // Strips out any character that is NOT a numeric digit (0-9)
-      const numericValue = value.replace(/\D/g, '');
-      
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: numericValue
-      }));
-    } else {
-      // Standard behavior for all other form inputs
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
-    }
-  };
+  const { name, value } = e.target;
+  
+  // Validation for Phone and Mobile fields to prevent invalid symbols/letters
+  if (name === 'mobile' || name === 'phone') {
+    // Allows only numbers. (If you want to allow a leading +, use: value.replace(/[^\d+]/g, ''))
+    const cleanValue = value.replace(/[^\d]/g, ''); 
+    setFormData(prev => ({
+      ...prev,
+      [name]: cleanValue
+    }));
+    return; // Intercept and exit early
+  }
+
+  setFormData(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
 
   const handleSave = async () => {
     setIsSubmitting(true);
+    // Simple validation check before sending payload to backend
+  if (formData.mobile && !/^\d{10,15}$/.test(formData.mobile)) {
+    alert("Please enter a valid mobile number containing only digits (10 to 15 digits).");
+    return;
+  }
+  
+  if (formData.phone && !/^\d{7,15}$/.test(formData.phone)) {
+    alert("Please enter a valid phone number containing only digits.");
+    return;
+  }
     showLoader();
     
     // 🛠️ THE FIX: Rewritten request payload schema matching the updated backend data structure
@@ -313,8 +322,8 @@ function CreateCustomer() {
             </div>
             
             <div className="cust-input-group">
-              <div className="label-wrapper"><label>Phone (Primary)</label><span className="char-limit">Max 16</span></div>
-              <input type="text" name="phone" value={formData.phone} onChange={handleChange} maxLength={16} placeholder="+91..." />
+              <div className="label-wrapper"><label>Phone (Primary)</label><span className="char-limit">Max 10</span></div>
+              <input type="text" name="phone" value={formData.phone} onChange={handleChange} maxLength={10} />
             </div>
             
             <div className="cust-input-group">
