@@ -1,22 +1,22 @@
 /* ===================================
-   FORM WRAPPER CONTAINER & 1S FADE FIX
+   HUB CONFIGURATION STRUCTURE
 =================================== */
-.q-form-container {
+.hub-grid-container {
+    --tile-width: 215px;      
+    --tile-aspect: 1 / 0.95;   
+
     width: 100%;
-    max-width: 100%;
-    margin: 10px 0 0 0;
-    /* 👉 FIXED: Enforced crisp full 1-second transition scale standard */
+    max-width: 100%; 
+    margin: 20px 0 0 0; 
     animation: fadeIn 1s ease-in-out; 
     box-sizing: border-box;
-    padding-bottom: 60px; 
 }
 
 /* ===================================
-   👉 NEW ADDED HEADER TYPOGRAPHY STYLES
+   👉 TYPOGRAPHY FRAMING
 =================================== */
 .q-page-header {
-    margin-bottom: 28px;
-    /* animation: fadeIn 1s ease-in-out; */
+    margin-bottom: 35px;
 }
 
 .q-page-title {
@@ -32,368 +32,224 @@
 }
 
 .q-page-subtitle {
-    color: #626880;
+    color: #717c9b;
     font-size: 13.5px;
     margin: 0;
 }
 
-/* Base Bento Card Framing Layers */
-.q-master-card, .q-table-card, .q-footer-card {
-    background: rgba(30, 32, 54, 0.45);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(255, 255, 255, 0.06);
-    border-radius: 28px;
-    padding: 30px;
-    margin-bottom: 24px;
+.light .q-page-subtitle {
+    color: #5c637a;
+}
+
+/* ===================================
+   THE GRID MATRIX INTERFACE
+=================================== */
+.hub-tiles-grid {
+    display: grid;
+    /* Uses fluid centering layout patterns so tiles look balanced in main-content */
+    grid-template-columns: repeat(auto-fit, minmax(var(--tile-width), 1fr)); 
+    max-width: 960px; /* Perfect sizing allocation for 4 tile setups */
+    gap: 24px; 
+    width: 100%;
     box-sizing: border-box;
 }
 
 /* ===================================
-   SYSTEM INPUT FIELD STYLING
+   IMAGE TILE LAYER CARD DESIGN
 =================================== */
-.q-form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-
-.q-input-group {
+.hub-tile-card.image-tile {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-image: var(--tile-bg);
+    background-clip: padding-box;
+    background-origin: padding-box;
+    
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px; 
+    padding: 24px 20px;  
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    width: 100%;
-}
-
-.q-input-group label {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: #717c9b;
-    letter-spacing: 0.2px;
-}
-
-.q-input-group input, 
-.q-input-group select, 
-.q-input-group textarea {
-    background: rgba(15, 17, 26, 0.5);
-    border: 1.5px solid rgba(255, 255, 255, 0.05);
-    border-radius: 14px;
-    padding: 12px 16px;
-    color: white;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.2s ease;
+    justify-content: space-between;
+    aspect-ratio: var(--tile-aspect); 
     box-sizing: border-box;
-    width: 100%;
+    overflow: hidden;
+    
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                border-color 0.3s ease;
 }
 
-.q-input-group.readonly input {
-    background: rgba(255, 255, 255, 0.03) !important;
-    color: #00ccff;
-    font-family: monospace;
-    font-weight: 600;
-    border-style: dashed;
-}
-
-.q-input-group input:focus, 
-.q-input-group select:focus, 
-.q-input-group textarea:focus {
-    border-color: #7b61ff;
-    background: rgba(15, 17, 26, 0.8);
-    box-shadow: 0 0 12px rgba(123, 97, 255, 0.15);
-}
-
-.textarea-full {
-    grid-column: span 2;
-}
-
-.spacing-top {
-    margin-top: 24px;
+.light .hub-tile-card.image-tile {
+    border-color: rgba(0, 0, 0, 0.08);
 }
 
 /* ===================================
-   DYNAMIC LINES MATRIX TABLE REGION
+   DYNAMIC GLASSY IMAGES OVERLAYS 
 =================================== */
-.q-table-header-bar {
+.tile-image-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(15, 17, 26, 0.45) 0%, rgba(15, 17, 26, 0.88) 100%);
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+.light .tile-image-overlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(240, 242, 245, 0.82) 100%);
+}
+
+.hub-tile-top, .hub-tile-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hub-tile-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-}
-
-.q-table-header-bar h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: white;
-    margin: 0;
-}
-
-.q-add-row-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(123, 97, 255, 0.12);
-    border: 1px solid rgba(123, 97, 255, 0.3);
-    color: #7b61ff;
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.q-add-row-btn:hover {
-    background: #7b61ff;
-    color: white;
-    box-shadow: 0 4px 12px rgba(123, 97, 255, 0.25);
-}
-
-.q-table-scroller {
     width: 100%;
-    overflow-x: auto;
 }
 
-.q-matrix-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.q-matrix-table th {
-    background: rgba(15, 17, 26, 0.4);
-    color: #717c9b;
-    font-weight: 600;
-    font-size: 13px;
-    padding: 14px 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.q-matrix-table td {
-    padding: 12px 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    vertical-align: middle;
-}
-
-.q-matrix-table td input {
-    background: rgba(15, 17, 26, 0.3) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    padding: 10px 12px;
-    color: white;
-    font-size: 13.5px;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.q-matrix-table td input:focus {
-    border-color: #7b61ff;
-    background: rgba(15, 17, 26, 0.6) !important;
-}
-
-.q-calculated-total {
-    font-weight: 600;
-    color: white;
-    font-size: 14px;
-    padding-left: 12px !important;
-}
-
-.q-row-delete-btn {
-    background: transparent;
-    border: none;
-    color: #ff3b30;
-    font-size: 18px;
-    cursor: pointer;
+.hub-tile-icon-box {
+    width: 48px;  
+    height: 48px; 
+    background: rgba(15, 17, 26, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    font-size: 22px; 
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.3s ease;
 }
 
-.q-row-delete-btn:hover {
-    background: rgba(255, 59, 48, 0.12);
-}
-
-.q-table-summary-pane {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.summary-row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(15, 17, 26, 0.4);
-    padding: 14px 24px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.summary-label {
-    color: #717c9b;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.summary-value {
-    color: #00cc88;
-    font-weight: 700;
-    font-size: 18px;
-}
-
-/* ===================================
-   MASTER BOTTOM SUBMIT ACTION LANE
-=================================== */
-.q-action-submit-shelf {
-    display: flex;
-    justify-content: flex-end;
-    gap: 16px;
-    margin-top: 35px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 24px;
-}
-
-.q-btn-draft, .q-btn-submit {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 28px;
-    font-size: 14.5px;
-    font-weight: 600;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.22s ease;
-}
-
-.q-btn-draft {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1.5px solid rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.q-btn-draft:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-}
-
-.q-btn-submit {
-    background: #7b61ff;
-    color: white;
-    border: none;
-    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.35);
-}
-
-.q-btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 22px rgba(123, 97, 255, 0.5);
-}
-
-/* ===================================================
-   PREMIUM WORKSPACE CUSTOM SCROLLBARS 
-=================================================== */
-.q-table-scroller::-webkit-scrollbar,
-body::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.q-table-scroller::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-    background: rgba(15, 17, 26, 0.5);
-}
-
-.q-table-scroller::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-    background: rgba(123, 97, 255, 0.3); 
-    border-radius: 20px;
-    border: 1px solid rgba(15, 17, 26, 0.5);
-}
-
-.q-table-scroller::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover {
-    background: rgba(123, 97, 255, 0.7); 
-}
-
-/* ===================================
-   LIGHT MODE ADAPTER THEMING OVERRIDES 
-=================================== */
-.light .q-master-card, .light .q-table-card, .light .q-footer-card {
-    background: rgba(255, 255, 255, 0.65);
+.light .hub-tile-icon-box {
+    background: rgba(255, 255, 255, 0.75);
     border-color: rgba(0, 0, 0, 0.06);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-}
-
-.light .q-input-group input, 
-.light .q-input-group select, 
-.light .q-input-group textarea,
-.light .q-matrix-table td input {
-    background: #f4f5f6 !important;
-    border-color: rgba(0, 0, 0, 0.06);
-    color: #1a1b26;
-}
-
-.light .q-matrix-table th {
-    background: rgba(0, 0, 0, 0.02);
-    color: #5c637a;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.light .q-matrix-table td {
-    border-bottom-color: rgba(0, 0, 0, 0.04);
-}
-
-.light .q-table-header-bar h3,
-.light .q-calculated-total {
-    color: #1a1b26;
-}
-
-.light .q-btn-draft {
-    background: white;
-    border-color: rgba(0, 0, 0, 0.08);
     color: #4c566a;
 }
 
-.light .summary-row {
-    background: #f4f5f6;
-    border-color: rgba(0, 0, 0, 0.04);
+.hub-tile-arrow {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    transform: translateX(0);
+    transition: all 0.3s ease;
+}
+
+.light .hub-tile-arrow {
+    color: rgba(0, 0, 0, 0.35);
+}
+
+.hub-tile-content h3 {
+    font-size: 17px; 
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    letter-spacing: 0.2px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4); 
+    transition: color 0.3s ease;
+}
+
+.light .hub-tile-content h3 {
+    color: #1a1b26;
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
 }
 
 /* ===================================
-   RESPONSIVE DESIGN (MOBILE LAYOUT)
+   ASYMMETRIC TRANSITION HOVER STATES
 =================================== */
+.hub-tiles-grid:hover .hub-tile-card.image-tile {
+    transform: scale(0.96);
+    opacity: 0.6; 
+}
+
+.hub-tiles-grid .hub-tile-card.image-tile:hover {
+    transform: scale(1.04);
+    opacity: 1; 
+    box-shadow: 0 15px 40px rgba(123, 97, 255, 0.3);
+    
+    border: 1.5px solid transparent;
+    background-image: var(--tile-bg), 
+                      linear-gradient(90deg, #ff00ff, #7b61ff, #00ccff, #ff00ff);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+}
+
+.light .hub-tiles-grid .hub-tile-card.image-tile:hover {
+    box-shadow: 0 15px 35px rgba(123, 97, 255, 0.18);
+}
+
+.hub-tile-card.image-tile:hover .tile-image-overlay {
+    background: linear-gradient(180deg, rgba(123, 97, 255, 0.15) 0%, rgba(15, 17, 26, 0.8) 100%);
+}
+
+.light .hub-tile-card.image-tile:hover .tile-image-overlay {
+    background: linear-gradient(180deg, rgba(123, 97, 255, 0.08) 0%, rgba(240, 242, 245, 0.5) 100%);
+}
+
+.hub-tile-card.image-tile:hover .hub-tile-icon-box {
+    background: #7b61ff;
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(123, 97, 255, 0.4);
+}
+
+.hub-tile-card.image-tile:hover .hub-tile-content h3 {
+    color: #7b61ff;
+}
+
+.hub-tile-card.image-tile:hover .hub-tile-arrow {
+    color: #7b61ff;
+    transform: translateX(5px);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN SYSTEM (BREAKPOINTS)
+=================================== */
+@media (max-width: 1024px) {
+    .hub-tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
 @media (max-width: 768px) {
-    .q-form-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+    /* Matches structural spacing reset from App.css */
+    .hub-grid-container {
+        margin-top: 10px;
     }
-    .textarea-full {
-        grid-column: span 1;
+    
+    .hub-tiles-grid:hover .hub-tile-card.image-tile,
+    .hub-tiles-grid .hub-tile-card.image-tile:hover {
+        transform: none;
+        opacity: 1;
+        box-shadow: none;
     }
-    .q-master-card, .q-table-card, .q-footer-card {
-        padding: 20px 16px;
+
+    .hub-tile-card.image-tile {
         border-radius: 20px;
+        padding: 22px 16px;
+        aspect-ratio: 1 / 1; 
     }
-    .q-action-submit-shelf {
-        flex-direction: column-reverse;
-        gap: 10px;
+
+    .hub-tile-content h3 {
+        font-size: 15.5px;
     }
-    .q-btn-draft, .q-btn-submit {
-        width: 100%;
-        justify-content: center;
+
+    .hub-tile-arrow {
+        display: none; 
     }
 }
 
 /* ===================================
-   👉 KEYFRAME SYSTEM (1S DURATION SPEC)
+   SYSTEM KEYFRAME STANDARDS (1S DURATION)
 =================================== */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
