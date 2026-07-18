@@ -757,3 +757,25 @@
         white-space: nowrap;
     }
 }
+
+/* Guarantees readability of text structures in dark theme modals */
+.dark .detail-value {
+    color: #e2e8f0 !important;
+}
+
+.dark .detail-label {
+    color: #94a3b8 !important;
+}
+
+.dark .bank-accounts-section h4 {
+    color: #ffffff;
+}
+
+/* Light mode modal color balance overrides */
+.light .detail-value {
+    color: #0f172a !important;
+}
+
+.light .detail-label {
+    color: #64748b !important;
+}

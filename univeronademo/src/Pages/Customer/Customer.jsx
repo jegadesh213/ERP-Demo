@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaRegTimesCircle, FaPlus, FaSearch, FaFileDownload } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaPlus, FaSearch } from 'react-icons/fa';
 import { useLoader } from '../../context/LoaderContext'; 
 import './Customer.css';
 
@@ -86,12 +86,12 @@ function Customer() {
     const lowerSearch = appliedSearch.toLowerCase();
     
     return (
-  (cust.customer_no && cust.customer_no.toLowerCase().includes(lowerSearch)) ||
-  (cust.name && cust.name.toLowerCase().includes(lowerSearch)) ||
-  (cust.email && cust.email.toLowerCase().includes(lowerSearch)) ||
-  (cust.billing_city && cust.billing_city.toLowerCase().includes(lowerSearch)) || //  Fixed
-  (cust.primary_mobile && cust.primary_mobile.toLowerCase().includes(lowerSearch))
-);
+      (cust.customer_no && cust.customer_no.toLowerCase().includes(lowerSearch)) ||
+      (cust.name && cust.name.toLowerCase().includes(lowerSearch)) ||
+      (cust.email && cust.email.toLowerCase().includes(lowerSearch)) ||
+      (cust.billing_city && cust.billing_city.toLowerCase().includes(lowerSearch)) ||
+      (cust.primary_mobile && cust.primary_mobile.toLowerCase().includes(lowerSearch))
+    );
   });
 
   return (
@@ -137,7 +137,7 @@ function Customer() {
                 <td>{cust.customer_no}</td>
                 <td>{cust.name}</td>
                 <td className="hide-on-mobile">{cust.email || '-'}</td>
-                <td className="hide-on-mobile">{cust.billing_city || '-'}</td> {/* Fixed */}
+                <td className="hide-on-mobile">{cust.billing_city || '-'}</td>
                 <td className="hide-on-mobile">{cust.primary_mobile || '-'}</td>
                 <td className="hide-on-mobile">
                   <div className="action-icons">
@@ -198,79 +198,123 @@ function Customer() {
               <button className={`tab-btn ${activeTab === 'address' ? 'active' : ''}`} onClick={() => setActiveTab('address')}>
                 Address Details
               </button>
+              <button className={`tab-btn ${activeTab === 'financial' ? 'active' : ''}`} onClick={() => setActiveTab('financial')}>
+                Financial & Bank Details
+              </button>
               <button className={`tab-btn ${activeTab === 'notes' ? 'active' : ''}`} onClick={() => setActiveTab('notes')}>
-                Internal Notes
+                Sales & Notes
               </button>
             </div>
 
+            {/* ===================================================
+                TAB 1: GENERAL INFORMATION
+               =================================================== */}
             {activeTab === 'general' && (
               <>
+                <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
+                  General Information
+                </h3>
                 <div className="detail-grid">
                   <div className="detail-item"><span className="detail-label">Customer ID</span><span className="detail-value" style={{ color: '#3b82f6', fontWeight: 'bold' }}>{selectedCustomer.customer_no}</span></div>
-                  <div className="detail-item"><span className="detail-label">Type</span><span className="detail-value">{selectedCustomer.type === 1 ? 'B to B' : selectedCustomer.type}</span></div>
-                  <div className="detail-item"><span className="detail-label">Name</span><span className="detail-value">{selectedCustomer.name}</span></div>
-                  <div className="detail-item"><span className="detail-label">Project</span><span className="detail-value">{selectedCustomer.project || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Customer Type</span><span className="detail-value">{selectedCustomer.type === 1 ? 'B to B' : selectedCustomer.type === 2 ? 'B to C' : selectedCustomer.type === 3 ? 'One time' : selectedCustomer.type === 4 ? 'Export' : selectedCustomer.type || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Division</span><span className="detail-value">{selectedCustomer.division || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Type of Industry</span><span className="detail-value">{selectedCustomer.industry_id === 1 ? 'Information Technology' : selectedCustomer.industry_id === 2 ? 'Manufacturing' : selectedCustomer.industry_id || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Status</span><span className="detail-value">{selectedCustomer.status === 1 ? 'Active Ledger' : selectedCustomer.status === 0 ? 'Inactive Blocked' : '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Customer Name</span><span className="detail-value">{selectedCustomer.name || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Contact Person Name</span><span className="detail-value">{selectedCustomer.contact_person_name || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Phone (Primary)</span><span className="detail-value">{selectedCustomer.primary_mobile || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Mobile (Secondary)</span><span className="detail-value">{selectedCustomer.secondary_mobile || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">Email</span><span className="detail-value">{selectedCustomer.email || '—'}</span></div>
-                  <div className="detail-item"><span className="detail-label">Primary Mobile</span><span className="detail-value">{selectedCustomer.primary_mobile || '—'}</span></div>
-                  <div className="detail-item"><span className="detail-label">Secondary Mobile</span><span className="detail-value">{selectedCustomer.secondary_mobile || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">Website</span><span className="detail-value">{selectedCustomer.website || '—'}</span></div>
-                  <div className="detail-item"><span className="detail-label">GST Tax ID</span><span className="detail-value">{selectedCustomer.gst_no || '—'}</span></div>
-                  <div className="detail-item"><span className="detail-label">PAN Number</span><span className="detail-value">{selectedCustomer.pan_no || '—'}</span></div>
-                </div>
-
-                {/* ATTACHMENTS PREVIEW LANE */}
-                <h3 style={{ marginTop: '25px', fontSize: '16px', borderBottom: '1px solid #eee', paddingBottom: '8px' }}>Verified System Attachments</h3>
-                <div className="attachments-preview-container" style={{ marginTop: '12px' }}>
-                  {selectedCustomer.attachments && selectedCustomer.attachments.length > 0 ? (
-                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                      {selectedCustomer.attachments.map((file, idx) => {
-                        const fileUrl = file.url || file.file_path || file;
-                        const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileUrl);
-
-                        return (
-                          <div key={idx} className="attachment-card" style={{ border: '1px solid #ddd', padding: '10px', borderRadius: '8px', width: '120px', textAlign: 'center', background: '#f9f9f9' }}>
-                            {isImg ? (
-                              <img src={fileUrl} alt="attachment" style={{ width: '100%', height: '70px', objectFit: 'cover', borderRadius: '4px', marginBottom: '6px' }} />
-                            ) : (
-                              <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#e5e7eb', borderRadius: '4px', marginBottom: '6px' }}>
-                                <FaFileDownload size={24} style={{ color: '#6b7280' }} />
-                              </div>
-                            )}
-                            <a href={fileUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', color: '#2563eb', textDecoration: 'none', fontWeight: '500', wordBreak: 'break-all' }}>
-                              View File
-                            </a>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <p style={{ color: '#9ca3af', fontSize: '13px', fontStyle: 'italic' }}>No verified file uploads found on this ledger profile.</p>
-                  )}
-                </div>
-
-                <h3 style={{ marginTop: '20px', fontSize: '16px' }}>Bank Accounts</h3>
-                <div className="bank-accounts-section">
-                  <FaRegTimesCircle className="empty-state-icon" />
-                  <h4>No bank accounts</h4>
-                  <p style={{ color: '#888', fontSize: '14px' }}>Create a bank account to get started.</p>
                 </div>
               </>
             )}
 
+            {/* ===================================================
+                TAB 2: ADDRESS DETAILS
+               =================================================== */}
             {activeTab === 'address' && (
-              <div className="detail-grid">
-                 <div className="detail-item"><span className="detail-label">Address 1</span><span className="detail-value">{selectedCustomer.billing_address1 || '—'}</span></div>
-                 <div className="detail-item"><span className="detail-label">Address 2</span><span className="detail-value">{selectedCustomer.billing_address2 || '—'}</span></div>
-                 <div className="detail-item"><span className="detail-label">City</span><span className="detail-value">{selectedCustomer.billing_city || '—'}</span></div>
-                 <div className="detail-item"><span className="detail-label">Zip Code</span><span className="detail-value">{selectedCustomer.billing_postal_code || '—'}</span></div>
-                 <div className="detail-item"><span className="detail-label">Landmark</span><span className="detail-value">{selectedCustomer.billing_land_mark || '—'}</span></div>
-              </div>
+              <>
+                <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
+                  Bill to Address
+                </h3>
+                <div className="detail-grid" style={{ marginBottom: '25px' }}>
+                   <div className="detail-item"><span className="detail-label">Street 1</span><span className="detail-value">{selectedCustomer.billing_address1 || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Street 2</span><span className="detail-value">{selectedCustomer.billing_address2 || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">City</span><span className="detail-value">{selectedCustomer.billing_city || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Postal Code</span><span className="detail-value">{selectedCustomer.billing_postal_code || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Country ID</span><span className="detail-value">{selectedCustomer.billing_country_id || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">State ID</span><span className="detail-value">{selectedCustomer.billing_state_id || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Land Mark</span><span className="detail-value">{selectedCustomer.billing_land_mark || '—'}</span></div>
+                </div>
+                 
+                <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
+                  Ship to Address
+                </h3>
+                <div className="detail-grid">
+                   <div className="detail-item"><span className="detail-label">Street 1</span><span className="detail-value">{selectedCustomer.shipping_address1 || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Street 2</span><span className="detail-value">{selectedCustomer.shipping_address2 || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">City</span><span className="detail-value">{selectedCustomer.shipping_city || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Postal Code</span><span className="detail-value">{selectedCustomer.shipping_postal_code || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Country ID</span><span className="detail-value">{selectedCustomer.shipping_country_id || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">State ID</span><span className="detail-value">{selectedCustomer.shipping_state_id || '—'}</span></div>
+                   <div className="detail-item"><span className="detail-label">Land Mark</span><span className="detail-value">{selectedCustomer.shipping_land_mark || '—'}</span></div>
+                </div>
+              </>
             )}
 
+            {/* ===================================================
+                TAB 3: FINANCIAL & BANK DETAILS
+               =================================================== */}
+            {activeTab === 'financial' && (
+              <>
+                <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
+                  Financial & Tax Details
+                </h3>
+                <div className="detail-grid" style={{ marginBottom: '25px' }}>
+                  <div className="detail-item"><span className="detail-label">GST Tax No</span><span className="detail-value">{selectedCustomer.gst_no || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">PAN Number</span><span className="detail-value">{selectedCustomer.pan_no || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Payment Term ID</span><span className="detail-value">{selectedCustomer.payment_term_id === 1 ? 'Net 30 Days' : selectedCustomer.payment_term_id || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Payment Method ID</span><span className="detail-value">{selectedCustomer.payment_method_id === 1 ? 'Bank Transfer' : selectedCustomer.payment_method_id || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Currency</span><span className="detail-value">{selectedCustomer.currency_id === 2 ? 'USD - US Dollar' : 'INR - Indian Rupee'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Credit Limit</span><span className="detail-value">{selectedCustomer.credit_limit || '0.00'}</span></div>
+                </div>
+
+                <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
+                  Bank Details
+                </h3>
+                <div className="detail-grid">
+                  <div className="detail-item"><span className="detail-label">Account Holder Name</span><span className="detail-value">{selectedCustomer.holder_name || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Bank Name</span><span className="detail-value">{selectedCustomer.bank_name || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Account Number</span><span className="detail-value" style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>{selectedCustomer.account_no || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">IFSC Code</span><span className="detail-value" style={{ fontFamily: 'monospace' }}>{selectedCustomer.ifsc_code || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Branch Name</span><span className="detail-value">{selectedCustomer.branch_name || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Account Type</span><span className="detail-value">{selectedCustomer.account_type || '—'}</span></div>
+                </div>
+              </>
+            )}
+
+            {/* ===================================================
+                TAB 4: SALES & NOTES
+               =================================================== */}
             {activeTab === 'notes' && (
-              <div style={{ padding: '20px 0', color: '#222' }}>
-                {selectedCustomer.note || "No internal notes available for this customer."}
-              </div>
+              <>
+                <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
+                  Sales, Documents & Notes
+                </h3>
+                <div className="detail-grid">
+                  <div className="detail-item"><span className="detail-label">Sales Region</span><span className="detail-value">{selectedCustomer.sales_region || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Customer Group</span><span className="detail-value">{selectedCustomer.customer_group || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Shipping Method</span><span className="detail-value">{selectedCustomer.shipping_method || '—'}</span></div>
+                  <div className="detail-item"><span className="detail-label">Project</span><span className="detail-value">{selectedCustomer.project || '—'}</span></div>
+                  <div className="detail-item" style={{ gridColumn: 'span 2', marginTop: '10px' }}>
+                    <span className="detail-label">Notes</span>
+                    <span className="detail-value" style={{ display: 'block', marginTop: '6px', whiteSpace: 'pre-wrap', lineHeight: '1.5' }}>
+                      {selectedCustomer.note || "No internal commercial conditions recorded against this master profile layer."}
+                    </span>
+                  </div>
+                </div>
+              </>
             )}
             
           </div>

@@ -22,9 +22,9 @@ function MiniSidebar({ darkMode, isExpanded }) {
   // 2. CONFIG SET A: SalesHub Content Bundle
   const salesHubItems = [
     { id: 1, name: 'Customer', icon: <HiOutlineUsers />, path: '/customer' },
-    { id: 2, name: 'Order', icon: <HiOutlineClipboardList />, path: '/order' },
-    { id: 3, name: 'To Invoice', icon: <HiOutlineDocumentText />, path: '/invoice' },
-    { id: 4, name: 'Quotation', icon: <HiOutlineDocumentReport />, path: '/quotation' },
+    { id: 2, name: 'Quotation', icon: <HiOutlineDocumentReport />, path: '/quotation' },
+    { id: 3, name: 'Order', icon: <HiOutlineClipboardList />, path: '/order' },
+    { id: 4, name: 'To Invoice', icon: <HiOutlineDocumentText />, path: '/invoice' },
   ];
 
   // 3. CONFIG SET B: Inspection Content Bundle (Parsed directly for your reports)

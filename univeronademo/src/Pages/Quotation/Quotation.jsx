@@ -44,7 +44,7 @@ function Quotation() {
     <div className="hub-grid-container">
       <div className="q-page-header">
         <h1 className="q-page-title">Quotation Management</h1>
-        <p className="q-page-subtitle">Process, edit, display, or generate comprehensive analytical reports for sales quotations</p>
+        {/* <p className="q-page-subtitle">Process, edit, display, or generate comprehensive analytical reports for sales quotations</p> */}
       </div>
 
       <div className="hub-tiles-grid">
