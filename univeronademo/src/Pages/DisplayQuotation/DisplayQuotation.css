@@ -1,0 +1,67 @@
+@import "../InspectionReport/InspectionReport.css";
+@import "../CreateQuotation/CreateQuotation.css";
+
+/* ===================================================
+   SEARCH INPUT WRAPPER ACTION CONTROLS
+=================================================== */
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.search-input-wrapper input {
+    width: 100% !important;
+    padding-right: 50px !important; /* Makes structural space for embedded button */
+}
+
+.q-fetch-action-btn {
+    position: absolute;
+    right: 6px;
+    background: #7b61ff;
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(123, 97, 255, 0.25);
+}
+
+.q-fetch-action-btn:hover {
+    background: #ff00ff;
+    box-shadow: 0 4px 12px rgba(255, 0, 255, 0.35);
+    transform: scale(1.02);
+}
+
+/* ===================================================
+   STRICT DISABLING & DISPLAY OVERRIDES 
+=================================================== */
+input:disabled, textarea:disabled {
+    opacity: 0.85 !important; /* Prompts solid readable metrics */
+    cursor: default !important;
+    border-style: solid !important;
+    box-shadow: none !important;
+}
+
+.dark input:disabled, .dark textarea:disabled {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+    color: #e2e8f0 !important;
+}
+
+.light input:disabled, .light textarea:disabled {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+    color: #1a1b26 !important;
+}
+
+.inspect-matrix-table td input:disabled {
+    background: transparent !important;
+    border-color: transparent !important;
+}

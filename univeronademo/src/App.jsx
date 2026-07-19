@@ -11,6 +11,10 @@ import Order from "./Pages/Order/Order.jsx";
 import CreateCustomer from "./Pages/CreateCustomer/CreateCustomer.jsx";
 import Customer from "./Pages/Customer/Customer.jsx";
 import Quotation from "./Pages/Quotation/Quotation.jsx";
+import CreateQuotation from "./Pages/CreateQuotation/CreateQuotation.jsx";
+import ChangeQuotation from "./Pages/ChangeQuotation/ChangeQuotation.jsx";
+import DisplayQuotation from "./Pages/DisplayQuotation/DisplayQuotation.jsx";
+import QuotationReport from "./Pages/QuotationReport/QuotationReport.jsx";
 import Invoice from "./Pages/Invoice/Invoice.jsx";
 import Inspection from "./Pages/Inspection/Inspection.jsx";
 import Login from "./Pages/Login/Login.jsx"
@@ -162,6 +166,30 @@ function AppContent({
           <Route path="/quotation" element={
             <ProtectedRoute>
               <Quotation />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/create-quotation" element={
+            <ProtectedRoute>
+              <CreateQuotation />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/display-quotation" element={
+            <ProtectedRoute>
+              <DisplayQuotation />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/report-quotation" element={
+            <ProtectedRoute>
+              <QuotationReport />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/change-quotation" element={
+            <ProtectedRoute>
+              <ChangeQuotation />
             </ProtectedRoute>
           } />
 

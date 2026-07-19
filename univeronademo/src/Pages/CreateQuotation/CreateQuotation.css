@@ -1,0 +1,61 @@
+@import "../InspectionReport/InspectionReport.css";
+
+/* ===================================================
+   CUSTOM ADAPTATION FOR SHEET FORM SPECIFICATIONS
+=================================================== */
+
+.inspect-report-container {
+    margin-top: 20px !important; /* Brought layout area alignment up cleanly since button row is gone */
+}
+
+/* ===================================================
+   UNIFIED CLEAN THEME OVERRIDES FOR TABLES
+=================================================== */
+
+/* Replaces custom colored themes with standard project structural colors */
+.dark .inspect-matrix-table.clean-theme-header th {
+    border-bottom: 2px solid rgba(123, 97, 255, 0.15) !important;
+    background: transparent !important;
+    color: #717c9b !important;
+    font-weight: 600;
+}
+
+.light .inspect-matrix-table.clean-theme-header th {
+    border-bottom: 2px solid rgba(123, 97, 255, 0.15) !important;
+    background: transparent !important;
+    color: #5c637a !important;
+    font-weight: 600;
+}
+
+.inspect-matrix-table td input {
+    text-align: left;
+}
+
+.inspect-matrix-table td input[type="number"] {
+    text-align: center;
+}
+
+/* Readonly fields custom trace highlights indicator */
+.input-group.readonly input {
+    background: rgba(123, 97, 255, 0.05) !important;
+    border: 1.5px dashed rgba(123, 97, 255, 0.3) !important;
+    color: #00ccff !important;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.light .input-group.readonly input {
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Disabled/Readonly configurations field layout adapters constraints */
+input:disabled, textarea:disabled {
+    opacity: 0.65;
+    cursor: not-allowed !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-style: solid !important;
+}
+
+.dark input:disabled, .dark textarea:disabled {
+    background: rgba(255, 255, 255, 0.02) !important;
+}

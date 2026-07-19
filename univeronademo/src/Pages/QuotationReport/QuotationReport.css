@@ -1,0 +1,70 @@
+@import "../InspectionReport/InspectionReport.css";
+@import "../CreateQuotation/CreateQuotation.css";
+
+/* ===================================================
+   SELECTION FILTER SHELF ACTIONS
+=================================================== */
+.q-report-filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
+    padding-top: 16px;
+}
+
+.q-report-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #7b61ff !important;
+    margin-bottom: 20px;
+    letter-spacing: 0.2px;
+}
+
+/* ===================================================
+   FLAT REPORT OUTPUT DISPLAY DATA MATRIX THEMING
+=================================================== */
+.report-output-flat-table {
+    width: 100%;
+}
+
+.report-output-flat-table th,
+.report-output-flat-table td {
+    white-space: nowrap !important; /* Forces row entries onto one neat horizontal timeline */
+    padding: 12px 14px !important;
+    font-size: 13.5px !important;
+}
+
+.report-output-flat-table td.allow-text-wrap {
+    white-space: normal !important; /* Allows description field blocks to adjust smoothly */
+    min-width: 220px;
+}
+
+/* Row separation adapter rules */
+.dark .report-output-flat-table tbody tr {
+    transition: background 0.2s ease;
+}
+.dark .report-output-flat-table tbody tr:hover {
+    background: rgba(123, 97, 255, 0.04);
+}
+
+.light .report-output-flat-table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+/* ===================================================
+   ACCENT SUMMARY AGGREGATE RECORD TRAILING LINE (SUM)
+=================================================== */
+.report-summary-sum-row td {
+    border-top: 2px solid #7b61ff !important;
+    border-bottom: 2px solid #7b61ff !important;
+    background: rgba(123, 97, 255, 0.05) !important;
+    font-size: 14px !important;
+}
+
+.light .report-summary-sum-row td {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border-top-color: rgba(123, 97, 255, 0.3) !important;
+    border-bottom-color: rgba(123, 97, 255, 0.3) !important;
+}
