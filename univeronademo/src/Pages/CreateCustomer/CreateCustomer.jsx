@@ -12,13 +12,10 @@ function CreateCustomer() {
   // State for Attachments (Tracks original File objects)
   const [attachments, setAttachments] = useState([]);
 
-  // Dynamic Country/State Dropdowns (UI Only)
-  const countryStateData = {
-    "India": ["Tamil Nadu", "Maharashtra", "Karnataka", "Kerala", "Delhi", "Telangana"],
-    "USA": ["California", "Texas", "New York", "Florida", "Washington"],
-    "UK": ["England", "Scotland", "Wales", "Northern Ireland"],
-    "UAE": ["Dubai", "Abu Dhabi", "Sharjah"]
-  };
+  // 🌍 NEW: Dynamic Geo-Location Datasets API State Elements
+  const [countriesList, setCountriesList] = useState([]);
+  const [billingStates, setBillingStates] = useState([]);
+  const [shippingStates, setShippingStates] = useState([]);
 
   const [formData, setFormData] = useState({
     type: "1",
@@ -69,6 +66,77 @@ function CreateCustomer() {
   const editId = location.state?.editId; 
   const activeToken = localStorage.getItem('auth_token');
 
+  // 🌍 1. API HOOK: Fetch global countries list on component mounting initialization
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/positions');
+        const result = await response.json();
+        if (!result.error && result.data) {
+          // Sort alphabetically for clean UI presentation
+          const orderedCountries = result.data.map(c => c.name).sort();
+          setCountriesList(orderedCountries);
+        }
+      } catch (error) {
+        console.error("Failed fetching global countries database:", error);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  // 🌍 2. API HOOK: Fetch dynamic states for Bill To Address country selection changes
+  useEffect(() => {
+    if (!formData.bill_country) {
+      setBillingStates([]);
+      return;
+    }
+    const fetchBillStates = async () => {
+      try {
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country: formData.bill_country })
+        });
+        const result = await response.json();
+        if (!result.error && result.data?.states) {
+          setBillingStates(result.data.states.map(s => s.name).sort());
+        } else {
+          setBillingStates([]);
+        }
+      } catch (error) {
+        console.error("Failed fetching regional states for billing country:", error);
+      }
+    };
+    fetchBillStates();
+  }, [formData.bill_country]);
+
+  // 🌍 3. API HOOK: Fetch dynamic states for Ship To Address country selection changes
+  useEffect(() => {
+    if (!formData.ship_country) {
+      setShippingStates([]);
+      return;
+    }
+    const fetchShipStates = async () => {
+      try {
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country: formData.ship_country })
+        });
+        const result = await response.json();
+        if (!result.error && result.data?.states) {
+          setShippingStates(result.data.states.map(s => s.name).sort());
+        } else {
+          setShippingStates([]);
+        }
+      } catch (error) {
+        console.error("Failed fetching regional states for shipping country:", error);
+      }
+    };
+    fetchShipStates();
+  }, [formData.ship_country]);
+
+  // 🧬 Primary Data Fetching Pipeline for Customer Editing Registry Context
   useEffect(() => {
     if (editId) {
       const fetchCustomerData = async () => {
@@ -98,11 +166,18 @@ function CreateCustomer() {
               bill_city: data.billing_city || "",
               bill_zip: data.billing_postal_code || "",
               bill_landmark: data.billing_land_mark || "",
+              
+              // 🌍 Dynamic Field Injections: Mapping string keys to verify fallback cascading triggers
+              bill_country: data.billing_country_name || "", 
+              bill_state: data.billing_state_name || "",
               ship_address1: data.shipping_address1 || "",
               ship_address2: data.shipping_address2 || "",
               ship_city: data.shipping_city || "",
               ship_zip: data.shipping_postal_code || "",
               ship_landmark: data.shipping_land_mark || "",
+              ship_country: data.shipping_country_name || "",
+              ship_state: data.shipping_state_name || "",
+              
               gst_no: data.gst_no || "",
               pan_no: data.pan_no || "",
               payment_term: data.payment_term_id?.toString() || "",
@@ -151,6 +226,16 @@ function CreateCustomer() {
       return; 
     }
 
+    // 🌍 Clear target states variables when switching base countries
+    if (name === 'bill_country') {
+      setFormData(prev => ({ ...prev, bill_country: value, bill_state: '' }));
+      return;
+    }
+    if (name === 'ship_country') {
+      setFormData(prev => ({ ...prev, ship_country: value, ship_state: '' }));
+      return;
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -168,7 +253,6 @@ function CreateCustomer() {
     setIsSubmitting(true);
     showLoader();
     
-    // Construct Multi-part Form Data payload
     const dataPayload = new FormData();
     
     dataPayload.append('type', parseInt(formData.type) || 1);
@@ -182,15 +266,25 @@ function CreateCustomer() {
     dataPayload.append('division', formData.division || '');
     dataPayload.append('billing_address1', formData.bill_address1 || '');
     dataPayload.append('billing_address2', formData.bill_address2 || '');
-    dataPayload.append('billing_country_id', 1);
-    dataPayload.append('billing_state_id', 1);
+    
+    // 🌍 Appending text values for your master configurations database log tracking maps
+    dataPayload.append('billing_country_name', formData.bill_country || '');
+    dataPayload.append('billing_state_name', formData.bill_state || '');
+    dataPayload.append('billing_country_id', formData.bill_country || '');
+    dataPayload.append('billing_state_id', formData.bill_state || '');
+    
     dataPayload.append('billing_city', formData.bill_city || '');
     dataPayload.append('billing_postal_code', formData.bill_zip || '');
     dataPayload.append('billing_land_mark', formData.bill_landmark || '');
     dataPayload.append('shipping_address1', formData.ship_address1 || '');
     dataPayload.append('shipping_address2', formData.ship_address2 || '');
-    dataPayload.append('shipping_country_id', 1);
-    dataPayload.append('shipping_state_id', 1);
+    
+    // 🌍 Appending text values for your master configurations database log tracking maps
+    dataPayload.append('shipping_country_name', formData.ship_country || '');
+    dataPayload.append('shipping_state_name', formData.ship_state || '');
+    dataPayload.append('shipping_country_id', formData.ship_country || '');
+    dataPayload.append('shipping_state_id', formData.ship_state || '');
+    
     dataPayload.append('shipping_city', formData.ship_city || '');
     dataPayload.append('shipping_postal_code', formData.ship_zip || '');
     dataPayload.append('shipping_land_mark', formData.ship_landmark || '');
@@ -212,12 +306,10 @@ function CreateCustomer() {
     dataPayload.append('note', formData.notes || '');
     dataPayload.append('status', parseInt(formData.status) || 1);
 
-    // Dynamic Multi-File Injection matching expected collection schema
     attachments.forEach((file) => {
       dataPayload.append('attachments[]', file);
     });
 
-    // Handle Laravel/Backend method constraints for PUT over multi-part payloads
     const method = editId ? 'POST' : 'POST'; 
     if (editId) {
       dataPayload.append('_method', 'PUT');
@@ -230,10 +322,7 @@ function CreateCustomer() {
 
       const response = await fetch(url, {
         method: method,
-        headers: {
-          'Authorization': `Bearer ${activeToken}`
-          // Do NOT set Content-Type header here; the browser automatically adds the multipart boundary
-        },
+        headers: { 'Authorization': `Bearer ${activeToken}` },
         body: dataPayload
       });
 
@@ -326,6 +415,9 @@ function CreateCustomer() {
           </div>
         </div>
 
+        {/* ===================================================
+           BILL TO ADDRESS (DYNAMIC API DRIVEN SELECTIONS)
+        ====================================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Bill to Address</h3>
           <div className="cust-form-grid">
@@ -349,14 +441,14 @@ function CreateCustomer() {
               <label>Country</label>
               <select name="bill_country" value={formData.bill_country} onChange={handleChange}>
                 <option value="">Select Country</option>
-                {Object.keys(countryStateData).map(country => <option key={country} value={country}>{country}</option>)}
+                {countriesList.map(country => <option key={country} value={country}>{country}</option>)}
               </select>
             </div>
             <div className="cust-input-group">
               <label>State</label>
-              <select name="bill_state" value={formData.bill_state} onChange={handleChange} disabled={!formData.bill_country}>
-                <option value="">Select State</option>
-                {formData.bill_country && countryStateData[formData.bill_country].map(state => <option key={state} value={state}>{state}</option>)}
+              <select name="bill_state" value={formData.bill_state} onChange={handleChange} disabled={!formData.bill_country || billingStates.length === 0}>
+                <option value="">{billingStates.length === 0 && formData.bill_country ? "Loading States..." : "Select State"}</option>
+                {billingStates.map(state => <option key={state} value={state}>{state}</option>)}
               </select>
             </div>
             <div className="cust-input-group">
@@ -366,6 +458,9 @@ function CreateCustomer() {
           </div>
         </div>
 
+        {/* ===================================================
+           SHIP TO ADDRESS (DYNAMIC API DRIVEN SELECTIONS)
+        ====================================================== */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Ship to Address</h3>
           <div className="cust-form-grid">
@@ -389,14 +484,14 @@ function CreateCustomer() {
               <label>Country</label>
               <select name="ship_country" value={formData.ship_country} onChange={handleChange}>
                 <option value="">Select Country</option>
-                {Object.keys(countryStateData).map(country => <option key={country} value={country}>{country}</option>)}
+                {countriesList.map(country => <option key={country} value={country}>{country}</option>)}
               </select>
             </div>
             <div className="cust-input-group">
               <label>State</label>
-              <select name="ship_state" value={formData.ship_state} onChange={handleChange} disabled={!formData.ship_country}>
-                <option value="">Select State</option>
-                {formData.ship_country && countryStateData[formData.ship_country].map(state => <option key={state} value={state}>{state}</option>)}
+              <select name="ship_state" value={formData.ship_state} onChange={handleChange} disabled={!formData.ship_country || shippingStates.length === 0}>
+                <option value="">{shippingStates.length === 0 && formData.ship_country ? "Loading States..." : "Select State"}</option>
+                {shippingStates.map(state => <option key={state} value={state}>{state}</option>)}
               </select>
             </div>
             <div className="cust-input-group">
