@@ -206,9 +206,7 @@ function Customer() {
               </button>
             </div>
 
-            {/* ===================================================
-                TAB 1: GENERAL INFORMATION
-               =================================================== */}
+            {/* TAB 1: GENERAL INFORMATION */}
             {activeTab === 'general' && (
               <>
                 <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
@@ -230,9 +228,7 @@ function Customer() {
               </>
             )}
 
-            {/* ===================================================
-                TAB 2: ADDRESS DETAILS
-               =================================================== */}
+            {/* TAB 2: ADDRESS DETAILS */}
             {activeTab === 'address' && (
               <>
                 <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
@@ -263,9 +259,7 @@ function Customer() {
               </>
             )}
 
-            {/* ===================================================
-                TAB 3: FINANCIAL & BANK DETAILS
-               =================================================== */}
+            {/* TAB 3: FINANCIAL & BANK DETAILS */}
             {activeTab === 'financial' && (
               <>
                 <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
@@ -289,14 +283,22 @@ function Customer() {
                   <div className="detail-item"><span className="detail-label">Account Number</span><span className="detail-value" style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>{selectedCustomer.account_no || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">IFSC Code</span><span className="detail-value" style={{ fontFamily: 'monospace' }}>{selectedCustomer.ifsc_code || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">Branch Name</span><span className="detail-value">{selectedCustomer.branch_name || '—'}</span></div>
-                  <div className="detail-item"><span className="detail-label">Account Type</span><span className="detail-value">{selectedCustomer.account_type || '—'}</span></div>
+                  
+                  <div className="detail-item">
+                    <span className="detail-label">Account Type</span>
+                    <span className="detail-value">
+                      {selectedCustomer.account_type === 1 || selectedCustomer.account_type === '1' 
+                        ? 'Savings' 
+                        : selectedCustomer.account_type === 2 || selectedCustomer.account_type === '2' 
+                        ? 'Current' 
+                        : selectedCustomer.account_type || '—'}
+                    </span>
+                  </div>
                 </div>
               </>
             )}
 
-            {/* ===================================================
-                TAB 4: SALES & NOTES
-               =================================================== */}
+            {/* TAB 4: SALES & NOTES */}
             {activeTab === 'notes' && (
               <>
                 <h3 className="cust-section-title" style={{ fontSize: '16px', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '8px', marginBottom: '15px', color: '#7b61ff' }}>
@@ -305,7 +307,16 @@ function Customer() {
                 <div className="detail-grid">
                   <div className="detail-item"><span className="detail-label">Sales Region</span><span className="detail-value">{selectedCustomer.sales_region || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">Customer Group</span><span className="detail-value">{selectedCustomer.customer_group || '—'}</span></div>
-                  <div className="detail-item"><span className="detail-label">Shipping Method</span><span className="detail-value">{selectedCustomer.shipping_method || '—'}</span></div>
+                  <div className="detail-item">
+                    <span className="detail-label">Shipping Method</span>
+                    <span className="detail-value">
+                      {selectedCustomer.shipping_method === 1 || selectedCustomer.shipping_method === '1' 
+                        ? 'Air Freight' 
+                        : selectedCustomer.shipping_method === 2 || selectedCustomer.shipping_method === '2' 
+                        ? 'Road Transport' 
+                        : selectedCustomer.shipping_method || '—'}
+                    </span>
+                  </div>
                   <div className="detail-item"><span className="detail-label">Project</span><span className="detail-value">{selectedCustomer.project || '—'}</span></div>
                   <div className="detail-item" style={{ gridColumn: 'span 2', marginTop: '10px' }}>
                     <span className="detail-label">Notes</span>

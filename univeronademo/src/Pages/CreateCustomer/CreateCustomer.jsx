@@ -9,10 +9,10 @@ function CreateCustomer() {
   const navigate = useNavigate();
   const { showLoader, hideLoader } = useLoader();
 
-  // State for Attachments (Tracks original File objects)
+  // State for Attachments
   const [attachments, setAttachments] = useState([]);
 
-  // 🌍 NEW: Dynamic Geo-Location Datasets API State Elements
+  // Dynamic Geo-Location Datasets API State (Strings Array)
   const [countriesList, setCountriesList] = useState([]);
   const [billingStates, setBillingStates] = useState([]);
   const [shippingStates, setShippingStates] = useState([]);
@@ -66,14 +66,13 @@ function CreateCustomer() {
   const editId = location.state?.editId; 
   const activeToken = localStorage.getItem('auth_token');
 
-  // 🌍 1. API HOOK: Fetch global countries list on component mounting initialization
+  // 1. API HOOK: Fetch global countries list as strings
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await fetch('https://countriesnow.space/api/v0.1/countries/positions');
         const result = await response.json();
         if (!result.error && result.data) {
-          // Sort alphabetically for clean UI presentation
           const orderedCountries = result.data.map(c => c.name).sort();
           setCountriesList(orderedCountries);
         }
@@ -84,7 +83,7 @@ function CreateCustomer() {
     fetchCountries();
   }, []);
 
-  // 🌍 2. API HOOK: Fetch dynamic states for Bill To Address country selection changes
+  // 2. API HOOK: Fetch dynamic states for Bill To Address
   useEffect(() => {
     if (!formData.bill_country) {
       setBillingStates([]);
@@ -110,7 +109,7 @@ function CreateCustomer() {
     fetchBillStates();
   }, [formData.bill_country]);
 
-  // 🌍 3. API HOOK: Fetch dynamic states for Ship To Address country selection changes
+  // 3. API HOOK: Fetch dynamic states for Ship To Address
   useEffect(() => {
     if (!formData.ship_country) {
       setShippingStates([]);
@@ -136,7 +135,7 @@ function CreateCustomer() {
     fetchShipStates();
   }, [formData.ship_country]);
 
-  // 🧬 Primary Data Fetching Pipeline for Customer Editing Registry Context
+  // 4. Fetch Customer Data for Editing
   useEffect(() => {
     if (editId) {
       const fetchCustomerData = async () => {
@@ -167,16 +166,15 @@ function CreateCustomer() {
               bill_zip: data.billing_postal_code || "",
               bill_landmark: data.billing_land_mark || "",
               
-              // 🌍 Dynamic Field Injections: Mapping string keys to verify fallback cascading triggers
-              bill_country: data.billing_country_name || "", 
-              bill_state: data.billing_state_name || "",
+              bill_country: data.billing_country_name || data.billing_country_id || "", 
+              bill_state: data.billing_state_name || data.billing_state_id || "",
               ship_address1: data.shipping_address1 || "",
               ship_address2: data.shipping_address2 || "",
               ship_city: data.shipping_city || "",
               ship_zip: data.shipping_postal_code || "",
               ship_landmark: data.shipping_land_mark || "",
-              ship_country: data.shipping_country_name || "",
-              ship_state: data.shipping_state_name || "",
+              ship_country: data.shipping_country_name || data.shipping_country_id || "",
+              ship_state: data.shipping_state_name || data.shipping_state_id || "",
               
               gst_no: data.gst_no || "",
               pan_no: data.pan_no || "",
@@ -189,10 +187,10 @@ function CreateCustomer() {
               bank_account: data.account_no || "",
               bank_ifsc: data.ifsc_code || "",
               bank_branch: data.branch_name || "",
-              bank_type: data.account_type || "",
+              bank_type: data.account_type ? data.account_type.toString() : "",
               sales_region: data.sales_region || "",
               customer_group: data.customer_group || "",
-              shipping_method: data.shipping_method || "",
+              shipping_method: data.shipping_method ? data.shipping_method.toString() : "",
               notes: data.note || "",
               status: data.status?.toString() || "1"
             }));
@@ -226,7 +224,12 @@ function CreateCustomer() {
       return; 
     }
 
-    // 🌍 Clear target states variables when switching base countries
+    // Automatically convert IFSC code inputs to uppercase
+    if (name === 'bank_ifsc') {
+      setFormData(prev => ({ ...prev, bank_ifsc: value.toUpperCase() }));
+      return;
+    }
+
     if (name === 'bill_country') {
       setFormData(prev => ({ ...prev, bill_country: value, bill_state: '' }));
       return;
@@ -250,6 +253,15 @@ function CreateCustomer() {
       return;
     }
 
+    // 🏦 VALIDATION: IFSC Code Format Enforcement (e.g., SBIN0001234)
+    if (formData.bank_ifsc) {
+      const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+      if (!ifscRegex.test(formData.bank_ifsc)) {
+        alert("Invalid IFSC Code format!\n\nFormat requirements:\n- First 4 characters: Letters (Bank Code)\n- 5th character: Must be zero '0'\n- Last 6 characters: Numbers or Letters (Branch Code)\n\nExample: SBIN0001234");
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     showLoader();
     
@@ -267,7 +279,6 @@ function CreateCustomer() {
     dataPayload.append('billing_address1', formData.bill_address1 || '');
     dataPayload.append('billing_address2', formData.bill_address2 || '');
     
-    // 🌍 Appending text values for your master configurations database log tracking maps
     dataPayload.append('billing_country_name', formData.bill_country || '');
     dataPayload.append('billing_state_name', formData.bill_state || '');
     dataPayload.append('billing_country_id', formData.bill_country || '');
@@ -279,7 +290,6 @@ function CreateCustomer() {
     dataPayload.append('shipping_address1', formData.ship_address1 || '');
     dataPayload.append('shipping_address2', formData.ship_address2 || '');
     
-    // 🌍 Appending text values for your master configurations database log tracking maps
     dataPayload.append('shipping_country_name', formData.ship_country || '');
     dataPayload.append('shipping_state_name', formData.ship_state || '');
     dataPayload.append('shipping_country_id', formData.ship_country || '');
@@ -299,10 +309,10 @@ function CreateCustomer() {
     dataPayload.append('ifsc_code', formData.bank_ifsc || '');
     dataPayload.append('branch_name', formData.bank_branch || '');
     dataPayload.append('holder_name', formData.bank_holder || '');
-    dataPayload.append('account_type', formData.bank_type || '');
+    dataPayload.append('account_type', formData.bank_type ? parseInt(formData.bank_type) : '');
     dataPayload.append('sales_region', formData.sales_region || '');
     dataPayload.append('customer_group', formData.customer_group || '');
-    dataPayload.append('shipping_method', formData.shipping_method || '');
+    dataPayload.append('shipping_method', formData.shipping_method ? parseInt(formData.shipping_method) : '');
     dataPayload.append('note', formData.notes || '');
     dataPayload.append('status', parseInt(formData.status) || 1);
 
@@ -310,7 +320,7 @@ function CreateCustomer() {
       dataPayload.append('attachments[]', file);
     });
 
-    const method = editId ? 'POST' : 'POST'; 
+    const method = 'POST'; 
     if (editId) {
       dataPayload.append('_method', 'PUT');
     }
@@ -408,16 +418,16 @@ function CreateCustomer() {
               <div className="label-wrapper"><label>Email</label><span className="char-limit">Max 30</span></div>
               <input type="email" name="email" value={formData.email} onChange={handleChange} maxLength={30} placeholder="accounting@domain.com" />
             </div>
+            
+            {/* 🌐 UPDATED: Website Input field extended to 100 characters */}
             <div className="cust-input-group">
-              <div className="label-wrapper"><label>Website</label><span className="char-limit">Max 30</span></div>
-              <input type="text" name="website" value={formData.website} onChange={handleChange} maxLength={30} placeholder="https://" />
+              <div className="label-wrapper"><label>Website</label><span className="char-limit">Max 100</span></div>
+              <input type="text" name="website" value={formData.website} onChange={handleChange} maxLength={100} placeholder="https://www.example.com" />
             </div>
           </div>
         </div>
 
-        {/* ===================================================
-           BILL TO ADDRESS (DYNAMIC API DRIVEN SELECTIONS)
-        ====================================================== */}
+        {/* BILL TO ADDRESS */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Bill to Address</h3>
           <div className="cust-form-grid">
@@ -441,14 +451,18 @@ function CreateCustomer() {
               <label>Country</label>
               <select name="bill_country" value={formData.bill_country} onChange={handleChange}>
                 <option value="">Select Country</option>
-                {countriesList.map(country => <option key={country} value={country}>{country}</option>)}
+                {countriesList.map(country => (
+                  <option key={country} value={country}>{country}</option>
+                ))}
               </select>
             </div>
             <div className="cust-input-group">
               <label>State</label>
               <select name="bill_state" value={formData.bill_state} onChange={handleChange} disabled={!formData.bill_country || billingStates.length === 0}>
                 <option value="">{billingStates.length === 0 && formData.bill_country ? "Loading States..." : "Select State"}</option>
-                {billingStates.map(state => <option key={state} value={state}>{state}</option>)}
+                {billingStates.map(state => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
               </select>
             </div>
             <div className="cust-input-group">
@@ -458,9 +472,7 @@ function CreateCustomer() {
           </div>
         </div>
 
-        {/* ===================================================
-           SHIP TO ADDRESS (DYNAMIC API DRIVEN SELECTIONS)
-        ====================================================== */}
+        {/* SHIP TO ADDRESS */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Ship to Address</h3>
           <div className="cust-form-grid">
@@ -484,14 +496,18 @@ function CreateCustomer() {
               <label>Country</label>
               <select name="ship_country" value={formData.ship_country} onChange={handleChange}>
                 <option value="">Select Country</option>
-                {countriesList.map(country => <option key={country} value={country}>{country}</option>)}
+                {countriesList.map(country => (
+                  <option key={country} value={country}>{country}</option>
+                ))}
               </select>
             </div>
             <div className="cust-input-group">
               <label>State</label>
               <select name="ship_state" value={formData.ship_state} onChange={handleChange} disabled={!formData.ship_country || shippingStates.length === 0}>
                 <option value="">{shippingStates.length === 0 && formData.ship_country ? "Loading States..." : "Select State"}</option>
-                {shippingStates.map(state => <option key={state} value={state}>{state}</option>)}
+                {shippingStates.map(state => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
               </select>
             </div>
             <div className="cust-input-group">
@@ -501,6 +517,7 @@ function CreateCustomer() {
           </div>
         </div>
 
+        {/* FINANCIAL & TAX DETAILS */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Financial & Tax Details</h3>
           <div className="cust-form-grid">
@@ -540,6 +557,7 @@ function CreateCustomer() {
           </div>
         </div>
 
+        {/* BANK DETAILS */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Bank Details</h3>
           <div className="cust-form-grid">
@@ -555,25 +573,37 @@ function CreateCustomer() {
               <div className="label-wrapper"><label>Account Number</label><span className="char-limit">Max 30</span></div>
               <input type="text" name="bank_account" value={formData.bank_account} onChange={handleChange} maxLength={30} />
             </div>
+
+            {/* 🏦 UPDATED: IFSC Code with 11-char max length & placeholder hint */}
             <div className="cust-input-group">
-              <div className="label-wrapper"><label>IFSC Code</label><span className="char-limit">Max 15</span></div>
-              <input type="text" name="bank_ifsc" value={formData.bank_ifsc} onChange={handleChange} maxLength={15} />
+              <div className="label-wrapper"><label>IFSC Code</label><span className="char-limit">11 Chars (e.g. SBIN0001234)</span></div>
+              <input 
+                type="text" 
+                name="bank_ifsc" 
+                value={formData.bank_ifsc} 
+                onChange={handleChange} 
+                maxLength={11} 
+                placeholder="SBIN0001234" 
+              />
             </div>
+
             <div className="cust-input-group">
               <div className="label-wrapper"><label>Branch Name</label><span className="char-limit">Max 30</span></div>
               <input type="text" name="bank_branch" value={formData.bank_branch} onChange={handleChange} maxLength={30} />
             </div>
+
             <div className="cust-input-group">
               <label>Account Type</label>
               <select name="bank_type" value={formData.bank_type} onChange={handleChange}>
                 <option value="">Select Type</option>
-                <option value="Savings">Savings</option>
-                <option value="Current">Current</option>
+                <option value="1">Savings</option>
+                <option value="2">Current</option>
               </select>
             </div>
           </div>
         </div>
 
+        {/* SALES & NOTES */}
         <div className="cust-glass-card">
           <h3 className="cust-section-title">Sales, Documents & Notes</h3>
           <div className="cust-form-grid">
@@ -589,8 +619,8 @@ function CreateCustomer() {
               <label>Shipping Method</label>
               <select name="shipping_method" value={formData.shipping_method} onChange={handleChange}>
                 <option value="">Select Method</option>
-                <option value="Air">Air Freight</option>
-                <option value="Road">Road Transport</option>
+                <option value="1">Air Freight</option>
+                <option value="2">Road Transport</option>
               </select>
             </div>
             <div className="cust-input-group">
