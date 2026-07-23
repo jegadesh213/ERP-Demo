@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaPlus, FaSearch } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEllipsisH, FaTimes, FaPlus, FaSearch, FaExclamationTriangle } from 'react-icons/fa';
 import { useLoader } from '../../context/LoaderContext'; 
 import './Customer.css';
 
@@ -10,6 +10,7 @@ function Customer() {
   
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [customerToDelete, setCustomerToDelete] = useState(null); // Stores customer object staged for deletion
   const [activeTab, setActiveTab] = useState('general');
   const [isLoadingDetails, setIsLoadingDetails] = useState(false); 
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,29 +18,29 @@ function Customer() {
 
   const activeToken = localStorage.getItem('auth_token');
   
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      showLoader(); 
-      try {
-        const response = await fetch('https://sdsinfotech.co.in/api/customers', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${activeToken}`
-          }
-        });
-
-        const result = await response.json();
-        if (result.statusCode === 200 && result.data) {
-          setCustomers(result.data);
+  const fetchCustomers = async () => {
+    showLoader(); 
+    try {
+      const response = await fetch('https://sdsinfotech.co.in/api/customers', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${activeToken}`
         }
-      } catch (error) {
-        console.error("Connection failed:", error);
-      } finally {
-        hideLoader(); 
-      }
-    };
+      });
 
+      const result = await response.json();
+      if (result.statusCode === 200 && result.data) {
+        setCustomers(result.data);
+      }
+    } catch (error) {
+      console.error("Connection failed:", error);
+    } finally {
+      hideLoader(); 
+    }
+  };
+
+  useEffect(() => {
     fetchCustomers();
   }, []);
 
@@ -73,6 +74,46 @@ function Customer() {
   const handleEditClick = (e, customerId) => {
     e.stopPropagation(); 
     navigate('/create-customer', { state: { editId: customerId } });
+  };
+
+  // Triggered when clicking any Delete trash icon (table row or detail modal header)
+  const handleDeleteClick = (e, customer) => {
+    e.stopPropagation();
+    setCustomerToDelete(customer);
+  };
+
+  // API Execution on confirmation
+  const confirmDelete = async () => {
+    if (!customerToDelete) return;
+    
+    showLoader();
+    try {
+      const response = await fetch(`https://sdsinfotech.co.in/api/customers/${customerToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${activeToken}`
+        }
+      });
+
+      const result = await response.json();
+      if (result.statusCode === 200 || !result.error) {
+        // Remove locally from state array
+        setCustomers(prev => prev.filter(c => c.id !== customerToDelete.id));
+        // If the detail modal is displaying the deleted item, close it
+        if (selectedCustomer && selectedCustomer.id === customerToDelete.id) {
+          setSelectedCustomer(null);
+        }
+        setCustomerToDelete(null);
+      } else {
+        alert("Delete failed: " + (result.statusMessage || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Delete request error:", error);
+      alert("Failed to delete customer record. Please check your network connection.");
+    } finally {
+      hideLoader();
+    }
   };
 
   const handleSearchKeyDown = (e) => {
@@ -144,7 +185,7 @@ function Customer() {
                     <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => handleEditClick(e, cust.id)}>
                       <FaEdit />
                     </button>
-                    <button className="btn-icon btn-delete-icon" title="Delete" onClick={(e) => { e.stopPropagation(); }}>
+                    <button className="btn-icon btn-delete-icon" title="Delete" onClick={(e) => handleDeleteClick(e, cust)}>
                       <FaTrash />
                     </button>
                     <button className="btn-icon" style={{ color: '#888' }} title="More">
@@ -166,6 +207,9 @@ function Customer() {
         </table>
       </div>
 
+      {/* ===================================================
+          DETAILS VIEW MODAL
+      ====================================================== */}
       {selectedCustomer && (
         <div className="modal-overlay" onClick={() => setSelectedCustomer(null)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
@@ -184,7 +228,9 @@ function Customer() {
                 <button className="btn-icon btn-edit-icon" title="Edit" onClick={(e) => handleEditClick(e, selectedCustomer.id)}>
                   <FaEdit />
                 </button>
-                <button className="btn-icon btn-delete-icon" title="Delete"><FaTrash /></button>
+                <button className="btn-icon btn-delete-icon" title="Delete" onClick={(e) => handleDeleteClick(e, selectedCustomer)}>
+                  <FaTrash />
+                </button>
                 <button className="btn-close-modal" onClick={() => setSelectedCustomer(null)}>
                   <FaTimes />
                 </button>
@@ -331,6 +377,59 @@ function Customer() {
           </div>
         </div>
       )}
+
+      {/* ===================================================
+          DELETE CONFIRMATION POPUP MODAL
+      ====================================================== */}
+      {customerToDelete && (
+        <div className="modal-overlay" onClick={() => setCustomerToDelete(null)} style={{ zIndex: 1100 }}>
+          <div 
+            className="modal-card" 
+            onClick={(e) => e.stopPropagation()} 
+            style={{ maxWidth: '420px', padding: '30px', textAlign: 'center' }}
+          >
+            <div style={{ color: '#ef4444', fontSize: '42px', marginBottom: '12px' }}>
+              <FaExclamationTriangle />
+            </div>
+            
+            <h2 style={{ fontSize: '20px', fontWeight: '700', margin: '0 0 10px 0' }}>
+              Confirm Customer Deletion
+            </h2>
+            
+            <p style={{ color: '#888', fontSize: '14px', lineHeight: '1.5', margin: '0 0 24px 0' }}>
+              Are you sure you want to permanently delete customer account <strong style={{ color: '#3b82f6' }}>{customerToDelete.name}</strong> (<span style={{ fontFamily: 'monospace' }}>{customerToDelete.customer_no}</span>)? This action cannot be undone.
+            </p>
+
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '14px' }}>
+              <button 
+                type="button" 
+                className="tab-btn" 
+                onClick={() => setCustomerToDelete(null)}
+                style={{ padding: '10px 22px', borderRadius: '12px', background: 'rgba(128,128,128,0.1)' }}
+              >
+                Cancel
+              </button>
+              <button 
+                type="button" 
+                onClick={confirmDelete}
+                style={{ 
+                  padding: '10px 22px', 
+                  borderRadius: '12px', 
+                  background: '#ef4444', 
+                  color: 'white', 
+                  border: 'none', 
+                  fontWeight: '600', 
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(239, 68, 68, 0.35)'
+                }}
+              >
+                Confirm Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
