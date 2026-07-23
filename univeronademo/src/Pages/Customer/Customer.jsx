@@ -137,6 +137,18 @@ function Customer() {
     );
   });
 
+  // Helper to normalize attachments whether singular 'attachment' or plural 'attachments' array
+  const getNormalizedAttachments = (customer) => {
+    if (!customer) return [];
+    if (Array.isArray(customer.attachments) && customer.attachments.length > 0) {
+      return customer.attachments;
+    }
+    if (customer.attachment) {
+      return [customer.attachment];
+    }
+    return [];
+  };
+
   return (
     <div className="order-page">
       <div className="page-header">
@@ -283,7 +295,6 @@ function Customer() {
                 <div className="detail-grid">
                   <div className="detail-item"><span className="detail-label">Customer ID</span><span className="detail-value" style={{ color: '#3b82f6', fontWeight: 'bold' }}>{selectedCustomer.customer_no}</span></div>
                   
-                  {/* DISPLAY DYNAMIC CUSTOMER TYPE OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Customer Type</span>
                     <span className="detail-value">
@@ -293,7 +304,6 @@ function Customer() {
 
                   <div className="detail-item"><span className="detail-label">Division</span><span className="detail-value">{selectedCustomer.division || '—'}</span></div>
                   
-                  {/* DISPLAY DYNAMIC INDUSTRY OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Type of Industry</span>
                     <span className="detail-value">
@@ -353,7 +363,6 @@ function Customer() {
                   <div className="detail-item"><span className="detail-label">GST Tax No</span><span className="detail-value">{selectedCustomer.gst_no || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">PAN Number</span><span className="detail-value">{selectedCustomer.pan_no || '—'}</span></div>
                   
-                  {/* DISPLAY DYNAMIC PAYMENT TERM OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Payment Term</span>
                     <span className="detail-value">
@@ -361,7 +370,6 @@ function Customer() {
                     </span>
                   </div>
 
-                  {/* DISPLAY DYNAMIC PAYMENT METHOD OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Payment Method</span>
                     <span className="detail-value">
@@ -369,7 +377,6 @@ function Customer() {
                     </span>
                   </div>
 
-                  {/* DISPLAY DYNAMIC CURRENCY OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Currency</span>
                     <span className="detail-value">
@@ -392,7 +399,6 @@ function Customer() {
                   <div className="detail-item"><span className="detail-label">IFSC Code</span><span className="detail-value" style={{ fontFamily: 'monospace' }}>{selectedCustomer.ifsc_code || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">Branch Name</span><span className="detail-value">{selectedCustomer.branch_name || '—'}</span></div>
                   
-                  {/* DISPLAY DYNAMIC BANK ACCOUNT TYPE OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Account Type</span>
                     <span className="detail-value">
@@ -413,7 +419,6 @@ function Customer() {
                   <div className="detail-item"><span className="detail-label">Sales Region</span><span className="detail-value">{selectedCustomer.sales_region || '—'}</span></div>
                   <div className="detail-item"><span className="detail-label">Customer Group</span><span className="detail-value">{selectedCustomer.customer_group || '—'}</span></div>
                   
-                  {/* DISPLAY DYNAMIC SHIPPING METHOD OBJECT */}
                   <div className="detail-item">
                     <span className="detail-label">Shipping Method</span>
                     <span className="detail-value">
@@ -439,8 +444,8 @@ function Customer() {
                   Uploaded Attachments & Documents
                 </h3>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                  {Array.isArray(selectedCustomer.attachments) && selectedCustomer.attachments.length > 0 ? (
-                    selectedCustomer.attachments.map((fileItem, idx) => {
+                  {getNormalizedAttachments(selectedCustomer).length > 0 ? (
+                    getNormalizedAttachments(selectedCustomer).map((fileItem, idx) => {
                       const fileUrl = typeof fileItem === 'string' ? fileItem : fileItem.url || fileItem.file_path || fileItem.file;
                       const fileName = typeof fileItem === 'string' ? fileItem.split('/').pop() : fileItem.file_name || fileItem.name || `Document ${idx + 1}`;
                       

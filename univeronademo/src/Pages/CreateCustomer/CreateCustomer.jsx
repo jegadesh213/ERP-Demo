@@ -15,7 +15,7 @@ function CreateCustomer() {
 
   // States for Custom Popups
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const [errorPopupMessages, setErrorPopupMessages] = useState([]); // Holds custom error list
+  const [errorPopupMessages, setErrorPopupMessages] = useState([]);
 
   // Dynamic API Master Datasets
   const [countriesList, setCountriesList] = useState([]);
@@ -30,10 +30,10 @@ function CreateCustomer() {
   const [shippingMethodsList, setShippingMethodsList] = useState([]);
 
   const [formData, setFormData] = useState({
-    type: "",           // Customer Type ID
+    type: "",           
     customer_number: "",
     division: "",
-    industry: "",       // Industry ID
+    industry: "",       
     status: "1",
     name: "",
     contact_person: "",
@@ -57,19 +57,19 @@ function CreateCustomer() {
     ship_landmark: "",
     gst_no: "",
     pan_no: "",
-    payment_term: "",   // Payment Term ID
-    payment_method: "", // Payment Method ID
-    currency: "",       // Currency ID
+    payment_term: "",   
+    payment_method: "", 
+    currency: "",       
     credit_limit: "",
     bank_holder: "",
     bank_name: "",
     bank_account: "",
     bank_ifsc: "",
     bank_branch: "",
-    bank_type: "",      // Bank Account Type ID
+    bank_type: "",      
     sales_region: "",
     customer_group: "",
-    shipping_method: "",// Shipping Method ID
+    shipping_method: "",
     project: "",
     notes: ""
   });
@@ -78,7 +78,7 @@ function CreateCustomer() {
   const editId = location.state?.editId; 
   const activeToken = localStorage.getItem('auth_token');
 
-  // 1. Fetch Reference Master Datasets
+  // Fetch Reference Master Datasets
   useEffect(() => {
     const headers = {
       'Content-Type': 'application/json',
@@ -194,8 +194,11 @@ function CreateCustomer() {
               status: data.status?.toString() || "1"
             }));
 
+            // Collect existing attachments whether single or array
             if (Array.isArray(data.attachments)) {
               setExistingAttachments(data.attachments);
+            } else if (data.attachment) {
+              setExistingAttachments([data.attachment]);
             }
           }
         } catch (error) {
@@ -249,134 +252,131 @@ function CreateCustomer() {
 
   // SUBMIT ACTION
   const handleSave = async () => {
-    setIsSubmitting(true);
-    showLoader();
-    
-    const dataPayload = new FormData();
-    
-    if (formData.type) dataPayload.append('type', parseInt(formData.type, 10));
-    dataPayload.append('name', formData.name || '');
-    dataPayload.append('contact_person_name', formData.contact_person || '');
-    dataPayload.append('primary_mobile', formData.phone || '');
-    dataPayload.append('secondary_mobile', formData.mobile || '');
-    dataPayload.append('email', formData.email || '');
-    dataPayload.append('website', formData.website || '');
-    
-    if (formData.industry) dataPayload.append('industry_id', parseInt(formData.industry, 10));
-    dataPayload.append('division', formData.division || '');
-    dataPayload.append('billing_address1', formData.bill_address1 || '');
-    dataPayload.append('billing_address2', formData.bill_address2 || '');
-    
-    if (formData.bill_country) {
-      dataPayload.append('billing_country_id', parseInt(formData.bill_country, 10));
-      dataPayload.append('billing_country_name', getCountryNameById(formData.bill_country));
-    }
-    if (formData.bill_state) {
-      dataPayload.append('billing_state_id', parseInt(formData.bill_state, 10));
-      dataPayload.append('billing_state_name', getStateNameById(formData.bill_state, billingStates));
-    }
-    
-    dataPayload.append('billing_city', formData.bill_city || '');
-    dataPayload.append('billing_postal_code', formData.bill_zip || '');
-    dataPayload.append('billing_land_mark', formData.bill_landmark || '');
-    dataPayload.append('shipping_address1', formData.ship_address1 || '');
-    dataPayload.append('shipping_address2', formData.ship_address2 || '');
-    
-    if (formData.ship_country) {
-      dataPayload.append('shipping_country_id', parseInt(formData.ship_country, 10));
-      dataPayload.append('shipping_country_name', getCountryNameById(formData.ship_country));
-    }
-    if (formData.ship_state) {
-      dataPayload.append('shipping_state_id', parseInt(formData.ship_state, 10));
-      dataPayload.append('shipping_state_name', getStateNameById(formData.ship_state, shippingStates));
-    }
-    
-    dataPayload.append('shipping_city', formData.ship_city || '');
-    dataPayload.append('shipping_postal_code', formData.ship_zip || '');
-    dataPayload.append('shipping_land_mark', formData.ship_landmark || '');
-    dataPayload.append('gst_no', formData.gst_no || '');
-    dataPayload.append('pan_no', formData.pan_no || '');
-    
-    if (formData.payment_term) dataPayload.append('payment_term_id', parseInt(formData.payment_term, 10));
-    if (formData.payment_method) dataPayload.append('payment_method_id', parseInt(formData.payment_method, 10));
-    if (formData.currency) dataPayload.append('currency_id', parseInt(formData.currency, 10));
-    
-    dataPayload.append('credit_limit', formData.credit_limit || "0.00");
-    dataPayload.append('bank_name', formData.bank_name || '');
-    dataPayload.append('account_no', formData.bank_account || '');
-    dataPayload.append('ifsc_code', formData.bank_ifsc || '');
-    dataPayload.append('branch_name', formData.bank_branch || '');
-    dataPayload.append('holder_name', formData.bank_holder || '');
-    
-    if (formData.bank_type) dataPayload.append('account_type', parseInt(formData.bank_type, 10));
-    
-    dataPayload.append('sales_region', formData.sales_region || '');
-    dataPayload.append('customer_group', formData.customer_group || '');
-    
-    if (formData.shipping_method) dataPayload.append('shipping_method', parseInt(formData.shipping_method, 10));
-    
-    dataPayload.append('project', formData.project || '');
-    dataPayload.append('note', formData.notes || '');
-    dataPayload.append('status', parseInt(formData.status) || 1);
+  setIsSubmitting(true);
+  showLoader();
+  
+  const dataPayload = new FormData();
+  
+  if (formData.type) dataPayload.append('type', parseInt(formData.type, 10));
+  dataPayload.append('name', formData.name || '');
+  dataPayload.append('contact_person_name', formData.contact_person || '');
+  dataPayload.append('primary_mobile', formData.phone || '');
+  dataPayload.append('secondary_mobile', formData.mobile || '');
+  dataPayload.append('email', formData.email || '');
+  dataPayload.append('website', formData.website || '');
+  
+  if (formData.industry) dataPayload.append('industry_id', parseInt(formData.industry, 10));
+  dataPayload.append('division', formData.division || '');
+  dataPayload.append('billing_address1', formData.bill_address1 || '');
+  dataPayload.append('billing_address2', formData.bill_address2 || '');
+  
+  if (formData.bill_country) {
+    dataPayload.append('billing_country_id', parseInt(formData.bill_country, 10));
+    dataPayload.append('billing_country_name', getCountryNameById(formData.bill_country));
+  }
+  if (formData.bill_state) {
+    dataPayload.append('billing_state_id', parseInt(formData.bill_state, 10));
+    dataPayload.append('billing_state_name', getStateNameById(formData.bill_state, billingStates));
+  }
+  
+  dataPayload.append('billing_city', formData.bill_city || '');
+  dataPayload.append('billing_postal_code', formData.bill_zip || '');
+  dataPayload.append('billing_land_mark', formData.bill_landmark || '');
+  dataPayload.append('shipping_address1', formData.ship_address1 || '');
+  dataPayload.append('shipping_address2', formData.ship_address2 || '');
+  
+  if (formData.ship_country) {
+    dataPayload.append('shipping_country_id', parseInt(formData.ship_country, 10));
+    dataPayload.append('shipping_country_name', getCountryNameById(formData.ship_country));
+  }
+  if (formData.ship_state) {
+    dataPayload.append('shipping_state_id', parseInt(formData.ship_state, 10));
+    dataPayload.append('shipping_state_name', getStateNameById(formData.ship_state, shippingStates));
+  }
+  
+  dataPayload.append('shipping_city', formData.ship_city || '');
+  dataPayload.append('shipping_postal_code', formData.ship_zip || '');
+  dataPayload.append('shipping_land_mark', formData.ship_landmark || '');
+  dataPayload.append('gst_no', formData.gst_no || '');
+  dataPayload.append('pan_no', formData.pan_no || '');
+  
+  if (formData.payment_term) dataPayload.append('payment_term_id', parseInt(formData.payment_term, 10));
+  if (formData.payment_method) dataPayload.append('payment_method_id', parseInt(formData.payment_method, 10));
+  if (formData.currency) dataPayload.append('currency_id', parseInt(formData.currency, 10));
+  
+  dataPayload.append('credit_limit', formData.credit_limit || "0.00");
+  dataPayload.append('bank_name', formData.bank_name || '');
+  dataPayload.append('account_no', formData.bank_account || '');
+  dataPayload.append('ifsc_code', formData.bank_ifsc || '');
+  dataPayload.append('branch_name', formData.bank_branch || '');
+  dataPayload.append('holder_name', formData.bank_holder || '');
+  
+  if (formData.bank_type) dataPayload.append('account_type', parseInt(formData.bank_type, 10));
+  
+  dataPayload.append('sales_region', formData.sales_region || '');
+  dataPayload.append('customer_group', formData.customer_group || '');
+  
+  if (formData.shipping_method) dataPayload.append('shipping_method', parseInt(formData.shipping_method, 10));
+  
+  dataPayload.append('project', formData.project || '');
+  dataPayload.append('note', formData.notes || '');
+  dataPayload.append('status', parseInt(formData.status) || 1);
 
-    attachments.forEach((file) => {
-      dataPayload.append('attachments[]', file);
+  // APPEND FILE ATTACHMENTS AS ARRAY KEYS
+  attachments.forEach((file) => {
+    dataPayload.append('attachment[]', file);  // Satisfies 'attachment' array validation rule
+    dataPayload.append('attachments[]', file); // Satisfies 'attachments' array validation rule
+  });
+
+  if (editId) {
+    dataPayload.append('_method', 'PUT');
+  }
+
+  try {
+    const url = editId 
+      ? `https://sdsinfotech.co.in/api/customers/${editId}` 
+      : 'https://sdsinfotech.co.in/api/customers';
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${activeToken}` },
+      body: dataPayload
     });
 
-    if (editId) {
-      dataPayload.append('_method', 'PUT');
-    }
+    const result = await response.json();
 
-    try {
-      const url = editId 
-        ? `https://sdsinfotech.co.in/api/customers/${editId}` 
-        : 'https://sdsinfotech.co.in/api/customers';
+    if (response.status === 200 || response.status === 201 || result.statusCode === 200 || result.statusCode === 201) {
+      setShowSuccessPopup(true);
+      setTimeout(() => navigate('/customer'), 2000);
+    } else if (response.status === 422 || result.statusCode === 422) {
+      let errorMessages = [];
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${activeToken}` },
-        body: dataPayload
-      });
-
-      const result = await response.json();
-
-      // SUCCESS CASE
-      if (response.status === 200 || response.status === 201 || result.statusCode === 200 || result.statusCode === 201) {
-        setShowSuccessPopup(true);
-        setTimeout(() => navigate('/customer'), 2000);
-      } 
-      // BACKEND VALIDATION ERROR POPUP (422)
-      else if (response.status === 422 || result.statusCode === 422) {
-        let errorMessages = [];
-
-        if (result.data && typeof result.data === 'object') {
-          Object.values(result.data).forEach(errArray => {
-            if (Array.isArray(errArray)) {
-              errorMessages.push(...errArray);
-            } else if (typeof errArray === 'string') {
-              errorMessages.push(errArray);
-            }
-          });
-        }
-
-        if (errorMessages.length === 0 && result.statusMessage) {
-          errorMessages.push(result.statusMessage);
-        }
-
-        setErrorPopupMessages(errorMessages.length > 0 ? errorMessages : ["Validation failed. Please check inputs."]);
-      } 
-      // OTHER BACKEND ERRORS
-      else {
-        setErrorPopupMessages([result.statusMessage || "Failed to save customer account."]);
+      if (result.data && typeof result.data === 'object') {
+        Object.values(result.data).forEach(errArray => {
+          if (Array.isArray(errArray)) {
+            errorMessages.push(...errArray);
+          } else if (typeof errArray === 'string') {
+            errorMessages.push(errArray);
+          }
+        });
       }
-    } catch (error) {
-      console.error("Submission error:", error);
-      setErrorPopupMessages(["Connection failed. Please check your network connection."]);
-    } finally {
-      setIsSubmitting(false);
-      hideLoader();
+
+      if (errorMessages.length === 0 && result.statusMessage) {
+        errorMessages.push(result.statusMessage);
+      }
+
+      setErrorPopupMessages(errorMessages.length > 0 ? errorMessages : ["Validation failed. Please check inputs."]);
+    } else {
+      setErrorPopupMessages([result.statusMessage || "Failed to save customer account."]);
     }
-  };
+  } catch (error) {
+    console.error("Submission error:", error);
+    setErrorPopupMessages(["Connection failed. Please check your network connection."]);
+  } finally {
+    setIsSubmitting(false);
+    hideLoader();
+  }
+};
 
   return (
     <div className="create-page">
